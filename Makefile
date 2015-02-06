@@ -27,6 +27,9 @@ VERSION=$(shell \
         |sed -e "s/[^0-9.]//g" \
 	|sed -e "s/ //g")
 
+PACKAGE=$(APP)-$(VERSION)
+ARCHIVE=$(PACKAGE).tar
+
 UNAME := $(shell uname)
 ifeq ($(UNAME),$(filter $(UNAME),Linux Darwin))
 ifeq ($(UNAME),$(filter $(UNAME),Darwin))
@@ -52,7 +55,7 @@ help:
 
 clean:
 	@echo -e "$(OK_COLOR)[$(APP)] Cleanup$(NO_COLOR)"
-	@rm -f $(EXE)
+	@rm -f $(EXE) $(APP)-*.tar.gz
 
 .PHONY: destroy
 destroy:
@@ -107,6 +110,15 @@ race:
 coverage:
 	@echo -e "$(OK_COLOR)[$(APP)] Execution couverture de code $(NO_COLOR)"
 	@GOPATH=$(GO_PATH) go test $(APP)/... -cover
+
+release: build
+	@echo -e "$(OK_COLOR)[$(APP)] Make archive $(VERSION) $(NO_COLOR)"
+	@rm -fr $(PACKAGE) && mkdir $(PACKAGE)
+	@cp -r $(EXE) $(PACKAGE)
+	@tar cf $(ARCHIVE) $(PACKAGE)
+	@gzip $(ARCHIVE)
+	@rm -fr $(PACKAGE)
+	@addons/github.sh $(VERSION)
 
 # for go-projectile
 gopath:

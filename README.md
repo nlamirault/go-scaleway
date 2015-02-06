@@ -1,6 +1,6 @@
 # go-onlinelabs
 
-[![License GPL 3][badge-license]][COPYING]
+[![License GPL 3][badge-license]][LICENSE]
 [![travis][badge-travis]][travis]
 [![drone][badge-drone]][drone]
 
@@ -9,16 +9,13 @@ A CLI for the Online labs cloud
 
 ## Development
 
-* Install [govenv][]:
-
-        $ go get github.com/crsmithdev/goenv
-        $ goenv venv
-        $ . venv/bin/activate
-
-
 * Initialize dependencies :
 
         $ make deps
+
+* Make the binary:
+
+        $ make build
 
 * It make the build inside of a Docker container and the compiled binaries will
   appear in the project directory on the host. By default, it will run a build

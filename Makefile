@@ -15,6 +15,7 @@ DIR = $(shell pwd)
 GO_PATH = $(DIR)/Godeps/_workspace:$(DIR)
 
 DOCKER = docker
+GODEP= $(DIR)/Godeps/_workspace/bin/godep
 
 NO_COLOR=\033[0m
 OK_COLOR=\033[32;01m
@@ -45,13 +46,11 @@ all: help
 
 help:
 	@echo -e "$(OK_COLOR)==== $(APP) [$(VERSION)] ====$(NO_COLOR)"
-	@echo -e "$(WARN_COLOR)deps$(NO_COLOR)          :  Install dependencies"
-	@echo -e "$(WARN_COLOR)build$(NO_COLOR)         :  Make all binaries"
-	@echo -e "$(WARN_COLOR)build-linux$(NO_COLOR)   :  Make Linux binary"
-	@echo -e "$(WARN_COLOR)build-darwin$(NO_COLOR)  :  Make Darwin binary"
-	@echo -e "$(WARN_COLOR)build-windows$(NO_COLOR) :  Make Windows binary"
-	@echo -e "$(WARN_COLOR)clean$(NO_COLOR)         :  Cleanup"
-	@echo -e "$(WARN_COLOR)reset$(NO_COLOR)         :  Remove all dependencies"
+	@echo -e "$(WARN_COLOR)deps$(NO_COLOR)   :  Install requirements"
+	@echo -e "$(WARN_COLOR)deps$(NO_COLOR)   :  Install dependencies"
+	@echo -e "$(WARN_COLOR)build$(NO_COLOR)  :  Make all binaries"
+	@echo -e "$(WARN_COLOR)clean$(NO_COLOR)  :  Cleanup"
+	@echo -e "$(WARN_COLOR)reset$(NO_COLOR)  :  Remove all dependencies"
 
 clean:
 	@echo -e "$(OK_COLOR)[$(APP)] Cleanup$(NO_COLOR)"
@@ -62,17 +61,15 @@ destroy:
 	@echo -e "$(OK_COLOR)[$(APP)] Destruction environnement de developpement$(NO_COLOR)"
 	@rm -fr $(VENV)
 
-.PHONY: godep
-godep:
+.PHONY: init
+init:
 	@echo -e "$(OK_COLOR)[$(APP)] Installation Godep$(NO_COLOR)"
-	@GOPATH=$(GO_PATH) go get github.com/golang/glog && \
-		go get github.com/tools/godep
+	@GOPATH=$(GO_PATH) go get github.com/golang/glog
+	@GOPATH=$(GO_PATH) go get github.com/tools/godep
 
 deps:
 	@echo -e "$(OK_COLOR)[$(APP)] Installation dependances$(NO_COLOR)"
-	@GOPATH=$(GO_PATH) godep restore
-
-init: destroy venv godep deps
+	@GOPATH=$(GO_PATH) $(GODEP) restore
 
 build:
 	@echo -e "$(OK_COLOR)[$(APP)] Construction$(NO_COLOR)"

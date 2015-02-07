@@ -9,6 +9,10 @@ A CLI for the Online labs cloud
 
 ## Development
 
+* Install requirements :
+
+        $ make init
+
 * Initialize dependencies :
 
         $ make deps

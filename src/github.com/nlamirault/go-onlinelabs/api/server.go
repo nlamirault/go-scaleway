@@ -16,6 +16,7 @@ package api
 
 import (
 	"encoding/json"
+	"fmt"
 )
 
 type PublicIp struct {
@@ -46,6 +47,7 @@ type ServersResponse struct {
 
 func GetServerFromJson(b []byte) (*ServerResponse, error) {
 	var response ServerResponse
+	fmt.Printf("Response JSON: %s\n", (string(b)))
 	err := json.Unmarshal(b, &response)
 	if err != nil {
 		return nil, err

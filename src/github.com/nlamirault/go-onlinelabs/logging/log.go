@@ -31,20 +31,20 @@ func InitLogging(level log.Level) {
 
 // Debug print message using the Debug level color
 func Debug(args ...interface{}) {
-	log.Debug("[Inky] ", args)
+	log.Debug("[OnlineLabs] ", args)
 }
 
 // Info print message using the INFO level color
 func Info(args ...interface{}) {
-	log.Info("[Inky] ", args)
+	log.Info("[OnlineLabs] ", args)
 }
 
 // Warn print message using the WARN level color
 func Warn(args ...interface{}) {
-	log.Warn("[Inky] ", args)
+	log.Warn("[OnlineLabs] ", args)
 }
 
 // Error print message using the ERROR level color
 func Error(args ...interface{}) {
-	log.Error("[Inky] ", args)
+	log.Error("[OnlineLabs] ", args)
 }

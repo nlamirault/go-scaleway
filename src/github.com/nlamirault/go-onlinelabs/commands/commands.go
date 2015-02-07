@@ -23,9 +23,6 @@ import (
 	"github.com/codegangsta/cli"
 )
 
-// ConfigFile is the default Inky configuration file
-const ConfigFile string = ".config/onlinelabs/onelinelabs.json"
-
 // Commands is the CLI commands
 var Commands = []cli.Command{
 	commandListImages,

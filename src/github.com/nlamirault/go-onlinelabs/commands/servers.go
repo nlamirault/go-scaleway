@@ -34,20 +34,71 @@ var commandListServers = cli.Command{
 	},
 }
 
+var commandGetServer = cli.Command{
+	Name:        "getServer",
+	Usage:       "Retrieve a server",
+	Description: ``,
+	Action:      doGetServer,
+	Flags: []cli.Flag{
+		verboseFlag,
+		cli.StringFlag{
+			Name:  "serverid",
+			Usage: "Server ID",
+			Value: "",
+		},
+	},
+}
+
+var commandDeleteServer = cli.Command{
+	Name:        "deleteServer",
+	Usage:       "Delete a server",
+	Description: ``,
+	Action:      doDeleteServer,
+	Flags: []cli.Flag{
+		verboseFlag,
+		cli.StringFlag{
+			Name:  "serverid",
+			Usage: "Server ID",
+			Value: "",
+		},
+	},
+}
+
+var commandActionServer = cli.Command{
+	Name:        "actionServer",
+	Usage:       "Execute an action on a server",
+	Description: "Execute an action on a server",
+	Action:      doActionServer,
+	Flags: []cli.Flag{
+		verboseFlag,
+		cli.StringFlag{
+			Name:  "serverid",
+			Usage: "Server ID",
+			Value: "",
+		},
+		cli.StringFlag{
+			Name:  "action",
+			Usage: "the action to perform",
+			Value: "",
+		},
+	},
+}
+
 func doListServers(c *cli.Context) {
 	log.Infof("List servers")
-	client := api.NewClient(
-		c.GlobalString("onlinelabs-userid"),
-		c.GlobalString("onlinelabs-token"),
-		c.GlobalString("onlinelabs-organization"))
+	// client := api.NewClient(
+	// 	c.GlobalString("onlinelabs-userid"),
+	// 	c.GlobalString("onlinelabs-token"),
+	// 	c.GlobalString("onlinelabs-organization"))
+	client := getClient(c)
 	b, err := client.GetServers()
 	if err != nil {
-		log.Errorf("[Error] Retrieving servers %v", err)
+		log.Errorf("Retrieving servers %v", err)
 		return
 	}
 	response, err := api.GetServersFromJson(b)
 	if err != nil {
-		log.Errorf("[Error] Reading servers %v", err)
+		log.Errorf("Reading servers %v", err)
 		return
 	}
 	log.Infof("Servers: ")
@@ -65,4 +116,22 @@ func doListServers(c *cli.Context) {
 	// 	return
 	// }
 	// print(string(b))
+}
+
+func doGetServer(c *cli.Context) {
+	log.Infof("Getting server %s", c.String("serverid"))
+	client := getClient(c)
+	_, err := client.GetServer(c.String("serverid"))
+	if err != nil {
+		log.Errorf("Retrieving server: %v", err)
+	}
+
+}
+
+func doDeleteServer(c *cli.Context) {
+	log.Infof("Remove server %s", c.String("serverid"))
+}
+
+func doActionServer(c *cli.Context) {
+	log.Infof("Perform action %s on server %s", c.String("action"), c.String("serverid"))
 }

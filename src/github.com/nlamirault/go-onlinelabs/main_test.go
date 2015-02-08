@@ -14,3 +14,30 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 package main
+
+import (
+	// "fmt"
+	"testing"
+
+	//"github.com/codegangsta/cli"
+)
+
+func TestAvailableCommands(t *testing.T) {
+	app := makeApp()
+	if len(app.Commands) != 2 {
+		t.Errorf("Invalid CLI commands")
+	}
+	// for _, command := range app.Commands {
+	// 	fmt.Printf("command : %v", command)
+	// }
+	if app.Commands[0].Name != "listImages" {
+		t.Errorf("Invalid command name: %s", app.Commands[0].Name)
+	}
+	if app.Commands[1].Name != "listServers" {
+		t.Errorf("Invalid command name: %s", app.Commands[0].Name)
+	}
+}
+
+func TestOnlinelabsArguments(t *testing.T) {
+	app := makeApp()
+}

@@ -21,12 +21,17 @@ import (
 	//"os"
 
 	"github.com/codegangsta/cli"
+
+	"github.com/nlamirault/go-onlinelabs/api"
 )
 
 // Commands is the CLI commands
 var Commands = []cli.Command{
 	commandListImages,
 	commandListServers,
+	commandGetServer,
+	commandDeleteServer,
+	commandActionServer,
 	// commandListVolumes,
 }
 
@@ -34,4 +39,11 @@ var Commands = []cli.Command{
 var verboseFlag = cli.BoolFlag{
 	Name:  "verbose",
 	Usage: "Show more output",
+}
+
+func getClient(c *cli.Context) *api.OnlineLabsClient {
+	return api.NewClient(
+		c.GlobalString("onlinelabs-userid"),
+		c.GlobalString("onlinelabs-token"),
+		c.GlobalString("onlinelabs-organization"))
 }

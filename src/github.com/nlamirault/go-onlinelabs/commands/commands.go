@@ -32,6 +32,8 @@ var Commands = []cli.Command{
 	commandGetServer,
 	commandDeleteServer,
 	commandActionServer,
+	commandGetUser,
+	commandGetOrganizations,
 	// commandListVolumes,
 }
 

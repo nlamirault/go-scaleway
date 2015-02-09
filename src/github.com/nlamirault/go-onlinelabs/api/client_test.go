@@ -51,7 +51,7 @@ func TestGettingServer(t *testing.T) {
 	c := NewClient("02468", "02468", "13579")
 	c.client = httpClientWithProxy(server)
 	b, err := c.GetServer("56e98092-6e05-4c89-9e76-b3610d38478c")
-	response, err := GetServerFromJson(b)
+	response, err := GetServerFromJSON(b)
 	fmt.Printf("Response: %v %v\n", response, err)
 	// if err != nil {
 	// 	fmt.Printf("Error : %v", err)

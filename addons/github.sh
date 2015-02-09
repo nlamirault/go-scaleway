@@ -30,12 +30,19 @@ fi
 VERSION=$1
 REPO="go-onlinelabs"
 USERNAME="nlamirault"
+OS_PLATFORM_ARG=(-os="darwin linux windows")
 
 # git tag $VERSION
 # git push --tags
 
 echo -e "\033[32;01m[$APP] Build image \033[0m"
-docker build -t onlinelabs/release addons
+docker build -t onlinelabs/release .
+
+echo -e "\033[32;01m[$APP] Make binaries \033[0m"
+docker run --rm \
+       -v `pwd`:/tmp/ \
+       onlinelabs/release \
+       gox "${OS_PLATFORM_ARG[@]}" "${OS_ARCH_ARG[@]}" -output="/tmp/onlinelabs_{{.OS}}-{{.Arch}}"
 
 echo -e "\033[32;01m[$APP] Make release \033[0m"
 docker run --rm -e GITHUB_TOKEN onlinelabs/release \

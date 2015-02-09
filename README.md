@@ -4,7 +4,94 @@
 [![travis][badge-travis]][travis]
 [![drone][badge-drone]][drone]
 
-A CLI for the Online labs cloud
+A CLI for the Online labs cloud. See [https://doc.cloud.online.net/api]
+for documentation.
+
+## API
+
+### Tokens
+
+Action               | Implemented
+---------------------|-----------------------------
+Create a token       | [ ]
+List all tokens      | [ ]
+Retrieve a token     | [ ]
+Update a token       | [ ]
+Remove a token       | [ ]
+
+### Organizations
+
+Action               | Implementation
+---------------------|------------------------------
+List organizations   | [x]
+
+### Users
+
+Action               | Implementation
+---------------------|------------------------------
+List informations    | [x]
+
+### Servers
+
+Action               | Implementation
+---------------------|------------------------------
+List servers         | [x]
+Create a server      | [x]
+Retrieve a server    | [x]
+Update a server      | [ ]
+Remove a server      | [ ]
+List all actions     | [ ]
+Execute an action    | [x]
+
+### Volumes
+
+Action                     | Implementation
+---------------------------|------------------------------
+Volumes                    | [ ]
+Create a new volume        | [ ]
+Retrieves all volumes      | [ ]
+Retrieves informations     | [ ]
+Delete a volume            | [ ]
+
+### Snapshots
+
+Action                    | Implementation
+--------------------------|------------------------------
+Snapshots                 | [ ]
+Create a snapshot         | [ ]
+List all snapshots        | [ ]
+Snapshot                  | [ ]
+Retrieve a snapshot       | [ ]
+Update a snapshot         | [ ]
+Remove a snapshot         | [ ]
+
+### Images
+
+Action                         | Implementation
+-------------------------------|------------------------------
+Images                         | [ ]
+Create a new image             | [ ]
+List all images                | [ ]
+Operation on a single image    | [ ]
+Retrieves an image             | [ ]
+Update an image                | [ ]
+Delete an image                | [ ]
+
+### IPs
+
+Action                         | Implementation
+-------------------------------|------------------------------
+Create a new IP                | [ ]
+Retrieves all IPs addresses    | [ ]
+Retrieve an IP address         | [ ]
+Attach an IP address           | [ ]
+Remove an IP address           | [ ]
+
+### Metadata
+
+Action                         | Implementation
+-------------------------------|------------------------------
+Pimouss metadata               | [ ]
 
 
 ## Development

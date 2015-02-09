@@ -1,4 +1,4 @@
-// Copyright (C) 2015  Nicolas Lamirault <nicolas.lamirault@gmail.com>
+// Copyright (C) 2015 Nicolas Lamirault <nicolas.lamirault@gmail.com>
 
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -26,7 +26,7 @@ func TestJsonTask(t *testing.T) {
                         "description": "server_poweroff",
                         "href_from": "/servers/741db378-6b87-46d4-a8c5-4e46a09ab1f8/action",
                         "id": "a8a1775c-0dda-4f52-87b2-4e8101d68d6e",
-                        "progress": "0",
+                        "progress": 0,
                         "status": "pending"
                       }
                    }`)
@@ -41,9 +41,9 @@ func TestJsonTask(t *testing.T) {
 			description, response.Task.Description)
 	}
 	id := "a8a1775c-0dda-4f52-87b2-4e8101d68d6e"
-	if response.Task.Id != id {
+	if response.Task.ID != id {
 		t.Fatalf("Expected %s, got %s",
-			id, response.Task.Id)
+			id, response.Task.ID)
 	}
 
 }

@@ -14,6 +14,3 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 package version
-
-// Version represents the application version using SemVer
-const Version string = "0.2.0"

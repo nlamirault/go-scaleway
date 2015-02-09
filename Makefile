@@ -15,6 +15,9 @@ DIR = $(shell pwd)
 GO_PATH = $(DIR)/Godeps/_workspace:$(DIR)
 
 DOCKER = docker
+GODEP= $(DIR)/Godeps/_workspace/bin/godep
+GOLINT= $(DIR)/Godeps/_workspace/bin/golint
+ERRCHECK= $(DIR)/Godeps/_workspace/bin/errcheck
 
 NO_COLOR=\033[0m
 OK_COLOR=\033[32;01m
@@ -27,86 +30,85 @@ VERSION=$(shell \
         |sed -e "s/[^0-9.]//g" \
 	|sed -e "s/ //g")
 
-UNAME := $(shell uname)
-ifeq ($(UNAME),$(filter $(UNAME),Linux Darwin))
-ifeq ($(UNAME),$(filter $(UNAME),Darwin))
-OS=darwin
-else
-OS=linux
-endif
-else
-OS=windows
-endif
+PACKAGE=$(APP)-$(VERSION)
+ARCHIVE=$(PACKAGE).tar
 
 all: help
 
 help:
 	@echo -e "$(OK_COLOR)==== $(APP) [$(VERSION)] ====$(NO_COLOR)"
-	@echo -e "$(WARN_COLOR)deps$(NO_COLOR)          :  Install dependencies"
-	@echo -e "$(WARN_COLOR)build$(NO_COLOR)         :  Make all binaries"
-	@echo -e "$(WARN_COLOR)build-linux$(NO_COLOR)   :  Make Linux binary"
-	@echo -e "$(WARN_COLOR)build-darwin$(NO_COLOR)  :  Make Darwin binary"
-	@echo -e "$(WARN_COLOR)build-windows$(NO_COLOR) :  Make Windows binary"
-	@echo -e "$(WARN_COLOR)clean$(NO_COLOR)         :  Cleanup"
-	@echo -e "$(WARN_COLOR)reset$(NO_COLOR)         :  Remove all dependencies"
+	@echo -e "$(WARN_COLOR)init$(NO_COLOR)   :  Install requirements"
+	@echo -e "$(WARN_COLOR)deps$(NO_COLOR)   :  Install dependencies"
+	@echo -e "$(WARN_COLOR)build$(NO_COLOR)  :  Make all binaries"
+	@echo -e "$(WARN_COLOR)clean$(NO_COLOR)  :  Cleanup"
+	@echo -e "$(WARN_COLOR)reset$(NO_COLOR)  :  Remove all dependencies"
 
 clean:
 	@echo -e "$(OK_COLOR)[$(APP)] Cleanup$(NO_COLOR)"
-	@rm -f $(EXE)
+	@rm -f $(EXE) $(EXE)_* $(APP)-*.tar.gz
 
 .PHONY: destroy
 destroy:
 	@echo -e "$(OK_COLOR)[$(APP)] Destruction environnement de developpement$(NO_COLOR)"
 	@rm -fr $(VENV)
 
-.PHONY: godep
-godep:
-	@echo -e "$(OK_COLOR)[$(APP)] Installation Godep$(NO_COLOR)"
-	@GOPATH=$(GO_PATH) go get github.com/golang/glog && \
-		go get github.com/tools/godep
+.PHONY: init
+init:
+	@echo -e "$(OK_COLOR)[$(APP)] Install requirements$(NO_COLOR)"
+	@GOPATH=$(GO_PATH) go get github.com/golang/glog
+	@GOPATH=$(GO_PATH) go get github.com/tools/godep
+	@GOPATH=$(GO_PATH) go get -u github.com/golang/lint/golint
+	@GOPATH=$(GO_PATH) go get -u github.com/kisielk/errcheck
 
 deps:
-	@echo -e "$(OK_COLOR)[$(APP)] Installation dependances$(NO_COLOR)"
-	@GOPATH=$(GO_PATH) godep restore
-
-init: destroy venv godep deps
+	@echo -e "$(OK_COLOR)[$(APP)] Install dependancies$(NO_COLOR)"
+	@GOPATH=$(GO_PATH) $(GODEP) restore
 
 build:
-	@echo -e "$(OK_COLOR)[$(APP)] Construction$(NO_COLOR)"
+	@echo -e "$(OK_COLOR)[$(APP)] Build $(NO_COLOR)"
 	@GOPATH=$(GO_PATH) go build -o $(EXE) github.com/nlamirault/$(APP)
 
 doc:
 	@godoc -http=:6060 -index
 
 fmt:
-	@echo -e "$(OK_COLOR)[$(APP)] Execution fmt $(NO_COLOR)"
-	@GOPATH=$(GO_PATH) go fmt github.com/nlamirault/$(APP)
+	@echo -e "$(OK_COLOR)[$(APP)] Launch fmt $(NO_COLOR)"
+	@GOPATH=$(GO_PATH) go fmt github.com/nlamirault/$(APP)/...
 
 errcheck:
-	@echo -e "$(OK_COLOR)[$(APP)] Execution errcheck $(NO_COLOR)"
-	@GOPATH=$(GO_PATH) errcheck github.com/nlamirault/$(APP)
+	@echo -e "$(OK_COLOR)[$(APP)] Launch errcheck $(NO_COLOR)"
+	@GOPATH=$(GO_PATH) $(ERRCHECK) github.com/nlamirault/$(APP)/...
 
 vet:
-	@echo -e "$(OK_COLOR)[$(APP)] Execution vet $(NO_COLOR)"
-	@GOPATH=$(GO_PATH) go vet github.com/nlamirault/$(APP)
+	@echo -e "$(OK_COLOR)[$(APP)] Launch vet $(NO_COLOR)"
+	@GOPATH=$(GO_PATH) go vet github.com/nlamirault/$(APP)/...
 
 lint:
-	@echo -e "$(OK_COLOR)[$(APP)] Execution golint $(NO_COLOR)"
-	@GOPATH=$(GO_PATH) golint src/...
+	@echo -e "$(OK_COLOR)[$(APP)] Launch golint $(NO_COLOR)"
+	@GOPATH=$(GO_PATH) $(GOLINT) github.com/nlamirault/$(APP)/...
 
 style: fmt vet lint
 
 test:
-	@echo -e "$(OK_COLOR)[$(APP)] Execution tests unitaires $(NO_COLOR)"
-	@GOPATH=$(GO_PATH) go test github.com/nlamirault/$(APP)/...
+	@echo -e "$(OK_COLOR)[$(APP)] Launch unit tests $(NO_COLOR)"
+	@GOPATH=$(GO_PATH) go test -v github.com/nlamirault/$(APP)/...
 
 race:
-	@echo -e "$(OK_COLOR)[$(APP)] Execution tests unitaires race $(NO_COLOR)"
-	@GOPATH=$(GO_PATH) go test -race github.com/nlamirault/...
+	@echo -e "$(OK_COLOR)[$(APP)] Launc unit tests race $(NO_COLOR)"
+	@GOPATH=$(GO_PATH) go test -race github.com/nlamirault/$(APP)...
 
 coverage:
-	@echo -e "$(OK_COLOR)[$(APP)] Execution couverture de code $(NO_COLOR)"
-	@GOPATH=$(GO_PATH) go test $(APP)/... -cover
+	@echo -e "$(OK_COLOR)[$(APP)] Launch code coverage $(NO_COLOR)"
+	@GOPATH=$(GO_PATH) go test github.com/nlamirault/$(APP)/... -cover
+
+release: clean build
+	@echo -e "$(OK_COLOR)[$(APP)] Make archive $(VERSION) $(NO_COLOR)"
+	@rm -fr $(PACKAGE) && mkdir $(PACKAGE)
+	@cp -r $(EXE) $(PACKAGE)
+	@tar cf $(ARCHIVE) $(PACKAGE)
+	@gzip $(ARCHIVE)
+	@rm -fr $(PACKAGE)
+	@addons/github.sh $(VERSION)
 
 # for go-projectile
 gopath:

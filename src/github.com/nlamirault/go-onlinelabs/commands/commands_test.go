@@ -13,32 +13,4 @@
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-package config
-
-import (
-	"testing"
-)
-
-func Test_LoadConfig(t *testing.T) {
-	config, _ := LoadConfiguration("test_fixtures/onlinelabs.json")
-	if config.Username != "nlamirault" {
-		t.Fatalf("Invalid username.")
-	}
-	if config.Apikey != "foobar" {
-		t.Fatalf("Invalid apikey.")
-	}
-}
-
-func Test_LoadConfig_WithNonExistantFile(t *testing.T) {
-	_, err := LoadConfiguration("im/not/here.json")
-	if err == nil {
-		t.Fatalf("Error")
-	}
-}
-
-func Test_LoadConfig_WithMalformedFile(t *testing.T) {
-	_, err := LoadConfiguration("test_fixtures/onlinelabs_invalid.json")
-	if err == nil {
-		t.Fatalf("Error")
-	}
-}
+package commands

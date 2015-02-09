@@ -16,36 +16,43 @@ package api
 
 import (
 	"encoding/json"
+	//"fmt"
 )
 
-type PublicIp struct {
-	Id      string `json:"id,omitempty"`
+// PublicIP represents IP address of a server
+type PublicIP struct {
+	ID      string `json:"id,omitempty"`
 	Dynamic bool   `json:"dynamic,omitempty"`
 	Address string `json:"address,omitempty"`
 }
 
+// Server represents a cloud server
 type Server struct {
-	Id               string   `json:"id,omitempty"`
+	ID               string   `json:"id,omitempty"`
 	Name             string   `json:"name,omitempty"`
 	Organization     string   `json:"organization,omitempty"`
 	CreationDate     string   `json:"creation_date,omitempty"`
 	ModificationDate string   `json:"modification_date,omitempty"`
 	Arch             string   `json:"arch,omitempty"`
-	PublicIp         PublicIp `json:"public_ip,omitempty"`
+	PublicIP         PublicIP `json:"public_ip,omitempty"`
 	State            string   `json:"state,omitempty"`
 	Tags             []string `json:"tags,omitempty"`
 }
 
+// ServerResponse represents JSON response of server
 type ServerResponse struct {
 	Server Server `json:"server,omitempty"`
 }
 
+// ServersResponse represents JSON response of list of server
 type ServersResponse struct {
 	Servers []Server
 }
 
-func GetServerFromJson(b []byte) (*ServerResponse, error) {
+// GetServerFromJSON load bytes and return a ServerResponse
+func GetServerFromJSON(b []byte) (*ServerResponse, error) {
 	var response ServerResponse
+	// fmt.Printf("Response JSON: %s\n", (string(b)))
 	err := json.Unmarshal(b, &response)
 	if err != nil {
 		return nil, err
@@ -53,7 +60,8 @@ func GetServerFromJson(b []byte) (*ServerResponse, error) {
 	return &response, nil
 }
 
-func GetServersFromJson(b []byte) (*ServersResponse, error) {
+// GetServersFromJSON load bytes and return a ServersResponse
+func GetServersFromJSON(b []byte) (*ServersResponse, error) {
 	var response ServersResponse
 	err := json.Unmarshal(b, &response)
 	if err != nil {

@@ -34,35 +34,122 @@ var commandListServers = cli.Command{
 	},
 }
 
+var commandGetServer = cli.Command{
+	Name:        "getServer",
+	Usage:       "Retrieve a server",
+	Description: ``,
+	Action:      doGetServer,
+	Flags: []cli.Flag{
+		verboseFlag,
+		cli.StringFlag{
+			Name:  "serverid",
+			Usage: "Server unique identifier",
+			Value: "",
+		},
+	},
+}
+
+var commandDeleteServer = cli.Command{
+	Name:        "deleteServer",
+	Usage:       "Delete a server",
+	Description: ``,
+	Action:      doDeleteServer,
+	Flags: []cli.Flag{
+		verboseFlag,
+		cli.StringFlag{
+			Name:  "serverid",
+			Usage: "Server unique identifier",
+			Value: "",
+		},
+	},
+}
+
+var commandActionServer = cli.Command{
+	Name:        "actionServer",
+	Usage:       "Execute an action on a server",
+	Description: "Execute an action on a server",
+	Action:      doActionServer,
+	Flags: []cli.Flag{
+		verboseFlag,
+		cli.StringFlag{
+			Name:  "serverid",
+			Usage: "Server unique identifier",
+			Value: "",
+		},
+		cli.StringFlag{
+			Name:  "action",
+			Usage: "the action to perform",
+			Value: "",
+		},
+	},
+}
+
 func doListServers(c *cli.Context) {
 	log.Infof("List servers")
-	client := api.NewClient(
-		c.GlobalString("onlinelabs-userid"),
-		c.GlobalString("onlinelabs-token"),
-		c.GlobalString("onlinelabs-organization"))
+	client := getClient(c)
 	b, err := client.GetServers()
 	if err != nil {
-		log.Errorf("[Error] Retrieving servers %v", err)
+		log.Errorf("Retrieving servers %v", err)
 		return
 	}
-	response, err := api.GetServersFromJson(b)
+	response, err := api.GetServersFromJSON(b)
 	if err != nil {
-		log.Errorf("[Error] Reading servers %v", err)
+		log.Errorf("Reading servers %v", err)
 		return
 	}
 	log.Infof("Servers: ")
 	for _, server := range response.Servers {
 		log.Infof("----------------------------------------------")
-		log.Infof("Id:    %s", server.Id)
-		log.Infof("Name:  %s", server.Name)
-		log.Infof("Date:  %s", server.ModificationDate)
-		log.Infof("IP:    %s", server.PublicIp.Address)
-		log.Infof("Tags:  %s", server.Tags)
+		log.Infof("Id   : %s", server.ID)
+		log.Infof("Name : %s", server.Name)
+		log.Infof("Date : %s", server.ModificationDate)
+		log.Infof("IP   : %s", server.PublicIP.Address)
+		log.Infof("Tags : %s", server.Tags)
 	}
-	// b, err := client.GetRequest("/images")
-	// if err != nil {
-	// 	logging.Error("[Error] Get Images " + err)
-	// 	return
-	// }
-	// print(string(b))
+}
+
+func doGetServer(c *cli.Context) {
+	log.Infof("Getting server %s", c.String("serverid"))
+	client := getClient(c)
+	b, err := client.GetServer(c.String("serverid"))
+	if err != nil {
+		log.Errorf("Retrieving server: %v", err)
+	}
+	response, err := api.GetServerFromJSON(b)
+	if err != nil {
+		log.Errorf("Failed response %v", err)
+		return
+	}
+	log.Infof("Server: ")
+	log.Infof("Id    : %s", response.Server.ID)
+	log.Infof("Name  : %s", response.Server.Name)
+	log.Infof("State : %s", response.Server.State)
+	log.Infof("Date  : %s", response.Server.ModificationDate)
+	log.Infof("IP    : %s", response.Server.PublicIP.Address)
+	log.Infof("Tags  : %s", response.Server.Tags)
+}
+
+func doDeleteServer(c *cli.Context) {
+	log.Infof("Remove server %s", c.String("serverid"))
+}
+
+func doActionServer(c *cli.Context) {
+	log.Infof("Perform action %s on server %s", c.String("action"), c.String("serverid"))
+	client := getClient(c)
+	b, err := client.PerformServerAction(
+		c.String("serverid"), c.String("action"))
+	if err != nil {
+		log.Errorf("Failed: %v", err)
+		return
+	}
+	response, err := api.GetTaskFromJSON(b)
+	if err != nil {
+		log.Errorf("Failed response %v", err)
+		return
+	}
+	log.Infof("Task: ")
+	log.Infof("Id          : %s", response.Task.ID)
+	log.Infof("Status      : %s", response.Task.Status)
+	log.Infof("Description : %s", response.Task.Description)
+
 }

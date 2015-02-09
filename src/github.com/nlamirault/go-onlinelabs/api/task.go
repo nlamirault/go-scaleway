@@ -18,19 +18,22 @@ import (
 	"encoding/json"
 )
 
+// Task represents an asynchronous task
 type Task struct {
-	Id          string `json:"id,omitempty"`
+	ID          string `json:"id,omitempty"`
 	Description string `json:"description,omitempty"`
 	HrefFrom    string `json:"href_from,omitempty"`
-	Progress    string `json:"progress,omitempty"`
+	Progress    int    `json:"progress,omitempty"`
 	Status      string `json:"status,omitempty"`
 }
 
+// TaskResponse represents a JSON response of task
 type TaskResponse struct {
 	Task Task `json:"task,omitempty"`
 }
 
-func getTaskFromJson(b []byte) (*TaskResponse, error) {
+// GetTaskFromJSON load bytes and return a TaskResponse
+func GetTaskFromJSON(b []byte) (*TaskResponse, error) {
 	var response TaskResponse
 	err := json.Unmarshal(b, &response)
 	if err != nil {

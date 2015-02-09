@@ -76,7 +76,7 @@ func doListUserInformations(c *cli.Context) {
 func doListUserOrganizations(c *cli.Context) {
 	log.Infof("List user organizations")
 	client := getClient(c)
-	b, err := client.GetUserOrganzations()
+	b, err := client.GetUserOrganizations()
 	if err != nil {
 		log.Errorf("Failed user organizations response %v", err)
 		return

@@ -11,10 +11,10 @@ for documentation.
 
 ### Tokens
 
-Action               | Implemented
+Action               | Implementation
 ---------------------|-----------------------------
 Create a token       | [ ]
-List all tokens      | [ ]
+List all tokens      | [x]
 Retrieve a token     | [ ]
 Update a token       | [ ]
 Remove a token       | [ ]

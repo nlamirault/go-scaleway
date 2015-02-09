@@ -56,6 +56,25 @@ type UserResponse struct {
 	User User `json:"user,omitempty"`
 }
 
+// Token represents an identifier associated with your account.
+// It is used to authenticate commands in the APIs
+type Token struct {
+	ID       string `json:"id,omitempty"`
+	UserID   string `json:"user_id,omitempty"`
+	Creation string `json:"creation_date,omitempty"`
+	Expires  string `json:"expires,omitempty"`
+}
+
+// TokenResponse represents JSON response of server for a token
+type TokenResponse struct {
+	Token Token `json:"token,omitempty"`
+}
+
+// TokensResponse represents JSON response of server for tokens
+type TokensResponse struct {
+	Tokens []Token
+}
+
 // GetUserFromJSON load bytes and return a UserResponse
 func GetUserFromJSON(b []byte) (*UserResponse, error) {
 	var response UserResponse
@@ -67,9 +86,31 @@ func GetUserFromJSON(b []byte) (*UserResponse, error) {
 	return &response, nil
 }
 
-// GetUserFromJSON load bytes and return a UserResponse
+// GetOrganizationsFromJSON load bytes and return a OrganizationsResponse
 func GetOrganizationsFromJSON(b []byte) (*OrganizationsResponse, error) {
 	var response OrganizationsResponse
+	// fmt.Printf("Response JSON: %s\n", (string(b)))
+	err := json.Unmarshal(b, &response)
+	if err != nil {
+		return nil, err
+	}
+	return &response, nil
+}
+
+// GetTokenFromJSON load bytes and return a TokenResponse
+func GetTokenFromJSON(b []byte) (*TokenResponse, error) {
+	var response TokenResponse
+	// fmt.Printf("Response JSON: %s\n", (string(b)))
+	err := json.Unmarshal(b, &response)
+	if err != nil {
+		return nil, err
+	}
+	return &response, nil
+}
+
+// GetTokensFromJSON load bytes and return a TokensResponse
+func GetTokensFromJSON(b []byte) (*TokensResponse, error) {
+	var response TokensResponse
 	// fmt.Printf("Response JSON: %s\n", (string(b)))
 	err := json.Unmarshal(b, &response)
 	if err != nil {

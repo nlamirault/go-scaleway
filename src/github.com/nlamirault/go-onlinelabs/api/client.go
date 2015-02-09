@@ -53,6 +53,7 @@ func NewClient(userid string, token string, organization string) *OnlineLabsClie
 	return client
 }
 
+// GetUserInformations list informations about your user account
 func (c OnlineLabsClient) GetUserInformations(userID string) ([]byte, error) {
 	body, err := c.getAccountAPIResource(fmt.Sprintf("users/%s", userID))
 	if err != nil {
@@ -62,12 +63,33 @@ func (c OnlineLabsClient) GetUserInformations(userID string) ([]byte, error) {
 	return body, nil
 }
 
-func (c OnlineLabsClient) GetUserOrganzations() ([]byte, error) {
+// GetUserOrganizations list all organizations associate with your account
+func (c OnlineLabsClient) GetUserOrganizations() ([]byte, error) {
 	body, err := c.getAccountAPIResource(fmt.Sprintf("organizations"))
 	if err != nil {
 		return nil, err
 	}
 	log.Debugf("Get user organizations response: %s", string(body))
+	return body, nil
+}
+
+// GetUserTokens list all tokens associate with your account
+func (c OnlineLabsClient) GetUserTokens() ([]byte, error) {
+	body, err := c.getAccountAPIResource(fmt.Sprintf("tokens"))
+	if err != nil {
+		return nil, err
+	}
+	log.Debugf("Get tokens response: %s", string(body))
+	return body, nil
+}
+
+//GetUserToken lList an individual Token
+func (c OnlineLabsClient) GetUserToken(tokenID string) ([]byte, error) {
+	body, err := c.getAccountAPIResource(fmt.Sprintf("tokens/%s", tokenID))
+	if err != nil {
+		return nil, err
+	}
+	log.Debugf("Get token response: %s", string(body))
 	return body, nil
 }
 

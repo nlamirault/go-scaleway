@@ -31,8 +31,8 @@ func checkCommand(t *testing.T, name string, command cli.Command) {
 
 func TestCLICommands(t *testing.T) {
 	app := makeApp()
-	if len(app.Commands) != 7 {
-		t.Errorf("Invalid CLI commands")
+	if len(app.Commands) != 8 {
+		t.Errorf("Invalid CLI number of commands")
 	}
 	// for _, command := range app.Commands {
 	// 	fmt.Printf("command : %v", command)
@@ -44,6 +44,7 @@ func TestCLICommands(t *testing.T) {
 	checkCommand(t, "actionServer", app.Commands[4])
 	checkCommand(t, "getUser", app.Commands[5])
 	checkCommand(t, "getOrganizations", app.Commands[6])
+	checkCommand(t, "getTokens", app.Commands[7])
 }
 
 func checkGlobalArgument(flags []cli.Flag, name string) int {

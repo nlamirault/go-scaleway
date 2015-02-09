@@ -37,7 +37,7 @@ all: help
 
 help:
 	@echo -e "$(OK_COLOR)==== $(APP) [$(VERSION)] ====$(NO_COLOR)"
-	@echo -e "$(WARN_COLOR)deps$(NO_COLOR)   :  Install requirements"
+	@echo -e "$(WARN_COLOR)init$(NO_COLOR)   :  Install requirements"
 	@echo -e "$(WARN_COLOR)deps$(NO_COLOR)   :  Install dependencies"
 	@echo -e "$(WARN_COLOR)build$(NO_COLOR)  :  Make all binaries"
 	@echo -e "$(WARN_COLOR)clean$(NO_COLOR)  :  Cleanup"
@@ -45,7 +45,7 @@ help:
 
 clean:
 	@echo -e "$(OK_COLOR)[$(APP)] Cleanup$(NO_COLOR)"
-	@rm -f $(EXE) $(APP)-*.tar.gz
+	@rm -f $(EXE) $(EXE)_* $(APP)-*.tar.gz
 
 .PHONY: destroy
 destroy:
@@ -57,8 +57,8 @@ init:
 	@echo -e "$(OK_COLOR)[$(APP)] Install requirements$(NO_COLOR)"
 	@GOPATH=$(GO_PATH) go get github.com/golang/glog
 	@GOPATH=$(GO_PATH) go get github.com/tools/godep
-	@GOPATH=$(GO_PATH) go get github.com/golang/lint/golint
-	@GOPATH=$(GO_PATH) go get github.com/kisielk/errcheck
+	@GOPATH=$(GO_PATH) go get -u github.com/golang/lint/golint
+	@GOPATH=$(GO_PATH) go get -u github.com/kisielk/errcheck
 
 deps:
 	@echo -e "$(OK_COLOR)[$(APP)] Install dependancies$(NO_COLOR)"
@@ -101,7 +101,7 @@ coverage:
 	@echo -e "$(OK_COLOR)[$(APP)] Launch code coverage $(NO_COLOR)"
 	@GOPATH=$(GO_PATH) go test github.com/nlamirault/$(APP)/... -cover
 
-release: build
+release: clean build
 	@echo -e "$(OK_COLOR)[$(APP)] Make archive $(VERSION) $(NO_COLOR)"
 	@rm -fr $(PACKAGE) && mkdir $(PACKAGE)
 	@cp -r $(EXE) $(PACKAGE)

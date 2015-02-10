@@ -49,11 +49,6 @@ clean:
 	@echo -e "$(OK_COLOR)[$(APP)] Cleanup$(NO_COLOR)"
 	@rm -f $(EXE) $(EXE)_* $(APP)-*.tar.gz coverage.out gover.coverprofile
 
-.PHONY: destroy
-destroy:
-	@echo -e "$(OK_COLOR)[$(APP)] Destruction environnement de developpement$(NO_COLOR)"
-	@rm -fr $(VENV)
-
 .PHONY: init
 init:
 	@echo -e "$(OK_COLOR)[$(APP)] Install requirements$(NO_COLOR)"
@@ -96,8 +91,8 @@ test:
 	@GOPATH=$(GO_PATH) go test -v github.com/nlamirault/$(APP)/...
 
 race:
-	@echo -e "$(OK_COLOR)[$(APP)] Launc unit tests race $(NO_COLOR)"
-	@GOPATH=$(GO_PATH) go test -race github.com/nlamirault/$(APP)...
+	@echo -e "$(OK_COLOR)[$(APP)] Launch unit tests race $(NO_COLOR)"
+	@GOPATH=$(GO_PATH) go test -race github.com/nlamirault/$(APP)/...
 
 coverage:
 	@echo -e "$(OK_COLOR)[$(APP)] Launch code coverage $(NO_COLOR)"

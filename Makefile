@@ -18,6 +18,7 @@ DOCKER = docker
 GODEP= $(DIR)/Godeps/_workspace/bin/godep
 GOLINT= $(DIR)/Godeps/_workspace/bin/golint
 ERRCHECK= $(DIR)/Godeps/_workspace/bin/errcheck
+GOVERALLS= $(DIR)/Godeps/_workspace/bin/goveralls
 
 NO_COLOR=\033[0m
 OK_COLOR=\033[32;01m
@@ -110,7 +111,7 @@ covoutput:
 coveralls:
 	@GOPATH=$(GO_PATH) go get -v github.com/axw/gocov/gocov
 	@GOPATH=$(GO_PATH) go get -v github.com/mattn/goveralls
-	@GOPATH=$(GO_PATH) goveralls -v -service drone.io $COVERALLS_TOKEN
+	@GOPATH=$(GO_PATH) $(GOVERALLS) -v -service drone.io $COVERALLS_TOKEN
 
 release: clean build
 	@echo -e "$(OK_COLOR)[$(APP)] Make archive $(VERSION) $(NO_COLOR)"

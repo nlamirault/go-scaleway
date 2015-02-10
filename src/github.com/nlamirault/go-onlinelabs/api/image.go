@@ -21,7 +21,7 @@ import (
 )
 
 type Image struct {
-	Id           string `json:"id,omitempty"`
+	ID           string `json:"id,omitempty"`
 	Arch         string `json:"arch,omitempty"`
 	Name         string `json:"name,omitempty"`
 	Organization string `json:"organization,omitempty"`
@@ -38,8 +38,29 @@ type ImagesResponse struct {
 	Images []Image
 }
 
+// GetImageFromJSON load bytes and return a ImagesResponse
+func GetImageFromJSON(b []byte) (*ImageResponse, error) {
+	var response ImageResponse
+	err := json.Unmarshal(b, &response)
+	if err != nil {
+		return nil, err
+	}
+	return &response, nil
+}
+
+// GetImagesFromJSON load bytes and return a ImagesResponse
+func GetImagesFromJSON(b []byte) (*ImagesResponse, error) {
+	var response ImagesResponse
+	err := json.Unmarshal(b, &response)
+	if err != nil {
+		return nil, err
+	}
+	return &response, nil
+}
+
 func (i Image) Display() {
 	log.Infof("Id            : %s", i.ID)
 	log.Infof("Name          : %s", i.Name)
-	log.Infof("Organisation  : %s", i.Type)
+	log.Infof("Arch          : %s", i.Arch)
+	log.Infof("Organisation  : %s", i.Organization)
 }

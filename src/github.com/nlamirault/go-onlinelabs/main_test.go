@@ -37,19 +37,20 @@ func TestCLICommands(t *testing.T) {
 	// for _, command := range app.Commands {
 	// 	fmt.Printf("command : %v", command)
 	// }
-	checkCommand(t, "listImages", app.Commands[0])
-	checkCommand(t, "listServers", app.Commands[1])
-	checkCommand(t, "getServer", app.Commands[2])
-	checkCommand(t, "deleteServer", app.Commands[3])
-	checkCommand(t, "actionServer", app.Commands[4])
-	checkCommand(t, "getUser", app.Commands[5])
-	checkCommand(t, "getOrganizations", app.Commands[6])
-	checkCommand(t, "getTokens", app.Commands[7])
-	checkCommand(t, "getToken", app.Commands[8])
-	checkCommand(t, "listVolumes", app.Commands[9])
-	checkCommand(t, "getVolume", app.Commands[10])
-	checkCommand(t, "deleteVolume", app.Commands[11])
-	checkCommand(t, "createVolume", app.Commands[12])
+	checkCommand(t, "listServers", app.Commands[0])
+	checkCommand(t, "getServer", app.Commands[1])
+	checkCommand(t, "deleteServer", app.Commands[2])
+	checkCommand(t, "actionServer", app.Commands[3])
+	checkCommand(t, "getUser", app.Commands[4])
+	checkCommand(t, "getOrganizations", app.Commands[5])
+	checkCommand(t, "getTokens", app.Commands[6])
+	checkCommand(t, "getToken", app.Commands[7])
+	checkCommand(t, "listVolumes", app.Commands[8])
+	checkCommand(t, "getVolume", app.Commands[9])
+	checkCommand(t, "deleteVolume", app.Commands[10])
+	checkCommand(t, "createVolume", app.Commands[11])
+	checkCommand(t, "listImages", app.Commands[12])
+	checkCommand(t, "getImage", app.Commands[13])
 }
 
 func checkGlobalArgument(flags []cli.Flag, name string) int {

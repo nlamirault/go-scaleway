@@ -27,7 +27,6 @@ import (
 
 // Commands is the CLI commands
 var Commands = []cli.Command{
-	commandListImages,
 	commandListServers,
 	commandGetServer,
 	commandDeleteServer,
@@ -40,6 +39,8 @@ var Commands = []cli.Command{
 	commandGetVolume,
 	commandDeleteVolume,
 	commandCreateVolume,
+	commandListImages,
+	commandGetImage,
 }
 
 // Flags is the default arguments to the CLI.

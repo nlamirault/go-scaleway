@@ -18,6 +18,7 @@ DOCKER = docker
 GODEP= $(DIR)/Godeps/_workspace/bin/godep
 GOLINT= $(DIR)/Godeps/_workspace/bin/golint
 ERRCHECK= $(DIR)/Godeps/_workspace/bin/errcheck
+GOVER= $(DIR)/Godeps/_workspace/bin/gover
 GOVERALLS= $(DIR)/Godeps/_workspace/bin/goveralls
 
 NO_COLOR=\033[0m
@@ -46,7 +47,7 @@ help:
 
 clean:
 	@echo -e "$(OK_COLOR)[$(APP)] Cleanup$(NO_COLOR)"
-	@rm -f $(EXE) $(EXE)_* $(APP)-*.tar.gz
+	@rm -f $(EXE) $(EXE)_* $(APP)-*.tar.gz coverage.out gover.coverprofile
 
 .PHONY: destroy
 destroy:
@@ -108,12 +109,11 @@ covoutput:
 #	@GOPATH=$(GO_PATH) go tool cover -html=coverage.out
 	@GOPATH=$(GO_PATH) go tool cover -func=coverage.out
 
-coveralls: build
-	@GOPATH=$(GO_PATH) go get -v github.com/axw/gocov/gocov
-	@GOPATH=$(GO_PATH) go get golang.org/x/tools/cmd/cover
-	@GOPATH=$(GO_PATH) go get -v github.com/mattn/goveralls
-	@GOPATH=$(GO_PATH) go test -covermode=count -coverprofile=profile.cov
-	@GOPATH=$(GO_PATH) $(GOVERALLS) -coverprofile=profile.cov -service=travis-ci $(COVERALLS_TOKEN)
+coveralls:
+	@GOPATH=$(GO_PATH) go get -u code.google.com/p/go.tools/cmd/cover || go get -u golang.org/x/tools/cmd/cover
+	@GOPATH=$(GO_PATH) go get -u github.com/axw/gocov/gocov
+	@GOPATH=$(GO_PATH) go get github.com/mattn/goveralls
+	@PATH=$(PATH):$(DIR)/Godeps/_workspace/bin/ GOPATH=$(GO_PATH) $(GOVERALLS) -service drone.io -repotoken $$COVERALLS_TOKEN github.com/nlamirault/$(APP)
 
 release: clean build
 	@echo -e "$(OK_COLOR)[$(APP)] Make archive $(VERSION) $(NO_COLOR)"

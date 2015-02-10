@@ -4,6 +4,7 @@ Changelog
 Version 0.3.0 (IN PROGRESS)
 ---------------------------------
 
+- [API] List, Create, Get and Delete Volume
 - Refactoring HTTP client
 - Update checking code coverage
 

@@ -177,6 +177,70 @@ func (c OnlineLabsClient) PerformServerAction(serverID string, action string) ([
 	return body, nil
 }
 
+// GetVolume list an individual volume
+// volumeID ith the volume unique identifier
+func (c OnlineLabsClient) GetVolume(volumeID string) ([]byte, error) {
+	body, err := getAPIResource(
+		c.Client,
+		c.Token,
+		fmt.Sprintf("%s/volumes/%s", c.ComputeURL, volumeID))
+	if err != nil {
+		return nil, err
+	}
+	log.Debugf("Get volume response: %s", string(body))
+	return body, nil
+}
+
+// DeleteVolume delete a specific volume
+// volumeID ith the volume unique identifier
+func (c OnlineLabsClient) DeleteVolume(volumeID string) ([]byte, error) {
+	body, err := deleteAPIResource(
+		c.Client,
+		c.Token,
+		fmt.Sprintf("%s/volumes/%s", c.ComputeURL, volumeID))
+	if err != nil {
+		return nil, err
+	}
+	log.Debugf("Delete volume response: %s",
+		string(body))
+	return body, nil
+}
+
+// CreateVolume creates a new volume
+// name is the volume name
+// organization is the organization unique identifier
+// volume_type is the volume type
+// size is the volume size
+func (c OnlineLabsClient) CreateVolume(name string, organization string, volume_type string, size int) ([]byte, error) {
+	json := fmt.Sprintf(`{"name": "%s", "organization": "%s", "volume_type": "%s", "size": %d}`,
+		name, organization, volume_type, size)
+	body, err := postAPIResource(
+		c.Client,
+		c.Token,
+		fmt.Sprintf("%s/volumes", c.ComputeURL),
+		[]byte(json))
+	if err != nil {
+		return nil, err
+	}
+	log.Debugf("Create volume response: %s",
+		string(body))
+	return body, nil
+}
+
+// GetVolumes list all volumes associate with your account
+func (c OnlineLabsClient) GetVolumes() ([]byte, error) {
+	body, err := getAPIResource(
+		c.Client,
+		c.Token,
+		fmt.Sprintf("%s/volumes", c.ComputeURL))
+	if err != nil {
+		return nil, err
+	}
+	log.Debugf("Retrieve volumes response: %s",
+		string(body))
+	return body, nil
+}
+
 // UploadPublicKey update user SSH keys
 // userId is the user unique identifier
 // keyPath is the complete path of the SSH key

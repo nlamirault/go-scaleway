@@ -17,6 +17,8 @@ package api
 import (
 	"encoding/json"
 	//"fmt"
+
+	log "github.com/Sirupsen/logrus"
 )
 
 // PublicIP represents IP address of a server
@@ -68,4 +70,12 @@ func GetServersFromJSON(b []byte) (*ServersResponse, error) {
 		return nil, err
 	}
 	return &response, nil
+}
+
+func (s Server) Display() {
+	log.Infof("Id   : %s", s.ID)
+	log.Infof("Name : %s", s.Name)
+	log.Infof("Date : %s", s.ModificationDate)
+	log.Infof("IP   : %s", s.PublicIP.Address)
+	log.Infof("Tags : %s", s.Tags)
 }

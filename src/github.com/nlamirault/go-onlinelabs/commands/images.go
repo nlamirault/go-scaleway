@@ -32,16 +32,6 @@ var commandListImages = cli.Command{
 	Description: ``,
 	Action:      doListImages,
 	Flags: []cli.Flag{
-		cli.StringFlag{
-			Name:  "name",
-			Value: "",
-			Usage: "name of the component",
-		},
-		cli.StringFlag{
-			Name:  "version",
-			Value: "",
-			Usage: "version of the application",
-		},
 		verboseFlag,
 	},
 }

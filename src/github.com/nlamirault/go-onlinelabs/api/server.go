@@ -52,7 +52,7 @@ type ServersResponse struct {
 // GetServerFromJSON load bytes and return a ServerResponse
 func GetServerFromJSON(b []byte) (*ServerResponse, error) {
 	var response ServerResponse
-	// fmt.Printf("Response JSON: %s\n", (string(b)))
+	//fmt.Printf("Response JSON: %s\n", (string(b)))
 	err := json.Unmarshal(b, &response)
 	if err != nil {
 		return nil, err

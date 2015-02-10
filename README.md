@@ -108,13 +108,19 @@ Pimouss metadata               | [ ]
 
         $ make build
 
-* It make the build inside of a Docker container and the compiled binaries will
-  appear in the project directory on the host. By default, it will run a build
-  which cross-compiles binaries for a variety of architectures and operating
-  systems.
+* Launch unit tests :
 
-        $ make build-all
-        $ make build-linux
+        $ make test
+
+* Check code coverage for project or specific package :
+
+        $ make coverage
+        $ make covoutput pkg=github.com/nlamirault/go-onlinelabs/commands
+
+* For a new release, it will run a build which cross-compiles binaries for
+  a variety of architectures and operating systems:
+
+        $ make release
 
 
 ## License

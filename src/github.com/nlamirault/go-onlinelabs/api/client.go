@@ -1,4 +1,4 @@
-// Copyright (C) 2015  Nicolas Lamirault <nicolas.lamirault@gmail.com>
+// Copyright (C) 2015 Nicolas Lamirault <nicolas.lamirault@gmail.com>
 
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -15,7 +15,6 @@
 package api
 
 import (
-	"bytes"
 	"fmt"
 	"io/ioutil"
 	"net/http"
@@ -37,18 +36,21 @@ type OnlineLabsClient struct {
 	UserID       string
 	Token        string
 	Organization string
-	client       *http.Client
+	Client       *http.Client
+	ComputeURL   string
+	AccountURL   string
 }
 
 // NewClient creates a new OnlineLabs API client using userId, API token and organization
 func NewClient(userid string, token string, organization string) *OnlineLabsClient {
-
 	log.Debugf("Creating client using %s %s %s", userid, token, organization)
 	client := &OnlineLabsClient{
 		UserID:       userid,
 		Token:        token,
 		Organization: organization,
-		client:       &http.Client{},
+		Client:       &http.Client{},
+		ComputeURL:   computeURL,
+		AccountURL:   accountURL,
 	}
 	return client
 }
@@ -101,7 +103,11 @@ func (c OnlineLabsClient) CreateServer(name string, organization string,
 	image string) ([]byte, error) {
 	json := fmt.Sprintf(`{"name": "%s", "organization": "%s", "image": "%s", "tags": ["docker-machine"]}`,
 		name, organization, image)
-	body, err := c.postAPIResource("servers", []byte(json))
+	body, err := postAPIResource(
+		c.Client,
+		c.Token,
+		fmt.Sprintf("%s/servers", c.ComputeURL),
+		[]byte(json))
 	if err != nil {
 		return nil, err
 	}
@@ -113,7 +119,10 @@ func (c OnlineLabsClient) CreateServer(name string, organization string,
 // DeleteServer delete a specific server
 // serverID ith the server unique identifier
 func (c OnlineLabsClient) DeleteServer(serverID string) ([]byte, error) {
-	body, err := c.deleteAPIResource(fmt.Sprintf("servers/%s", serverID))
+	body, err := deleteAPIResource(
+		c.Client,
+		c.Token,
+		fmt.Sprintf("%s/servers/%s", c.ComputeURL, serverID))
 	if err != nil {
 		return nil, err
 	}
@@ -125,7 +134,10 @@ func (c OnlineLabsClient) DeleteServer(serverID string) ([]byte, error) {
 // GetServer list an individual server
 // serverID ith the server unique identifier
 func (c OnlineLabsClient) GetServer(serverID string) ([]byte, error) {
-	body, err := c.getAPIResource(fmt.Sprintf("servers/%s", serverID))
+	body, err := getAPIResource(
+		c.Client,
+		c.Token,
+		fmt.Sprintf("%s/servers/%s", c.ComputeURL, serverID))
 	if err != nil {
 		return nil, err
 	}
@@ -135,7 +147,10 @@ func (c OnlineLabsClient) GetServer(serverID string) ([]byte, error) {
 
 // GetServers list all servers associate with your account
 func (c OnlineLabsClient) GetServers() ([]byte, error) {
-	body, err := c.getAPIResource("servers")
+	body, err := getAPIResource(
+		c.Client,
+		c.Token,
+		fmt.Sprintf("%s/servers", c.ComputeURL))
 	if err != nil {
 		return nil, err
 	}
@@ -149,8 +164,10 @@ func (c OnlineLabsClient) GetServers() ([]byte, error) {
 // action is the action to execute
 func (c OnlineLabsClient) PerformServerAction(serverID string, action string) ([]byte, error) {
 	json := fmt.Sprintf(`{"action": "%s"}`, action)
-	body, err := c.postAPIResource(
-		fmt.Sprintf("servers/%s/action", serverID),
+	body, err := postAPIResource(
+		c.Client,
+		c.Token,
+		fmt.Sprintf("%s/servers/%s/action", c.ComputeURL, serverID),
 		[]byte(json))
 	if err != nil {
 		return nil, err
@@ -170,8 +187,10 @@ func (c OnlineLabsClient) UploadPublicKey(userid string, keyPath string) ([]byte
 	}
 	json := fmt.Sprintf(`{"ssh_public_keys": [{"key": "%s"}]}`,
 		strings.TrimSpace(string(publicKey)))
-	body, err := c.patchAPIResource(
-		fmt.Sprintf("%s/users/%s", accountURL, userid),
+	body, err := patchAPIResource(
+		c.Client,
+		c.Token,
+		fmt.Sprintf("%s/users/%s", c.AccountURL, userid),
 		[]byte(json))
 	if err != nil {
 		return nil, err
@@ -182,12 +201,12 @@ func (c OnlineLabsClient) UploadPublicKey(userid string, keyPath string) ([]byte
 }
 
 func (c OnlineLabsClient) getAccountAPIResource(request string) ([]byte, error) {
-	url := fmt.Sprintf("%s/%s", accountURL, request)
+	url := fmt.Sprintf("%s/%s", c.AccountURL, request)
 	log.Debugf("GET: %q", url)
 	req, err := http.NewRequest("GET", url, nil)
 	req.Header.Set("X-Auth-Token", c.Token)
 	req.Header.Set("Content-Type", "application/json")
-	resp, err := c.client.Do(req)
+	resp, err := c.Client.Do(req)
 	if err != nil {
 		return nil, err
 	}
@@ -196,87 +215,5 @@ func (c OnlineLabsClient) getAccountAPIResource(request string) ([]byte, error) 
 	if resp.StatusCode > 299 {
 		return nil, fmt.Errorf("Status code: %d", resp.StatusCode)
 	}
-	return b, nil
-}
-
-func (c OnlineLabsClient) getAPIResource(request string) ([]byte, error) {
-	url := fmt.Sprintf("%s/%s", computeURL, request)
-	log.Debugf("GET: %q", url)
-	req, err := http.NewRequest("GET", url, nil)
-	req.Header.Set("X-Auth-Token", c.Token)
-	req.Header.Set("Content-Type", "application/json")
-	resp, err := c.client.Do(req)
-	if err != nil {
-		return nil, err
-	}
-	defer resp.Body.Close()
-	b, err := ioutil.ReadAll(resp.Body)
-	if resp.StatusCode > 299 {
-		return nil, fmt.Errorf("Status code: %d", resp.StatusCode)
-	}
-	return b, nil
-}
-
-func (c OnlineLabsClient) postAPIResource(request string, json []byte) ([]byte, error) {
-	url := fmt.Sprintf("%s/%s", computeURL, request)
-	log.Debugf("POST: %q %s", url, string(json))
-	req, err := http.NewRequest("POST", url, bytes.NewBuffer(json))
-	req.Header.Set("X-Auth-Token", c.Token)
-	req.Header.Set("Content-Type", "application/json")
-	resp, err := c.client.Do(req)
-	if err != nil {
-		return nil, err
-	}
-	defer resp.Body.Close()
-	b, err := ioutil.ReadAll(resp.Body)
-	if err != nil {
-		return nil, err
-	}
-	if resp.StatusCode > 299 {
-		return nil, fmt.Errorf("%d %s",
-			resp.StatusCode, string(b))
-	}
-	//return ioutil.ReadAll(resp.Body)
-	return b, nil
-}
-
-func (c OnlineLabsClient) deleteAPIResource(request string) ([]byte, error) {
-	url := fmt.Sprintf("%s/%s", computeURL, request)
-	log.Debugf("DELETE: %q", url)
-	req, err := http.NewRequest("DELETE", url, nil)
-	req.Header.Set("X-Auth-Token", c.Token)
-	req.Header.Set("Content-Type", "application/json")
-	resp, err := c.client.Do(req)
-	if err != nil {
-		return nil, err
-	}
-	defer resp.Body.Close()
-	b, err := ioutil.ReadAll(resp.Body)
-	if resp.StatusCode > 299 {
-		return nil, fmt.Errorf("Status code: %d", resp.StatusCode)
-	}
-	return b, nil
-}
-
-func (c OnlineLabsClient) patchAPIResource(url string, json []byte) ([]byte, error) {
-	//url := fmt.Sprintf("%s/%s", computeURL, request)
-	log.Debugf("PATCH: %q %s", url, string(json))
-	req, err := http.NewRequest("PATCH", url, bytes.NewBuffer(json))
-	req.Header.Set("X-Auth-Token", c.Token)
-	req.Header.Set("Content-Type", "application/json")
-	resp, err := c.client.Do(req)
-	if err != nil {
-		return nil, err
-	}
-	defer resp.Body.Close()
-	b, err := ioutil.ReadAll(resp.Body)
-	if err != nil {
-		return nil, err
-	}
-	if resp.StatusCode > 299 {
-		return nil, fmt.Errorf("%d %s",
-			resp.StatusCode, string(b))
-	}
-	//return ioutil.ReadAll(resp.Body)
 	return b, nil
 }

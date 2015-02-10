@@ -131,6 +131,12 @@ func doGetServer(c *cli.Context) {
 
 func doDeleteServer(c *cli.Context) {
 	log.Infof("Remove server %s", c.String("serverid"))
+	client := getClient(c)
+	b, err := client.DeleteServer(c.String("serverid"))
+	if err != nil {
+		log.Errorf("Retrieving server: %v", err)
+	}
+	log.Infof("Server deleted: %s", string(b))
 }
 
 func doActionServer(c *cli.Context) {

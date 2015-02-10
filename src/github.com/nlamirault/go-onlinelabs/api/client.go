@@ -241,6 +241,34 @@ func (c OnlineLabsClient) GetVolumes() ([]byte, error) {
 	return body, nil
 }
 
+// GetImages list all images associate with your account
+func (c OnlineLabsClient) GetImages() ([]byte, error) {
+	body, err := getAPIResource(
+		c.Client,
+		c.Token,
+		fmt.Sprintf("%s/images", c.ComputeURL))
+	if err != nil {
+		return nil, err
+	}
+	log.Debugf("Retrieve images response: %s",
+		string(body))
+	return body, nil
+}
+
+// GetImage list an individual image
+// volumeID ith the image unique identifier
+func (c OnlineLabsClient) GetImage(volumeID string) ([]byte, error) {
+	body, err := getAPIResource(
+		c.Client,
+		c.Token,
+		fmt.Sprintf("%s/images/%s", c.ComputeURL, volumeID))
+	if err != nil {
+		return nil, err
+	}
+	log.Debugf("Get image response: %s", string(body))
+	return body, nil
+}
+
 // UploadPublicKey update user SSH keys
 // userId is the user unique identifier
 // keyPath is the complete path of the SSH key

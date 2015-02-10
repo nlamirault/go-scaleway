@@ -65,10 +65,7 @@ func doListUserTokens(c *cli.Context) {
 	log.Infof("User tokens:")
 	for _, token := range response.Tokens {
 		log.Infof("----------------------------------------------")
-		log.Infof("Id        : %s", token.ID)
-		log.Infof("UserId    : %s", token.UserID)
-		log.Infof("Creation  : %s", token.Creation)
-		log.Infof("Expires   : %s", token.Expires)
+		token.Display()
 	}
 }
 
@@ -86,8 +83,5 @@ func doGetUserToken(c *cli.Context) {
 		return
 	}
 	log.Infof("Token: ")
-	log.Infof("Id        : %s", response.Token.ID)
-	log.Infof("UserId    : %s", response.Token.UserID)
-	log.Infof("Creation  : %s", response.Token.Creation)
-	log.Infof("Expires   : %s", response.Token.Expires)
+	response.Token.Display()
 }

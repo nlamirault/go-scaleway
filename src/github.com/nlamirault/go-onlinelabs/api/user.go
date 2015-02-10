@@ -17,6 +17,8 @@ package api
 import (
 	"encoding/json"
 	//"fmt"
+
+	log "github.com/Sirupsen/logrus"
 )
 
 // Organization represents an Online Labs entity
@@ -117,4 +119,30 @@ func GetTokensFromJSON(b []byte) (*TokensResponse, error) {
 		return nil, err
 	}
 	return &response, nil
+}
+
+func (u User) Display() {
+	log.Infof("Id            : %s", u.ID)
+	log.Infof("Fullname      : %s", u.Fullname)
+	log.Infof("Firstname     : %s", u.Firstname)
+	log.Infof("Lastname      : %s", u.Lastname)
+	log.Infof("Email         : %s", u.Email)
+	log.Infof("Phone         : %s", u.PhoneNumber)
+	log.Infof("Roles         : %s", u.Roles)
+	log.Infof("Organizations : %s", u.Organizations)
+}
+
+func (o Organization) Display() {
+	log.Infof("Id              : %s", o.ID)
+	log.Infof("Name            : %s", o.Name)
+	log.Infof("Currency        : %s", o.Currency)
+	log.Infof("Locale          : %s", o.Locale)
+	log.Infof("Customer class  : %s", o.CustomerClass)
+}
+
+func (t Token) Display() {
+	log.Infof("Id        : %s", t.ID)
+	log.Infof("UserId    : %s", t.UserID)
+	log.Infof("Creation  : %s", t.Creation)
+	log.Infof("Expires   : %s", t.Expires)
 }

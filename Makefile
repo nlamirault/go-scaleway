@@ -111,7 +111,7 @@ covoutput:
 coveralls:
 	@GOPATH=$(GO_PATH) go get -v github.com/axw/gocov/gocov
 	@GOPATH=$(GO_PATH) go get -v github.com/mattn/goveralls
-	@GOPATH=$(GO_PATH) $(GOVERALLS) -v -service drone.io $COVERALLS_TOKEN
+	@GOPATH=$(GO_PATH) $(GOVERALLS) -v -service drone.io $(COVERALLS_TOKEN)
 
 release: clean build
 	@echo -e "$(OK_COLOR)[$(APP)] Make archive $(VERSION) $(NO_COLOR)"

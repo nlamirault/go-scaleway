@@ -107,6 +107,11 @@ covoutput:
 #	@GOPATH=$(GO_PATH) go tool cover -html=coverage.out
 	@GOPATH=$(GO_PATH) go tool cover -func=coverage.out
 
+coveralls:
+	@GOPATH=$(GO_PATH) go get -v github.com/axw/gocov/gocov
+	@GOPATH=$(GO_PATH) go get -v github.com/mattn/goveralls
+	@GOPATH=$(GO_PATH) goveralls -v -service drone.io $COVERALLS_TOKEN
+
 release: clean build
 	@echo -e "$(OK_COLOR)[$(APP)] Make archive $(VERSION) $(NO_COLOR)"
 	@rm -fr $(PACKAGE) && mkdir $(PACKAGE)

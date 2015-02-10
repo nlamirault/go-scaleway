@@ -101,6 +101,12 @@ coverage:
 	@echo -e "$(OK_COLOR)[$(APP)] Launch code coverage $(NO_COLOR)"
 	@GOPATH=$(GO_PATH) go test github.com/nlamirault/$(APP)/... -cover
 
+covoutput:
+	@echo -e "$(OK_COLOR)[$(APP)] Launch code coverage $(NO_COLOR)"
+	@GOPATH=$(GO_PATH) go test ${pkg} -covermode=count -coverprofile=coverage.out
+#	@GOPATH=$(GO_PATH) go tool cover -html=coverage.out
+	@GOPATH=$(GO_PATH) go tool cover -func=coverage.out
+
 release: clean build
 	@echo -e "$(OK_COLOR)[$(APP)] Make archive $(VERSION) $(NO_COLOR)"
 	@rm -fr $(PACKAGE) && mkdir $(PACKAGE)

@@ -25,7 +25,7 @@ import (
 )
 
 var commandGetToken = cli.Command{
-	Name:        "getToken",
+	Name:        "get",
 	Usage:       "List an individual token",
 	Description: ``,
 	Action:      doGetUserToken,
@@ -40,7 +40,7 @@ var commandGetToken = cli.Command{
 }
 
 var commandCreateToken = cli.Command{
-	Name:        "createToken",
+	Name:        "create",
 	Usage:       "Create a token",
 	Description: ``,
 	Action:      doCreateToken,
@@ -63,8 +63,8 @@ var commandCreateToken = cli.Command{
 	},
 }
 
-var commandGetTokens = cli.Command{
-	Name:        "getTokens",
+var commandListTokens = cli.Command{
+	Name:        "list",
 	Usage:       "List all tokens associate with your account",
 	Description: ``,
 	Action:      doListUserTokens,
@@ -74,7 +74,7 @@ var commandGetTokens = cli.Command{
 }
 
 var commandDeleteToken = cli.Command{
-	Name:        "deleteToken",
+	Name:        "delete",
 	Usage:       "Delete a token",
 	Description: ``,
 	Action:      doDeleteToken,
@@ -89,7 +89,7 @@ var commandDeleteToken = cli.Command{
 }
 
 var commandUpdateToken = cli.Command{
-	Name:        "updateToken",
+	Name:        "update",
 	Usage:       "Update a token",
 	Description: ``,
 	Action:      doUpdateToken,

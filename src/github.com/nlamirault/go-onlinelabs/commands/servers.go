@@ -25,7 +25,7 @@ import (
 )
 
 var commandListServers = cli.Command{
-	Name:        "listServers",
+	Name:        "list",
 	Usage:       "List all servers associate with your account",
 	Description: ``,
 	Action:      doListServers,
@@ -35,7 +35,7 @@ var commandListServers = cli.Command{
 }
 
 var commandGetServer = cli.Command{
-	Name:        "getServer",
+	Name:        "get",
 	Usage:       "Retrieve a server",
 	Description: ``,
 	Action:      doGetServer,
@@ -50,7 +50,7 @@ var commandGetServer = cli.Command{
 }
 
 var commandDeleteServer = cli.Command{
-	Name:        "deleteServer",
+	Name:        "delete",
 	Usage:       "Delete a server",
 	Description: ``,
 	Action:      doDeleteServer,
@@ -65,7 +65,7 @@ var commandDeleteServer = cli.Command{
 }
 
 var commandActionServer = cli.Command{
-	Name:        "actionServer",
+	Name:        "action",
 	Usage:       "Execute an action on a server",
 	Description: "Execute an action on a server",
 	Action:      doActionServer,

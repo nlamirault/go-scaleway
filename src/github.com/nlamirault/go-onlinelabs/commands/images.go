@@ -28,7 +28,7 @@ import (
 )
 
 var commandListImages = cli.Command{
-	Name:        "listImages",
+	Name:        "list",
 	Usage:       "List availables images",
 	Description: ``,
 	Action:      doListImages,
@@ -38,7 +38,7 @@ var commandListImages = cli.Command{
 }
 
 var commandGetImage = cli.Command{
-	Name:        "getImage",
+	Name:        "get",
 	Usage:       "Retrieve a image",
 	Description: ``,
 	Action:      doGetImage,
@@ -53,7 +53,7 @@ var commandGetImage = cli.Command{
 }
 
 var commandDeleteImage = cli.Command{
-	Name:        "deleteImage",
+	Name:        "delete",
 	Usage:       "Delete an image",
 	Description: ``,
 	Action:      doDeleteImage,

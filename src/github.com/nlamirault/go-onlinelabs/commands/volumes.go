@@ -28,7 +28,7 @@ import (
 )
 
 var commandListVolumes = cli.Command{
-	Name:        "listVolumes",
+	Name:        "list",
 	Usage:       "List availables volumes",
 	Description: ``,
 	Action:      doListVolumes,
@@ -38,7 +38,7 @@ var commandListVolumes = cli.Command{
 }
 
 var commandGetVolume = cli.Command{
-	Name:        "getVolume",
+	Name:        "get",
 	Usage:       "Retrieve a volume",
 	Description: ``,
 	Action:      doGetVolume,
@@ -53,7 +53,7 @@ var commandGetVolume = cli.Command{
 }
 
 var commandDeleteVolume = cli.Command{
-	Name:        "deleteVolume",
+	Name:        "delete",
 	Usage:       "Delete a volume",
 	Description: ``,
 	Action:      doDeleteVolume,
@@ -68,7 +68,7 @@ var commandDeleteVolume = cli.Command{
 }
 
 var commandCreateVolume = cli.Command{
-	Name:        "createVolume",
+	Name:        "create",
 	Usage:       "Create a volume",
 	Description: ``,
 	Action:      doCreateVolume,

@@ -39,6 +39,31 @@ var commandGetToken = cli.Command{
 	},
 }
 
+var commandCreateToken = cli.Command{
+	Name:        "createToken",
+	Usage:       "Create a token",
+	Description: ``,
+	Action:      doCreateToken,
+	Flags: []cli.Flag{
+		verboseFlag,
+		cli.StringFlag{
+			Name:  "email",
+			Usage: "The user email",
+			Value: "",
+		},
+		cli.StringFlag{
+			Name:  "password",
+			Usage: "The user password",
+			Value: "",
+		},
+		cli.BoolFlag{
+			Name:  "expires",
+			Usage: "Set if you want a Token wich doesn’t expire",
+			Value: true,
+		},
+	},
+}
+
 var commandGetTokens = cli.Command{
 	Name:        "getTokens",
 	Usage:       "List all tokens associate with your account",
@@ -83,5 +108,27 @@ func doGetUserToken(c *cli.Context) {
 		return
 	}
 	log.Infof("Token: ")
+	response.Token.Display()
+}
+
+func doCreateToken(c *cli.Context) {
+	log.Infof("Create token %s %s %s",
+		c.String("email"),
+		c.String("password"),
+		c.String("expires"))
+	client := getClient(c)
+	b, err := client.CreateToken(
+		c.String("email"),
+		c.String("password"),
+		c.String("expires"))
+	if err != nil {
+		log.Errorf("Creating token: %v", err)
+	}
+	response, err := api.GetTokenFromJSON(b)
+	if err != nil {
+		log.Errorf("Failed response %v", err)
+		return
+	}
+	log.Infof("Token created: ")
 	response.Token.Display()
 }

@@ -47,13 +47,14 @@ func TestCLICommands(t *testing.T) {
 	checkCommand(t, "getToken", app.Commands[7])
 	checkCommand(t, "deleteToken", app.Commands[8])
 	checkCommand(t, "createToken", app.Commands[9])
-	checkCommand(t, "listVolumes", app.Commands[10])
-	checkCommand(t, "getVolume", app.Commands[11])
-	checkCommand(t, "deleteVolume", app.Commands[12])
-	checkCommand(t, "createVolume", app.Commands[13])
-	checkCommand(t, "listImages", app.Commands[14])
-	checkCommand(t, "getImage", app.Commands[15])
-	checkCommand(t, "deleteImage", app.Commands[16])
+	checkCommand(t, "updateToken", app.Commands[10])
+	checkCommand(t, "listVolumes", app.Commands[11])
+	checkCommand(t, "getVolume", app.Commands[12])
+	checkCommand(t, "deleteVolume", app.Commands[13])
+	checkCommand(t, "createVolume", app.Commands[14])
+	checkCommand(t, "listImages", app.Commands[15])
+	checkCommand(t, "getImage", app.Commands[16])
+	checkCommand(t, "deleteImage", app.Commands[17])
 }
 
 func checkGlobalArgument(flags []cli.Flag, name string) int {

@@ -13,11 +13,11 @@ for documentation.
 
 Action               | Implementation
 ---------------------|-----------------------------
-Create a token       | [ ]
+Create a token       | [x]
 List all tokens      | [x]
 Retrieve a token     | [x]
 Update a token       | [ ]
-Remove a token       | [ ]
+Remove a token       | [x]
 
 ### Organizations
 
@@ -39,7 +39,7 @@ List servers         | [x]
 Create a server      | [x]
 Retrieve a server    | [x]
 Update a server      | [ ]
-Remove a server      | [ ]
+Remove a server      | [x]
 List all actions     | [ ]
 Execute an action    | [x]
 
@@ -47,20 +47,17 @@ Execute an action    | [x]
 
 Action                     | Implementation
 ---------------------------|------------------------------
-Volumes                    | [ ]
-Create a new volume        | [ ]
-Retrieves all volumes      | [ ]
-Retrieves informations     | [ ]
-Delete a volume            | [ ]
+List volumes               | [x]
+Create a new volume        | [x]
+Retrieves informations     | [x]
+Delete a volume            | [x]
 
 ### Snapshots
 
 Action                    | Implementation
 --------------------------|------------------------------
-Snapshots                 | [ ]
 Create a snapshot         | [ ]
 List all snapshots        | [ ]
-Snapshot                  | [ ]
 Retrieve a snapshot       | [ ]
 Update a snapshot         | [ ]
 Remove a snapshot         | [ ]
@@ -69,11 +66,10 @@ Remove a snapshot         | [ ]
 
 Action                         | Implementation
 -------------------------------|------------------------------
-Images                         | [ ]
 Create a new image             | [ ]
-List all images                | [ ]
+List all images                | [x]
 Operation on a single image    | [ ]
-Retrieves an image             | [ ]
+Retrieves an image             | [x]
 Update an image                | [ ]
 Delete an image                | [ ]
 

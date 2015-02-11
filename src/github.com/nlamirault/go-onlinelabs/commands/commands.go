@@ -37,6 +37,7 @@ var Commands = []cli.Command{
 	commandGetToken,
 	commandDeleteToken,
 	commandCreateToken,
+	commandUpdateToken,
 	commandListVolumes,
 	commandGetVolume,
 	commandDeleteVolume,

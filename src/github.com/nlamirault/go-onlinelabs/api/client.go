@@ -143,6 +143,21 @@ func (c OnlineLabsClient) DeleteToken(tokenID string) ([]byte, error) {
 	return body, nil
 }
 
+// UpdateToken increase Token expiration time of 30 minutes
+// tokenID ith the token unique identifier
+func (c OnlineLabsClient) UpdateToken(tokenID string) ([]byte, error) {
+	body, err := patchAPIResource(
+		c.Client,
+		c.Token,
+		fmt.Sprintf("%s/tokens/%s", c.AccountURL, tokenID),
+		nil)
+	if err != nil {
+		return nil, err
+	}
+	log.Debugf("Update token response: %s", string(body))
+	return body, nil
+}
+
 // CreateServer creates a new server
 // name is the server name
 // organization is the organization unique identifier

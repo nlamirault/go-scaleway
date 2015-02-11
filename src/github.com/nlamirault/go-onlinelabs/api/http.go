@@ -47,38 +47,8 @@ func getAPIResource(client *http.Client, token string, url string) ([]byte, erro
 	if err != nil {
 		return nil, err
 	}
-	// req.Header.Set("X-Auth-Token", token)
-	// req.Header.Set("Content-Type", "application/json")
-	// resp, err := client.Do(req)
-	// if err != nil {
-	// 	return nil, err
-	// }
-	// defer resp.Body.Close()
-	// b, err := ioutil.ReadAll(resp.Body)
-	// if resp.StatusCode > 299 {
-	// 	return nil, fmt.Errorf("Status code: %d", resp.StatusCode)
-	// }
-	// return b, nil
 	return performAPIRequest(client, req, token)
 }
-
-// func (c OnlineLabsClient) getAPIResource(request string) ([]byte, error) {
-// 	url := fmt.Sprintf("%s/%s", c.ComputeURL, request)
-// 	log.Debugf("GET: %q", url)
-// 	req, err := http.NewRequest("GET", url, nil)
-// 	req.Header.Set("X-Auth-Token", c.Token)
-// 	req.Header.Set("Content-Type", "application/json")
-// 	resp, err := c.Client.Do(req)
-// 	if err != nil {
-// 		return nil, err
-// 	}
-// 	defer resp.Body.Close()
-// 	b, err := ioutil.ReadAll(resp.Body)
-// 	if resp.StatusCode > 299 {
-// 		return nil, fmt.Errorf("Status code: %d", resp.StatusCode)
-// 	}
-// 	return b, nil
-// }
 
 func postAPIResource(client *http.Client, token string, url string, json []byte) ([]byte, error) {
 	log.Debugf("POST: %q %s", url, string(json))
@@ -89,29 +59,6 @@ func postAPIResource(client *http.Client, token string, url string, json []byte)
 	return performAPIRequest(client, req, token)
 }
 
-// func (c OnlineLabsClient) postAPIResource(request string, json []byte) ([]byte, error) {
-// 	url := fmt.Sprintf("%s/%s", c.ComputeURL, request)
-// 	log.Debugf("POST: %q %s", url, string(json))
-// 	req, err := http.NewRequest("POST", url, bytes.NewBuffer(json))
-// 	req.Header.Set("X-Auth-Token", c.Token)
-// 	req.Header.Set("Content-Type", "application/json")
-// 	resp, err := c.Client.Do(req)
-// 	if err != nil {
-// 		return nil, err
-// 	}
-// 	defer resp.Body.Close()
-// 	b, err := ioutil.ReadAll(resp.Body)
-// 	if err != nil {
-// 		return nil, err
-// 	}
-// 	if resp.StatusCode > 299 {
-// 		return nil, fmt.Errorf("%d %s",
-// 			resp.StatusCode, string(b))
-// 	}
-// 	//return ioutil.ReadAll(resp.Body)
-// 	return b, nil
-// }
-
 func deleteAPIResource(client *http.Client, token string, url string) ([]byte, error) {
 	log.Debugf("DELETE: %q", url)
 	req, err := http.NewRequest("DELETE", url, nil)
@@ -121,24 +68,6 @@ func deleteAPIResource(client *http.Client, token string, url string) ([]byte, e
 	return performAPIRequest(client, req, token)
 }
 
-// func (c OnlineLabsClient) deleteAPIResource(request string) ([]byte, error) {
-// 	url := fmt.Sprintf("%s/%s", c.ComputeURL, request)
-// 	log.Debugf("DELETE: %q", url)
-// 	req, err := http.NewRequest("DELETE", url, nil)
-// 	req.Header.Set("X-Auth-Token", c.Token)
-// 	req.Header.Set("Content-Type", "application/json")
-// 	resp, err := c.Client.Do(req)
-// 	if err != nil {
-// 		return nil, err
-// 	}
-// 	defer resp.Body.Close()
-// 	b, err := ioutil.ReadAll(resp.Body)
-// 	if resp.StatusCode > 299 {
-// 		return nil, fmt.Errorf("Status code: %d", resp.StatusCode)
-// 	}
-// 	return b, nil
-// }
-
 func patchAPIResource(client *http.Client, token string, url string, json []byte) ([]byte, error) {
 	log.Debugf("PATCH: %q %s", url, string(json))
 	req, err := http.NewRequest("PATCH", url, bytes.NewBuffer(json))
@@ -147,26 +76,3 @@ func patchAPIResource(client *http.Client, token string, url string, json []byte
 	}
 	return performAPIRequest(client, req, token)
 }
-
-// func (c OnlineLabsClient) patchAPIResource(url string, json []byte) ([]byte, error) {
-// 	//url := fmt.Sprintf("%s/%s", computeURL, request)
-// 	log.Debugf("PATCH: %q %s", url, string(json))
-// 	req, err := http.NewRequest("PATCH", url, bytes.NewBuffer(json))
-// 	req.Header.Set("X-Auth-Token", c.Token)
-// 	req.Header.Set("Content-Type", "application/json")
-// 	resp, err := c.Client.Do(req)
-// 	if err != nil {
-// 		return nil, err
-// 	}
-// 	defer resp.Body.Close()
-// 	b, err := ioutil.ReadAll(resp.Body)
-// 	if err != nil {
-// 		return nil, err
-// 	}
-// 	if resp.StatusCode > 299 {
-// 		return nil, fmt.Errorf("%d %s",
-// 			resp.StatusCode, string(b))
-// 	}
-// 	//return ioutil.ReadAll(resp.Body)
-// 	return b, nil
-// }

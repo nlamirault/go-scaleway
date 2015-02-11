@@ -88,6 +88,21 @@ var commandDeleteToken = cli.Command{
 	},
 }
 
+var commandUpdateToken = cli.Command{
+	Name:        "updateToken",
+	Usage:       "Update a token",
+	Description: ``,
+	Action:      doUpdateToken,
+	Flags: []cli.Flag{
+		verboseFlag,
+		cli.StringFlag{
+			Name:  "tokenid",
+			Usage: "Token unique identifier",
+			Value: "",
+		},
+	},
+}
+
 func doListUserTokens(c *cli.Context) {
 	log.Infof("List user tokens")
 	client := getClient(c)
@@ -155,4 +170,20 @@ func doDeleteToken(c *cli.Context) {
 		log.Errorf("Retrieving token: %v", err)
 	}
 	log.Infof("Token deleted: %s", string(b))
+}
+
+func doUpdateToken(c *cli.Context) {
+	log.Infof("Update token expiration time %s", c.String("tokenid"))
+	client := getClient(c)
+	b, err := client.UpdateToken(c.String("tokenid"))
+	if err != nil {
+		log.Errorf("Retrieving token: %v", err)
+	}
+	response, err := api.GetTokenFromJSON(b)
+	if err != nil {
+		log.Errorf("Failed response %v", err)
+		return
+	}
+	log.Infof("Token updated: ")
+	response.Token.Display()
 }

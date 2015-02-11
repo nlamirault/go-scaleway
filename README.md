@@ -15,7 +15,7 @@ Action               | Implementation
 ---------------------|-----------------------------
 Create a token       | [ ]
 List all tokens      | [x]
-Retrieve a token     | [ ]
+Retrieve a token     | [x]
 Update a token       | [ ]
 Remove a token       | [ ]
 

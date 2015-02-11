@@ -52,6 +52,21 @@ var commandGetImage = cli.Command{
 	},
 }
 
+var commandDeleteImage = cli.Command{
+	Name:        "deleteImage",
+	Usage:       "Delete an image",
+	Description: ``,
+	Action:      doDeleteImage,
+	Flags: []cli.Flag{
+		verboseFlag,
+		cli.StringFlag{
+			Name:  "imageid",
+			Usage: "Image unique identifier",
+			Value: "",
+		},
+	},
+}
+
 func doGetImage(c *cli.Context) {
 	log.Infof("Getting image %s", c.String("imageid"))
 	client := getClient(c)
@@ -66,6 +81,16 @@ func doGetImage(c *cli.Context) {
 	}
 	log.Infof("Image: ")
 	response.Image.Display()
+}
+
+func doDeleteImage(c *cli.Context) {
+	log.Infof("Remove image %s", c.String("imageid"))
+	client := getClient(c)
+	b, err := client.DeleteImage(c.String("imageid"))
+	if err != nil {
+		log.Errorf("Retrieving image: %v", err)
+	}
+	log.Infof("Image deleted: %s", string(b))
 }
 
 func doListImages(c *cli.Context) {

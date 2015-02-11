@@ -24,6 +24,8 @@ type Image struct {
 	ID           string `json:"id,omitempty"`
 	Arch         string `json:"arch,omitempty"`
 	Name         string `json:"name,omitempty"`
+	Creation     string `json:"creation_date,omitempty"`
+	Modification string `json:"modification_date,omitempty"`
 	Organization string `json:"organization,omitempty"`
 	Public       bool   `json:"public,omitempty"`
 }
@@ -63,4 +65,6 @@ func (i Image) Display() {
 	log.Infof("Name          : %s", i.Name)
 	log.Infof("Arch          : %s", i.Arch)
 	log.Infof("Organisation  : %s", i.Organization)
+	log.Infof("Creation      : %s", i.Creation)
+	log.Infof("Modificaton   : %s", i.Modification)
 }

@@ -35,12 +35,14 @@ var Commands = []cli.Command{
 	commandGetOrganizations,
 	commandGetTokens,
 	commandGetToken,
+	commandCreateToken,
 	commandListVolumes,
 	commandGetVolume,
 	commandDeleteVolume,
 	commandCreateVolume,
 	commandListImages,
 	commandGetImage,
+	commandDeleteImage,
 }
 
 // Flags is the default arguments to the CLI.

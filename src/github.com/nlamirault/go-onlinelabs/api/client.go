@@ -95,6 +95,28 @@ func (c OnlineLabsClient) GetUserToken(tokenID string) ([]byte, error) {
 	return body, nil
 }
 
+// CreateToken authenticates a user against their email, password,
+// and then returns a new Token, which can be used until it expires.
+// email is the user email
+// password is the user password
+// expires is if you want a token wich expires or not
+func (c OnlineLabsClient) CreateToken(email string, password string,
+	expires bool) ([]byte, error) {
+	json := fmt.Sprintf(`{"email": "%s", "password": "%s", "expires": %t}`,
+		email, password, expires)
+	body, err := postAPIResource(
+		c.Client,
+		c.Token,
+		fmt.Sprintf("%s/tokens", c.ComputeURL),
+		[]byte(json))
+	if err != nil {
+		return nil, err
+	}
+	log.Debugf("Create token response: %s",
+		string(body))
+	return body, nil
+}
+
 // CreateServer creates a new server
 // name is the server name
 // organization is the organization unique identifier
@@ -201,8 +223,7 @@ func (c OnlineLabsClient) DeleteVolume(volumeID string) ([]byte, error) {
 	if err != nil {
 		return nil, err
 	}
-	log.Debugf("Delete volume response: %s",
-		string(body))
+	log.Debugf("Delete volume response: %s", string(body))
 	return body, nil
 }
 
@@ -222,8 +243,7 @@ func (c OnlineLabsClient) CreateVolume(name string, organization string, volume_
 	if err != nil {
 		return nil, err
 	}
-	log.Debugf("Create volume response: %s",
-		string(body))
+	log.Debugf("Create volume response: %s", string(body))
 	return body, nil
 }
 
@@ -250,8 +270,7 @@ func (c OnlineLabsClient) GetImages() ([]byte, error) {
 	if err != nil {
 		return nil, err
 	}
-	log.Debugf("Retrieve images response: %s",
-		string(body))
+	log.Debugf("Retrieve images response: %s", string(body))
 	return body, nil
 }
 
@@ -266,6 +285,20 @@ func (c OnlineLabsClient) GetImage(volumeID string) ([]byte, error) {
 		return nil, err
 	}
 	log.Debugf("Get image response: %s", string(body))
+	return body, nil
+}
+
+// DeleteImage delete a specific volume
+// volumeID ith the volume unique identifier
+func (c OnlineLabsClient) DeleteImage(imageID string) ([]byte, error) {
+	body, err := deleteAPIResource(
+		c.Client,
+		c.Token,
+		fmt.Sprintf("%s/images/%s", c.ComputeURL, imageID))
+	if err != nil {
+		return nil, err
+	}
+	log.Debugf("Delete image response: %s", string(body))
 	return body, nil
 }
 

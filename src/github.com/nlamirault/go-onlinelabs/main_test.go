@@ -31,7 +31,7 @@ func checkCommand(t *testing.T, name string, command cli.Command) {
 
 func TestCLICommands(t *testing.T) {
 	app := makeApp()
-	if len(app.Commands) != 17 {
+	if len(app.Commands) != 18 {
 		t.Errorf("Invalid CLI number of commands")
 	}
 	// for _, command := range app.Commands {

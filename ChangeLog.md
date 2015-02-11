@@ -1,9 +1,11 @@
 Changelog
 ===========
 
-Version 0.3.0 (IN PROGRESS)
+Version 0.3.0 (02/11/2015)
 ---------------------------------
 
+- [API] List images, and informations about an image
+- [API] Manage tokens
 - [API] List, Create, Get and Delete Volume
 - Refactoring HTTP client
 - Update checking code coverage

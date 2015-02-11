@@ -57,7 +57,10 @@ func NewClient(userid string, token string, organization string) *OnlineLabsClie
 
 // GetUserInformations list informations about your user account
 func (c OnlineLabsClient) GetUserInformations(userID string) ([]byte, error) {
-	body, err := c.getAccountAPIResource(fmt.Sprintf("users/%s", userID))
+	body, err := getAPIResource(
+		c.Client,
+		c.Token,
+		fmt.Sprintf("%s/users/%s", c.AccountURL, userID))
 	if err != nil {
 		return nil, err
 	}
@@ -67,7 +70,10 @@ func (c OnlineLabsClient) GetUserInformations(userID string) ([]byte, error) {
 
 // GetUserOrganizations list all organizations associate with your account
 func (c OnlineLabsClient) GetUserOrganizations() ([]byte, error) {
-	body, err := c.getAccountAPIResource(fmt.Sprintf("organizations"))
+	body, err := getAPIResource(
+		c.Client,
+		c.Token,
+		fmt.Sprintf("%s/organizations", c.AccountURL))
 	if err != nil {
 		return nil, err
 	}
@@ -77,7 +83,10 @@ func (c OnlineLabsClient) GetUserOrganizations() ([]byte, error) {
 
 // GetUserTokens list all tokens associate with your account
 func (c OnlineLabsClient) GetUserTokens() ([]byte, error) {
-	body, err := c.getAccountAPIResource(fmt.Sprintf("tokens"))
+	body, err := getAPIResource(
+		c.Client,
+		c.Token,
+		fmt.Sprintf("%s/tokens", c.AccountURL))
 	if err != nil {
 		return nil, err
 	}
@@ -87,7 +96,10 @@ func (c OnlineLabsClient) GetUserTokens() ([]byte, error) {
 
 //GetUserToken lList an individual Token
 func (c OnlineLabsClient) GetUserToken(tokenID string) ([]byte, error) {
-	body, err := c.getAccountAPIResource(fmt.Sprintf("tokens/%s", tokenID))
+	body, err := getAPIResource(
+		c.Client,
+		c.Token,
+		fmt.Sprintf("%s/tokens/%s", c.AccountURL, tokenID))
 	if err != nil {
 		return nil, err
 	}
@@ -107,13 +119,27 @@ func (c OnlineLabsClient) CreateToken(email string, password string,
 	body, err := postAPIResource(
 		c.Client,
 		c.Token,
-		fmt.Sprintf("%s/tokens", c.ComputeURL),
+		fmt.Sprintf("%s/tokens", c.AccountURL),
 		[]byte(json))
 	if err != nil {
 		return nil, err
 	}
 	log.Debugf("Create token response: %s",
 		string(body))
+	return body, nil
+}
+
+// DeleteToken delete a specific token
+// tokenID ith the token unique identifier
+func (c OnlineLabsClient) DeleteToken(tokenID string) ([]byte, error) {
+	body, err := deleteAPIResource(
+		c.Client,
+		c.Token,
+		fmt.Sprintf("%s/tokens/%s", c.AccountURL, tokenID))
+	if err != nil {
+		return nil, err
+	}
+	log.Debugf("Delete token response: %s", string(body))
 	return body, nil
 }
 
@@ -323,22 +349,4 @@ func (c OnlineLabsClient) UploadPublicKey(userid string, keyPath string) ([]byte
 	log.Debugf("[OnlineAPI] Server action response: %s",
 		string(body))
 	return body, nil
-}
-
-func (c OnlineLabsClient) getAccountAPIResource(request string) ([]byte, error) {
-	url := fmt.Sprintf("%s/%s", c.AccountURL, request)
-	log.Debugf("GET: %q", url)
-	req, err := http.NewRequest("GET", url, nil)
-	req.Header.Set("X-Auth-Token", c.Token)
-	req.Header.Set("Content-Type", "application/json")
-	resp, err := c.Client.Do(req)
-	if err != nil {
-		return nil, err
-	}
-	defer resp.Body.Close()
-	b, err := ioutil.ReadAll(resp.Body)
-	if resp.StatusCode > 299 {
-		return nil, fmt.Errorf("Status code: %d", resp.StatusCode)
-	}
-	return b, nil
 }

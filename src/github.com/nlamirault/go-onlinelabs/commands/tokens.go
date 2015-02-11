@@ -73,6 +73,21 @@ var commandGetTokens = cli.Command{
 	},
 }
 
+var commandDeleteToken = cli.Command{
+	Name:        "deleteToken",
+	Usage:       "Delete a token",
+	Description: ``,
+	Action:      doDeleteToken,
+	Flags: []cli.Flag{
+		verboseFlag,
+		cli.StringFlag{
+			Name:  "tokenid",
+			Usage: "Token unique identifier",
+			Value: "",
+		},
+	},
+}
+
 func doListUserTokens(c *cli.Context) {
 	log.Infof("List user tokens")
 	client := getClient(c)
@@ -130,4 +145,14 @@ func doCreateToken(c *cli.Context) {
 	}
 	log.Infof("Token created: ")
 	response.Token.Display()
+}
+
+func doDeleteToken(c *cli.Context) {
+	log.Infof("Remove token %s", c.String("tokenid"))
+	client := getClient(c)
+	b, err := client.DeleteToken(c.String("tokenid"))
+	if err != nil {
+		log.Errorf("Retrieving token: %v", err)
+	}
+	log.Infof("Token deleted: %s", string(b))
 }

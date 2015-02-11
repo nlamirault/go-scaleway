@@ -27,14 +27,24 @@ import (
 
 // Commands is the CLI commands
 var Commands = []cli.Command{
-	commandListImages,
 	commandListServers,
 	commandGetServer,
 	commandDeleteServer,
 	commandActionServer,
 	commandGetUser,
 	commandGetOrganizations,
-	// commandListVolumes,
+	commandGetTokens,
+	commandGetToken,
+	commandDeleteToken,
+	commandCreateToken,
+	commandUpdateToken,
+	commandListVolumes,
+	commandGetVolume,
+	commandDeleteVolume,
+	commandCreateVolume,
+	commandListImages,
+	commandGetImage,
+	commandDeleteImage,
 }
 
 // Flags is the default arguments to the CLI.

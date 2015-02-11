@@ -18,6 +18,8 @@ DOCKER = docker
 GODEP= $(DIR)/Godeps/_workspace/bin/godep
 GOLINT= $(DIR)/Godeps/_workspace/bin/golint
 ERRCHECK= $(DIR)/Godeps/_workspace/bin/errcheck
+GOVER= $(DIR)/Godeps/_workspace/bin/gover
+GOVERALLS= $(DIR)/Godeps/_workspace/bin/goveralls
 
 NO_COLOR=\033[0m
 OK_COLOR=\033[32;01m
@@ -45,12 +47,7 @@ help:
 
 clean:
 	@echo -e "$(OK_COLOR)[$(APP)] Cleanup$(NO_COLOR)"
-	@rm -f $(EXE) $(EXE)_* $(APP)-*.tar.gz
-
-.PHONY: destroy
-destroy:
-	@echo -e "$(OK_COLOR)[$(APP)] Destruction environnement de developpement$(NO_COLOR)"
-	@rm -fr $(VENV)
+	@rm -f $(EXE) $(EXE)_* $(APP)-*.tar.gz coverage.out gover.coverprofile
 
 .PHONY: init
 init:
@@ -94,12 +91,18 @@ test:
 	@GOPATH=$(GO_PATH) go test -v github.com/nlamirault/$(APP)/...
 
 race:
-	@echo -e "$(OK_COLOR)[$(APP)] Launc unit tests race $(NO_COLOR)"
-	@GOPATH=$(GO_PATH) go test -race github.com/nlamirault/$(APP)...
+	@echo -e "$(OK_COLOR)[$(APP)] Launch unit tests race $(NO_COLOR)"
+	@GOPATH=$(GO_PATH) go test -race github.com/nlamirault/$(APP)/...
 
 coverage:
 	@echo -e "$(OK_COLOR)[$(APP)] Launch code coverage $(NO_COLOR)"
 	@GOPATH=$(GO_PATH) go test github.com/nlamirault/$(APP)/... -cover
+
+covoutput:
+	@echo -e "$(OK_COLOR)[$(APP)] Launch code coverage $(NO_COLOR)"
+	@GOPATH=$(GO_PATH) go test ${pkg} -covermode=count -coverprofile=coverage.out
+#	@GOPATH=$(GO_PATH) go tool cover -html=coverage.out
+	@GOPATH=$(GO_PATH) go tool cover -func=coverage.out
 
 release: clean build
 	@echo -e "$(OK_COLOR)[$(APP)] Make archive $(VERSION) $(NO_COLOR)"

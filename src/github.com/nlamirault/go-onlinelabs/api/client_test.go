@@ -1,4 +1,4 @@
-// Copyright (C) 2015  Nicolas Lamirault <nicolas.lamirault@gmail.com>
+// Copyright (C) 2015 Nicolas Lamirault <nicolas.lamirault@gmail.com>
 
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -17,47 +17,214 @@ package api
 import (
 	//"encoding/json"
 	"fmt"
+	"io/ioutil"
 	"net/http"
 	"net/http/httptest"
-	"net/url"
+	//"net/url"
+	"strings"
 	"testing"
 )
 
 const (
-	serverResponse = `{"server": {"tags": ["docker-machine"], "state_detail": "provisioning node", "image": {"default_bootscript": {"kernel": {"dtb": "dtb/pimouss-computing.dtb.3.17", "path": "kernel/pimouss-uImage-3.17-119-std", "id": "efff7963-2c2f-4467-837a-d14391218e36", "title": "Pimouss 3.17-119-std-with-aufs"}, "title": "NBD Boot - Linux 3.17 119-std", "public": true, "initrd": {"path": "initrd/pimouss-uInitrd", "id": "fe70e4dc-fb87-47e8-bf61-4c75c6f5a61e", "title": "pimouss-uInitrd"}, "bootcmdargs": {"id": "d22c4dde-e5a4-47ad-abb9-d23b54d542ff", "value": "ip=dhcp boot=local root=/dev/nbd0 USE_XNBD=1 nbd.max_parts=8"}, "organization": "11111111-1111-4111-8111-111111111111", "id": "d28611ff-08bd-4bdd-9f73-084a0e1ec9dc"}, "creation_date": "2015-01-19T18:08:41.906454+00:00", "name": "Debian Wheezy (7.8)", "modification_date": "2015-01-19T18:31:30.354525+00:00", "organization": "a283af0b-d13e-42e1-a43f-855ffbf281ab", "extra_volumes": "[]", "arch": "arm", "id": "cd66fa55-684a-4dd4-b809-956440b7a57f", "root_volume": {"size": 20000000000, "id": "7f98d217-e7ec-4ce0-87ab-a76e9615400c", "volume_type": "l_ssd", "name": "distrib-debian-wheezy-2015-01-19_19:01-snapshot"}, "public": true}, "creation_date": "2015-01-23T11:57:43.458120+00:00", "public_ip": {"dynamic": true, "id": "65c88668-577d-4fd5-aede-aa4bb2bb6427", "address": "212.47.230.241"}, "private_ip": "10.1.12.192", "id": "56e98092-6e05-4c89-9e76-b3610d38478c", "modification_date": "2015-01-23T11:57:43.458120+00:00", "name": "docker-lam", "dynamic_public_ip": true, "hostname": "docker-lam", "state": "starting", "bootscript": null, "volumes": {"0": {"size": 20000000000, "name": "distrib-debian-wheezy-2015-01-19_19:01-snapshot", "modification_date": "2015-01-23T11:54:02.800507+00:00", "organization": "19446e97-4a3b-4ccc-88f3-b65e3f31fb75", "export_uri": "nbd://10.1.12.199:4544", "creation_date": "2015-01-23T11:57:43.458120+00:00", "id": "aae55698-d4be-49e6-929b-bea9f6d7b09a", "volume_type": "l_ssd", "server": {"id": "56e98092-6e05-4c89-9e76-b3610d38478c", "name": "docker-lam"}}}, "organization": "19446e97-4a3b-4ccc-88f3-b65e3f31fb75"}} `
+	OnlineLabsUserID       = "12345678-520a-4ab7-9707-8bc1819a9e19"
+	OnlineLabsToken        = "02468"
+	OnlineLabsOrganization = "13579"
 )
 
-func httpClientWithProxy(server *httptest.Server) *http.Client {
-	tr := &http.Transport{
-		Proxy: func(req *http.Request) (*url.URL, error) {
-			//fmt.Printf("Url: %v\n", server.URL)
-			return url.Parse(server.URL)
-		},
+func loadJSON(path string) (string, error) {
+	content, err := ioutil.ReadFile(path)
+	if err != nil {
+		return "", err
 	}
-	return &http.Client{Transport: tr}
+	return string(content), nil
 }
 
-func ServerHandler(res http.ResponseWriter, req *http.Request) {
-	//fmt.Printf("Response to send : %s\n", serverResponse)
-	//data, _ := json.Marshal(serverResponse)
-	res.Header().Set("Content-Type", "application/json; charset=utf-8")
-	// res.Write(data)
-	fmt.Println(res, serverResponse)
+func getClient() *OnlineLabsClient {
+	return NewClient(
+		OnlineLabsUserID,
+		OnlineLabsToken,
+		OnlineLabsOrganization)
+}
+
+func newServer(content string) *httptest.Server {
+	return httptest.NewServer(
+		http.HandlerFunc(func(res http.ResponseWriter, req *http.Request) {
+			res.Header().Set(
+				"Content-Type",
+				"application/json; charset=utf-8")
+			fmt.Fprintf(res, content)
+		}))
+}
+
+func TestGettingUser(t *testing.T) {
+	json, err := loadJSON("test_fixtures/user.json")
+	if err != nil {
+		t.Fatalf("Can't load JSON: %v", err)
+	}
+	ts := newServer(json)
+	defer ts.Close()
+	c := getClient()
+	c.AccountURL = ts.URL
+	b, err := c.GetUserInformations("12345678-520a-4ab7-9707-8bc1819a9e19")
+	response, err := GetUserFromJSON(b)
+	if err != nil {
+		t.Fatalf("Can't decode json: %v", err)
+	}
+	if response.User.ID != "12345678-520a-4ab7-9707-8bc1819a9e19" {
+		t.Fatalf("Invalid user id")
+	}
+	if response.User.Firstname != "Foo" {
+		t.Fatalf("Invalud user firstname")
+	}
+	if response.User.Lastname != "Bar" {
+		t.Fatalf("Invalid user lastname")
+	}
+}
+
+func TestListUserOrganizations(t *testing.T) {
+	json, err := loadJSON("test_fixtures/organizations.json")
+	if err != nil {
+		t.Fatalf("Can't load JSON: %v", err)
+	}
+	ts := newServer(json)
+	defer ts.Close()
+	c := getClient()
+	c.AccountURL = ts.URL
+	b, err := c.GetUserOrganizations()
+	response, err := GetOrganizationsFromJSON(b)
+	if err != nil {
+		t.Fatalf("Can't decode json: %v", err)
+	}
+	if len(response.Organizations) != 1 {
+		t.Fatalf("Invalid number of organizations")
+	}
+	for _, org := range response.Organizations {
+		fmt.Println(org)
+		if org.ID != "19446e97-4a3b-4ccc-88f3-b65e3f31fb75" {
+			t.Fatalf("Invalid organization id")
+		}
+		if org.Name != "foo.bar@gmail.com" {
+			t.Fatalf("Invalid organization name")
+		}
+	}
+}
+
+func TestListUserTokens(t *testing.T) {
+	json, err := loadJSON("test_fixtures/tokens.json")
+	if err != nil {
+		t.Fatalf("Can't load JSON: %v", err)
+	}
+	ts := newServer(json)
+	defer ts.Close()
+	c := getClient()
+	c.AccountURL = ts.URL
+	b, err := c.GetUserTokens()
+	response, err := GetTokensFromJSON(b)
+	if err != nil {
+		t.Fatalf("Can't decode json: %v", err)
+	}
+	for _, token := range response.Tokens {
+		//fmt.Println(token)
+		if token.UserID != "12345678-520a-4ab7-9707-8bc1819a9e19" {
+			t.Fatalf("Invalid token userID")
+		}
+		if !strings.HasPrefix(token.ID, "13579") {
+			t.Fatalf("Invalid token ID")
+		}
+	}
 }
 
 func TestGettingServer(t *testing.T) {
-	server := httptest.NewServer(http.HandlerFunc(ServerHandler))
-	defer server.Close()
-	c := NewClient("02468", "02468", "13579")
-	c.client = httpClientWithProxy(server)
+	json, err := loadJSON("test_fixtures/server.json")
+	if err != nil {
+		t.Fatalf("Can't load JSON: %v", err)
+	}
+	ts := newServer(json)
+	defer ts.Close()
+	c := getClient()
+	c.ComputeURL = ts.URL
 	b, err := c.GetServer("56e98092-6e05-4c89-9e76-b3610d38478c")
 	response, err := GetServerFromJSON(b)
-	fmt.Printf("Response: %v %v\n", response, err)
-	// if err != nil {
-	// 	fmt.Printf("Error : %v", err)
-	// 	t.Errorf("Can't decode json: %v", err)
-	// }
-	// if response.Server.Id != "d28611ff-08bd-4bdd-9f73-084a0e1ec9dc" {
-	// 	t.Errorf("Invalid server id")
-	// }
+	//fmt.Printf("Response: %v %v\n", response, err)
+	if err != nil {
+		t.Fatalf("Can't decode json: %v", err)
+	}
+	if response.Server.ID != "56e98092-6e05-4c89-9e76-b3610d38478c" {
+		t.Fatalf("Invalid server id")
+	}
+	if response.Server.Name != "docker-lam" {
+		t.Fatalf("Invalid server name")
+	}
+	if response.Server.State != "starting" {
+		t.Fatalf("Invalid server state")
+	}
+	if response.Server.Organization != "19446e97-4a3b-4ccc-88f3-b65e3f31fb75" {
+		t.Fatalf("Invalid server organization")
+	}
+}
+
+func TestGettingServers(t *testing.T) {
+	json, err := loadJSON("test_fixtures/servers.json")
+	if err != nil {
+		t.Fatalf("Can't load JSON: %v", err)
+	}
+	ts := newServer(json)
+	defer ts.Close()
+	c := getClient()
+	c.ComputeURL = ts.URL
+	b, err := c.GetServers()
+	response, err := GetServersFromJSON(b)
+	//fmt.Printf("Response: %v %v\n", response, err)
+	if err != nil {
+		t.Fatalf("Can't decode json: %v", err)
+	}
+	for _, server := range response.Servers {
+		//fmt.Println(server)
+		if !strings.HasPrefix(server.ID, "02468") {
+			t.Fatalf("Invalid server ID")
+		}
+		if server.Organization != "13579-4a3b-4ccc-88f3-b65e3f31fb75" {
+			t.Fatalf("Invalid server organization")
+		}
+	}
+}
+
+func TestDeleteServer(t *testing.T) {
+	json, err := loadJSON("test_fixtures/delete_server.json")
+	if err != nil {
+		t.Fatalf("Can't load JSON: %v", err)
+	}
+	ts := newServer(json)
+	defer ts.Close()
+	c := getClient()
+	c.ComputeURL = ts.URL
+	b, _ := c.GetServer("56e98092-6e05-4c89-9e76-b3610d38478c")
+	if len(string(b)) > 0 {
+		t.Fatalf("Invalid delete server response: %s", string(b))
+	}
+}
+
+func TestPoweroffServer(t *testing.T) {
+	json, err := loadJSON("test_fixtures/server_poweroff.json")
+	if err != nil {
+		t.Fatalf("Can't load JSON: %v", err)
+	}
+	ts := newServer(json)
+	defer ts.Close()
+	c := getClient()
+	c.ComputeURL = ts.URL
+	b, err := c.PerformServerAction(
+		"f5c94e15-1c11-4eab-a7a6-73db916b37c2",
+		"poweroff")
+	response, _ := GetTaskFromJSON(b)
+	if response.Task.Status != "pending" {
+		t.Fatalf("Invalid task status")
+	}
+	if response.Task.Description != "server_poweroff" {
+		t.Fatalf("Invalid task description")
+	}
+	if response.Task.Progress != 0 {
+		t.Fatalf("Invalid task progress")
+	}
+
 }

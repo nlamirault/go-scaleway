@@ -11,13 +11,13 @@ for documentation.
 
 ### Tokens
 
-Action               | Implemented
+Action               | Implementation
 ---------------------|-----------------------------
-Create a token       | [ ]
-List all tokens      | [ ]
-Retrieve a token     | [ ]
+Create a token       | [x]
+List all tokens      | [x]
+Retrieve a token     | [x]
 Update a token       | [ ]
-Remove a token       | [ ]
+Remove a token       | [x]
 
 ### Organizations
 
@@ -39,7 +39,7 @@ List servers         | [x]
 Create a server      | [x]
 Retrieve a server    | [x]
 Update a server      | [ ]
-Remove a server      | [ ]
+Remove a server      | [x]
 List all actions     | [ ]
 Execute an action    | [x]
 
@@ -47,20 +47,17 @@ Execute an action    | [x]
 
 Action                     | Implementation
 ---------------------------|------------------------------
-Volumes                    | [ ]
-Create a new volume        | [ ]
-Retrieves all volumes      | [ ]
-Retrieves informations     | [ ]
-Delete a volume            | [ ]
+List volumes               | [x]
+Create a new volume        | [x]
+Retrieves informations     | [x]
+Delete a volume            | [x]
 
 ### Snapshots
 
 Action                    | Implementation
 --------------------------|------------------------------
-Snapshots                 | [ ]
 Create a snapshot         | [ ]
 List all snapshots        | [ ]
-Snapshot                  | [ ]
 Retrieve a snapshot       | [ ]
 Update a snapshot         | [ ]
 Remove a snapshot         | [ ]
@@ -69,11 +66,10 @@ Remove a snapshot         | [ ]
 
 Action                         | Implementation
 -------------------------------|------------------------------
-Images                         | [ ]
 Create a new image             | [ ]
-List all images                | [ ]
+List all images                | [x]
 Operation on a single image    | [ ]
-Retrieves an image             | [ ]
+Retrieves an image             | [x]
 Update an image                | [ ]
 Delete an image                | [ ]
 
@@ -108,25 +104,22 @@ Pimouss metadata               | [ ]
 
         $ make build
 
-* It make the build inside of a Docker container and the compiled binaries will
-  appear in the project directory on the host. By default, it will run a build
-  which cross-compiles binaries for a variety of architectures and operating
-  systems.
+* Launch unit tests :
 
-        $ make build-all
-        $ make build-linux
+        $ make test
+
+* Check code coverage for project or specific package :
+
+        $ make coverage
+        $ make covoutput pkg=github.com/nlamirault/go-onlinelabs/commands
+
+* For a new release, it will run a build which cross-compiles binaries for
+  a variety of architectures and operating systems:
+
+        $ make release
 
 
 ## License
-
-go-onlinelabs is free software: you can redistribute it and/or modify it under the
-terms of the GNU General Public License as published by the Free Software
-Foundation, either version 3 of the License, or (at your option) any later
-version.
-
-go-onlinelabs is distributed in the hope that it will be useful, but WITHOUT ANY
-WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A
-PARTICULAR PURPOSE.  See the GNU General Public License for more details.
 
 See [LICENSE][] for the complete license.
 

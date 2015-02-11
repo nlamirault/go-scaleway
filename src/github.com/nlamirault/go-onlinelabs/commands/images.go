@@ -20,10 +20,11 @@ import (
 	//"log"
 	//"os"
 
+	log "github.com/Sirupsen/logrus"
 	"github.com/codegangsta/cli"
 
-	// "github.com/nlamirault/go-onlinelabs/api"
-	"github.com/nlamirault/go-onlinelabs/logging"
+	"github.com/nlamirault/go-onlinelabs/api"
+	// "github.com/nlamirault/go-onlinelabs/logging"
 )
 
 var commandListImages = cli.Command{
@@ -32,27 +33,82 @@ var commandListImages = cli.Command{
 	Description: ``,
 	Action:      doListImages,
 	Flags: []cli.Flag{
-		cli.StringFlag{
-			Name:  "name",
-			Value: "",
-			Usage: "name of the component",
-		},
-		cli.StringFlag{
-			Name:  "version",
-			Value: "",
-			Usage: "version of the application",
-		},
 		verboseFlag,
 	},
 }
 
+var commandGetImage = cli.Command{
+	Name:        "getImage",
+	Usage:       "Retrieve a image",
+	Description: ``,
+	Action:      doGetImage,
+	Flags: []cli.Flag{
+		verboseFlag,
+		cli.StringFlag{
+			Name:  "imageid",
+			Usage: "Image unique identifier",
+			Value: "",
+		},
+	},
+}
+
+var commandDeleteImage = cli.Command{
+	Name:        "deleteImage",
+	Usage:       "Delete an image",
+	Description: ``,
+	Action:      doDeleteImage,
+	Flags: []cli.Flag{
+		verboseFlag,
+		cli.StringFlag{
+			Name:  "imageid",
+			Usage: "Image unique identifier",
+			Value: "",
+		},
+	},
+}
+
+func doGetImage(c *cli.Context) {
+	log.Infof("Getting image %s", c.String("imageid"))
+	client := getClient(c)
+	b, err := client.GetImage(c.String("imageid"))
+	if err != nil {
+		log.Errorf("Retrieving image: %v", err)
+	}
+	response, err := api.GetImageFromJSON(b)
+	if err != nil {
+		log.Errorf("Failed response %v", err)
+		return
+	}
+	log.Infof("Image: ")
+	response.Image.Display()
+}
+
+func doDeleteImage(c *cli.Context) {
+	log.Infof("Remove image %s", c.String("imageid"))
+	client := getClient(c)
+	b, err := client.DeleteImage(c.String("imageid"))
+	if err != nil {
+		log.Errorf("Retrieving image: %v", err)
+	}
+	log.Infof("Image deleted: %s", string(b))
+}
+
 func doListImages(c *cli.Context) {
-	logging.Info("List images")
-	// client := api.NewClient()
-	// b, err := client.GetRequest("/images")
-	// if err != nil {
-	// 	logging.Error("[Error] Get Images " + err)
-	// 	return
-	// }
-	// print(string(b))
+	log.Infof("List images")
+	client := getClient(c)
+	b, err := client.GetImages()
+	if err != nil {
+		log.Errorf("Retrieving imagess %v", err)
+		return
+	}
+	response, err := api.GetImagesFromJSON(b)
+	if err != nil {
+		log.Errorf("Reading images %v", err)
+		return
+	}
+	log.Infof("Images: ")
+	for _, image := range response.Images {
+		log.Infof("----------------------------------------------")
+		image.Display()
+	}
 }

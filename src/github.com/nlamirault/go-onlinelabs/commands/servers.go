@@ -100,11 +100,7 @@ func doListServers(c *cli.Context) {
 	log.Infof("Servers: ")
 	for _, server := range response.Servers {
 		log.Infof("----------------------------------------------")
-		log.Infof("Id   : %s", server.ID)
-		log.Infof("Name : %s", server.Name)
-		log.Infof("Date : %s", server.ModificationDate)
-		log.Infof("IP   : %s", server.PublicIP.Address)
-		log.Infof("Tags : %s", server.Tags)
+		server.Display()
 	}
 }
 
@@ -121,16 +117,17 @@ func doGetServer(c *cli.Context) {
 		return
 	}
 	log.Infof("Server: ")
-	log.Infof("Id    : %s", response.Server.ID)
-	log.Infof("Name  : %s", response.Server.Name)
-	log.Infof("State : %s", response.Server.State)
-	log.Infof("Date  : %s", response.Server.ModificationDate)
-	log.Infof("IP    : %s", response.Server.PublicIP.Address)
-	log.Infof("Tags  : %s", response.Server.Tags)
+	response.Server.Display()
 }
 
 func doDeleteServer(c *cli.Context) {
 	log.Infof("Remove server %s", c.String("serverid"))
+	client := getClient(c)
+	b, err := client.DeleteServer(c.String("serverid"))
+	if err != nil {
+		log.Errorf("Retrieving server: %v", err)
+	}
+	log.Infof("Server deleted: %s", string(b))
 }
 
 func doActionServer(c *cli.Context) {

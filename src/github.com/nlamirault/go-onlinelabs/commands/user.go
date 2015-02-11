@@ -63,20 +63,13 @@ func doListUserInformations(c *cli.Context) {
 		return
 	}
 	log.Infof("User: ")
-	log.Infof("Id            : %s", response.User.ID)
-	log.Infof("Fullname      : %s", response.User.Fullname)
-	log.Infof("Firstname     : %s", response.User.Firstname)
-	log.Infof("Lastname      : %s", response.User.Lastname)
-	log.Infof("Email         : %s", response.User.Email)
-	log.Infof("Phone         : %s", response.User.PhoneNumber)
-	log.Infof("Roles         : %s", response.User.Roles)
-	log.Infof("Organizations : %s", response.User.Organizations)
+	response.User.Display()
 }
 
 func doListUserOrganizations(c *cli.Context) {
 	log.Infof("List user organizations")
 	client := getClient(c)
-	b, err := client.GetUserOrganzations()
+	b, err := client.GetUserOrganizations()
 	if err != nil {
 		log.Errorf("Failed user organizations response %v", err)
 		return
@@ -89,10 +82,6 @@ func doListUserOrganizations(c *cli.Context) {
 	log.Infof("User organizations:")
 	for _, org := range response.Organizations {
 		log.Infof("----------------------------------------------")
-		log.Infof("Id              : %s", org.ID)
-		log.Infof("Name            : %s", org.Name)
-		log.Infof("Currency        : %s", org.Currency)
-		log.Infof("Locale          : %s", org.Locale)
-		log.Infof("Customer class  : %s", org.CustomerClass)
+		org.Display()
 	}
 }

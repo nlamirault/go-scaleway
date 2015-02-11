@@ -59,7 +59,6 @@ var commandCreateToken = cli.Command{
 		cli.BoolFlag{
 			Name:  "expires",
 			Usage: "Set if you want a Token wich doesn’t expire",
-			Value: true,
 		},
 	},
 }
@@ -115,12 +114,12 @@ func doCreateToken(c *cli.Context) {
 	log.Infof("Create token %s %s %s",
 		c.String("email"),
 		c.String("password"),
-		c.String("expires"))
+		c.Bool("expires"))
 	client := getClient(c)
 	b, err := client.CreateToken(
 		c.String("email"),
 		c.String("password"),
-		c.String("expires"))
+		c.Bool("expires"))
 	if err != nil {
 		log.Errorf("Creating token: %v", err)
 	}

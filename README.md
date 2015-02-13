@@ -7,6 +7,71 @@
 A CLI for the Online labs cloud. See [https://doc.cloud.online.net/api]
 for documentation.
 
+## Installation
+
+Download binary from [releases][] for your platform.
+
+## Usage
+
+```bash
+$ ./onlinelabs -h
+NAME:
+   onlinelabs - A CLI for Online Labs
+
+USAGE:
+   onlinelabs [global options] command [command options] [arguments...]
+
+VERSION:
+   0.4.0
+
+AUTHOR:
+  Nicolas Lamirault - <nicolas.lamirault@gmail.com>
+
+COMMANDS:
+   server
+   user
+   organizations
+   token
+   volume
+   image
+   help, h		Shows a list of commands or help for one command
+
+GLOBAL OPTIONS:
+   --log-level, -l 'info'	Log level (options: debug, info, warn, error, fatal, panic)
+   --onlinelabs-userid 		Onlinelabs UserID [$ONLINELABS_USERID]
+   --onlinelabs-token 		Onlinelabs Token [$ONLINELABS_TOKEN]
+   --onlinelabs-organization 	Organization identifier [$ONLINELABS_ORGANIZATION]
+   --help, -h			show help
+   --version, -v		print the version
+
+```
+
+You must have a **userid**, **tokenid** and **organizationid** to
+use the CLI. You could use command line arguments (in global option), or
+environments variables.
+
+For earch commands, subcommands are availables :
+
+```bash
+$ ./onlinelabs server
+NAME:
+   onlinelabs server -
+
+USAGE:
+   onlinelabs server command [command options] [arguments...]
+
+COMMANDS:
+   list		List all servers associate with your account
+   get		Retrieve a server
+   delete	Delete a server
+   action	Execute an action on a server
+   help, h	Shows a list of commands or help for one command
+
+OPTIONS:
+   --help, -h	show help
+
+```
+
 ## API
 
 ### Tokens
@@ -140,3 +205,5 @@ Nicolas Lamirault <nicolas.lamirault@gmail.com>
 [badge-travis]: http://img.shields.io/travis/nlamirault/go-onlinelabs.svg?style=flat
 [badge-drone]: https://drone.io/github.com/nlamirault/go-onlinelabs/status.png
 [drone]: https://drone.io/github.com/nlamirault/go-onlinelabs/latest
+
+[releases]: https://github.com/nlamirault/go-onlinelabs/releases

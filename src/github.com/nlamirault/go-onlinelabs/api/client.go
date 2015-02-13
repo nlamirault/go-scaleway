@@ -146,11 +146,12 @@ func (c OnlineLabsClient) DeleteToken(tokenID string) ([]byte, error) {
 // UpdateToken increase Token expiration time of 30 minutes
 // tokenID ith the token unique identifier
 func (c OnlineLabsClient) UpdateToken(tokenID string) ([]byte, error) {
+	json := `{"expires": true}`
 	body, err := patchAPIResource(
 		c.Client,
 		c.Token,
 		fmt.Sprintf("%s/tokens/%s", c.AccountURL, tokenID),
-		nil)
+		[]byte(json))
 	if err != nil {
 		return nil, err
 	}

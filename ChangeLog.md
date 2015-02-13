@@ -1,6 +1,12 @@
 Changelog
 ===========
 
+Version 0.4.0 (IN PROGRESS)
+--------------------------------
+
+- Refactoring CLI using subcommands
+- ``FIX`` Update token expiration date
+
 Version 0.3.0 (02/11/2015)
 ---------------------------------
 

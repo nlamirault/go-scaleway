@@ -1,7 +1,7 @@
 Changelog
 ===========
 
-Version 0.4.0 (IN PROGRESS)
+Version 0.4.0 (02/13/2015)
 --------------------------------
 
 - Refactoring CLI using subcommands

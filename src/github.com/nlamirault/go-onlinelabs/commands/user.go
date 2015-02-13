@@ -25,7 +25,7 @@ import (
 )
 
 var commandGetUser = cli.Command{
-	Name:        "getUser",
+	Name:        "get",
 	Usage:       "List informations about your user account",
 	Description: ``,
 	Action:      doListUserInformations,
@@ -39,8 +39,8 @@ var commandGetUser = cli.Command{
 	},
 }
 
-var commandGetOrganizations = cli.Command{
-	Name:        "getOrganizations",
+var commandListOrganizations = cli.Command{
+	Name:        "list",
 	Usage:       "List all Organizations associate with your account",
 	Description: ``,
 	Action:      doListUserOrganizations,
@@ -50,7 +50,7 @@ var commandGetOrganizations = cli.Command{
 }
 
 func doListUserInformations(c *cli.Context) {
-	log.Infof("List user informations")
+	log.Debugf("List user informations")
 	client := getClient(c)
 	b, err := client.GetUserInformations(c.String("userid"))
 	if err != nil {
@@ -67,7 +67,7 @@ func doListUserInformations(c *cli.Context) {
 }
 
 func doListUserOrganizations(c *cli.Context) {
-	log.Infof("List user organizations")
+	log.Debugf("List user organizations")
 	client := getClient(c)
 	b, err := client.GetUserOrganizations()
 	if err != nil {
@@ -79,7 +79,7 @@ func doListUserOrganizations(c *cli.Context) {
 		log.Errorf("Failed user organizations %v", err)
 		return
 	}
-	log.Infof("User organizations:")
+	log.Infof("Organizations:")
 	for _, org := range response.Organizations {
 		log.Infof("----------------------------------------------")
 		org.Display()

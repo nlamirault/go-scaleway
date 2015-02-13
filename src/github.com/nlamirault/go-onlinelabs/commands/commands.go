@@ -16,7 +16,6 @@
 package commands
 
 import (
-	//"fmt"
 	//"log"
 	//"os"
 
@@ -27,24 +26,54 @@ import (
 
 // Commands is the CLI commands
 var Commands = []cli.Command{
-	commandListServers,
-	commandGetServer,
-	commandDeleteServer,
-	commandActionServer,
-	commandGetUser,
-	commandGetOrganizations,
-	commandGetTokens,
-	commandGetToken,
-	commandDeleteToken,
-	commandCreateToken,
-	commandUpdateToken,
-	commandListVolumes,
-	commandGetVolume,
-	commandDeleteVolume,
-	commandCreateVolume,
-	commandListImages,
-	commandGetImage,
-	commandDeleteImage,
+	{
+		Name: "server",
+		Subcommands: []cli.Command{
+			commandListServers,
+			commandGetServer,
+			commandDeleteServer,
+			commandActionServer,
+		},
+	},
+	{
+		Name: "user",
+		Subcommands: []cli.Command{
+			commandGetUser,
+		},
+	},
+	{
+		Name: "organizations",
+		Subcommands: []cli.Command{
+			commandListOrganizations,
+		},
+	},
+	{
+		Name: "token",
+		Subcommands: []cli.Command{
+			commandListTokens,
+			commandGetToken,
+			commandDeleteToken,
+			commandCreateToken,
+			commandUpdateToken,
+		},
+	},
+	{
+		Name: "volume",
+		Subcommands: []cli.Command{
+			commandListVolumes,
+			commandGetVolume,
+			commandDeleteVolume,
+			commandCreateVolume,
+		},
+	},
+	{
+		Name: "image",
+		Subcommands: []cli.Command{
+			commandListImages,
+			commandGetImage,
+			commandDeleteImage,
+		},
+	},
 }
 
 // Flags is the default arguments to the CLI.

@@ -21,7 +21,7 @@ import (
 	log "github.com/Sirupsen/logrus"
 	"github.com/codegangsta/cli"
 
-	"github.com/nlamirault/go-onlinelabs/api"
+	// "github.com/nlamirault/go-onlinelabs/api"
 )
 
 var commandGetUser = cli.Command{
@@ -52,16 +52,17 @@ var commandListOrganizations = cli.Command{
 func doListUserInformations(c *cli.Context) {
 	log.Debugf("List user informations")
 	client := getClient(c)
-	b, err := client.GetUserInformations(c.String("userid"))
+	// b, err := client.GetUserInformations(c.String("userid"))
+	response, err := client.GetUserInformations(c.String("userid"))
 	if err != nil {
 		log.Errorf("Failed user response %v", err)
 		return
 	}
-	response, err := api.GetUserFromJSON(b)
-	if err != nil {
-		log.Errorf("Failed user informations %v", err)
-		return
-	}
+	// response, err := api.GetUserFromJSON(b)
+	// if err != nil {
+	// 	log.Errorf("Failed user informations %v", err)
+	// 	return
+	// }
 	log.Infof("User: ")
 	response.User.Display()
 }
@@ -69,16 +70,17 @@ func doListUserInformations(c *cli.Context) {
 func doListUserOrganizations(c *cli.Context) {
 	log.Debugf("List user organizations")
 	client := getClient(c)
-	b, err := client.GetUserOrganizations()
+	// b, err := client.GetUserOrganizations()
+	response, err := client.GetUserOrganizations()
 	if err != nil {
 		log.Errorf("Failed user organizations response %v", err)
 		return
 	}
-	response, err := api.GetOrganizationsFromJSON(b)
-	if err != nil {
-		log.Errorf("Failed user organizations %v", err)
-		return
-	}
+	// response, err := api.GetOrganizationsFromJSON(b)
+	// if err != nil {
+	// 	log.Errorf("Failed user organizations %v", err)
+	// 	return
+	// }
 	log.Infof("Organizations:")
 	for _, org := range response.Organizations {
 		log.Infof("----------------------------------------------")

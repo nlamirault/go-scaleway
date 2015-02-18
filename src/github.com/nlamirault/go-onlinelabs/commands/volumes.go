@@ -23,7 +23,7 @@ import (
 	log "github.com/Sirupsen/logrus"
 	"github.com/codegangsta/cli"
 
-	"github.com/nlamirault/go-onlinelabs/api"
+	// "github.com/nlamirault/go-onlinelabs/api"
 	//"github.com/nlamirault/go-onlinelabs/logging"
 )
 
@@ -100,16 +100,17 @@ var commandCreateVolume = cli.Command{
 func doListVolumes(c *cli.Context) {
 	log.Infof("List volumes")
 	client := getClient(c)
-	b, err := client.GetVolumes()
+	//b, err := client.GetVolumes()
+	response, err := client.GetVolumes()
 	if err != nil {
 		log.Errorf("Retrieving volumes %v", err)
 		return
 	}
-	response, err := api.GetVolumesFromJSON(b)
-	if err != nil {
-		log.Errorf("Reading volumes %v", err)
-		return
-	}
+	// response, err := api.GetVolumesFromJSON(b)
+	// if err != nil {
+	// 	log.Errorf("Reading volumes %v", err)
+	// 	return
+	// }
 	log.Infof("Volumes: ")
 	for _, volume := range response.Volumes {
 		log.Infof("----------------------------------------------")
@@ -120,15 +121,16 @@ func doListVolumes(c *cli.Context) {
 func doGetVolume(c *cli.Context) {
 	log.Infof("Getting volume %s", c.String("volumeid"))
 	client := getClient(c)
-	b, err := client.GetVolume(c.String("volumeid"))
+	// b, err := client.GetVolume(c.String("volumeid"))
+	response, err := client.GetVolume(c.String("volumeid"))
 	if err != nil {
 		log.Errorf("Retrieving volume: %v", err)
 	}
-	response, err := api.GetVolumeFromJSON(b)
-	if err != nil {
-		log.Errorf("Failed response %v", err)
-		return
-	}
+	// response, err := api.GetVolumeFromJSON(b)
+	// if err != nil {
+	// 	log.Errorf("Failed response %v", err)
+	// 	return
+	// }
 	log.Infof("Volume: ")
 	response.Volume.Display()
 }
@@ -136,11 +138,11 @@ func doGetVolume(c *cli.Context) {
 func doDeleteVolume(c *cli.Context) {
 	log.Infof("Remove volume %s", c.String("volumeid"))
 	client := getClient(c)
-	b, err := client.DeleteVolume(c.String("volumeid"))
+	err := client.DeleteVolume(c.String("volumeid"))
 	if err != nil {
 		log.Errorf("Retrieving volume: %v", err)
 	}
-	log.Infof("Volume deleted: %s", string(b))
+	log.Infof("Volume deleted")
 }
 
 func doCreateVolume(c *cli.Context) {
@@ -150,7 +152,12 @@ func doCreateVolume(c *cli.Context) {
 		c.String("type"),
 		c.Int("size"))
 	client := getClient(c)
-	b, err := client.CreateVolume(
+	// b, err := client.CreateVolume(
+	// 	c.String("name"),
+	// 	c.String("organizationid"),
+	// 	c.String("type"),
+	// 	c.Int("size"))
+	response, err := client.CreateVolume(
 		c.String("name"),
 		c.String("organizationid"),
 		c.String("type"),
@@ -158,11 +165,11 @@ func doCreateVolume(c *cli.Context) {
 	if err != nil {
 		log.Errorf("Creating volume: %v", err)
 	}
-	response, err := api.GetVolumeFromJSON(b)
-	if err != nil {
-		log.Errorf("Failed response %v", err)
-		return
-	}
+	// response, err := api.GetVolumeFromJSON(b)
+	// if err != nil {
+	// 	log.Errorf("Failed response %v", err)
+	// 	return
+	// }
 	log.Infof("Volume: ")
 	response.Volume.Display()
 }

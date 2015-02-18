@@ -21,7 +21,7 @@ import (
 	log "github.com/Sirupsen/logrus"
 	"github.com/codegangsta/cli"
 
-	"github.com/nlamirault/go-onlinelabs/api"
+	// "github.com/nlamirault/go-onlinelabs/api"
 )
 
 var commandGetToken = cli.Command{
@@ -106,16 +106,17 @@ var commandUpdateToken = cli.Command{
 func doListUserTokens(c *cli.Context) {
 	log.Infof("List user tokens")
 	client := getClient(c)
-	b, err := client.GetUserTokens()
+	// b, err := client.GetUserTokens()
+	response, err := client.GetUserTokens()
 	if err != nil {
 		log.Errorf("Failed user tokens response %v", err)
 		return
 	}
-	response, err := api.GetTokensFromJSON(b)
-	if err != nil {
-		log.Errorf("Failed user tokens %v", err)
-		return
-	}
+	// response, err := api.GetTokensFromJSON(b)
+	// if err != nil {
+	// 	log.Errorf("Failed user tokens %v", err)
+	// 	return
+	// }
 	log.Infof("User tokens:")
 	for _, token := range response.Tokens {
 		log.Infof("----------------------------------------------")
@@ -126,16 +127,17 @@ func doListUserTokens(c *cli.Context) {
 func doGetUserToken(c *cli.Context) {
 	log.Infof("Get user token : %s", c.String("tokenid"))
 	client := getClient(c)
-	b, err := client.GetUserToken(c.String("tokenid"))
+	// b, err := client.GetUserToken(c.String("tokenid"))
+	response, err := client.GetUserToken(c.String("tokenid"))
 	if err != nil {
 		log.Errorf("Failed user token response %v", err)
 		return
 	}
-	response, err := api.GetTokenFromJSON(b)
-	if err != nil {
-		log.Errorf("Failed user token  %v", err)
-		return
-	}
+	// response, err := api.GetTokenFromJSON(b)
+	// if err != nil {
+	// 	log.Errorf("Failed user token  %v", err)
+	// 	return
+	// }
 	log.Infof("Token: ")
 	response.Token.Display()
 }
@@ -146,18 +148,22 @@ func doCreateToken(c *cli.Context) {
 		c.String("password"),
 		c.Bool("expires"))
 	client := getClient(c)
-	b, err := client.CreateToken(
+	// b, err := client.CreateToken(
+	// 	c.String("email"),
+	// 	c.String("password"),
+	// 	c.Bool("expires"))
+	response, err := client.CreateToken(
 		c.String("email"),
 		c.String("password"),
 		c.Bool("expires"))
 	if err != nil {
 		log.Errorf("Creating token: %v", err)
 	}
-	response, err := api.GetTokenFromJSON(b)
-	if err != nil {
-		log.Errorf("Failed response %v", err)
-		return
-	}
+	// response, err := api.GetTokenFromJSON(b)
+	// if err != nil {
+	// 	log.Errorf("Failed response %v", err)
+	// 	return
+	// }
 	log.Infof("Token created: ")
 	response.Token.Display()
 }
@@ -165,25 +171,27 @@ func doCreateToken(c *cli.Context) {
 func doDeleteToken(c *cli.Context) {
 	log.Infof("Remove token %s", c.String("tokenid"))
 	client := getClient(c)
-	b, err := client.DeleteToken(c.String("tokenid"))
+	// b, err := client.DeleteToken(c.String("tokenid"))
+	err := client.DeleteToken(c.String("tokenid"))
 	if err != nil {
 		log.Errorf("Retrieving token: %v", err)
 	}
-	log.Infof("Token deleted: %s", string(b))
+	log.Infof("Token deleted")
 }
 
 func doUpdateToken(c *cli.Context) {
 	log.Infof("Update token expiration time %s", c.String("tokenid"))
 	client := getClient(c)
-	b, err := client.UpdateToken(c.String("tokenid"))
+	// b, err := client.UpdateToken(c.String("tokenid"))
+	response, err := client.UpdateToken(c.String("tokenid"))
 	if err != nil {
 		log.Errorf("Retrieving token: %v", err)
 	}
-	response, err := api.GetTokenFromJSON(b)
-	if err != nil {
-		log.Errorf("Failed response %v", err)
-		return
-	}
+	// response, err := api.GetTokenFromJSON(b)
+	// if err != nil {
+	// 	log.Errorf("Failed response %v", err)
+	// 	return
+	// }
 	log.Infof("Token updated: ")
 	response.Token.Display()
 }

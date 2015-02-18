@@ -15,7 +15,7 @@
 package api
 
 import (
-	"encoding/json"
+// "encoding/json"
 )
 
 // Task represents an asynchronous task
@@ -32,12 +32,12 @@ type TaskResponse struct {
 	Task Task `json:"task,omitempty"`
 }
 
-// GetTaskFromJSON load bytes and return a TaskResponse
-func GetTaskFromJSON(b []byte) (*TaskResponse, error) {
-	var response TaskResponse
-	err := json.Unmarshal(b, &response)
-	if err != nil {
-		return nil, err
-	}
-	return &response, nil
-}
+// // GetTaskFromJSON load bytes and return a TaskResponse
+// func GetTaskFromJSON(b []byte) (*TaskResponse, error) {
+// 	var response TaskResponse
+// 	err := json.Unmarshal(b, &response)
+// 	if err != nil {
+// 		return nil, err
+// 	}
+// 	return &response, nil
+// }

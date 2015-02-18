@@ -15,7 +15,7 @@
 package api
 
 import (
-	"encoding/json"
+	// "encoding/json"
 
 	log "github.com/Sirupsen/logrus"
 )
@@ -40,25 +40,25 @@ type ImagesResponse struct {
 	Images []Image
 }
 
-// GetImageFromJSON load bytes and return a ImagesResponse
-func GetImageFromJSON(b []byte) (*ImageResponse, error) {
-	var response ImageResponse
-	err := json.Unmarshal(b, &response)
-	if err != nil {
-		return nil, err
-	}
-	return &response, nil
-}
+// GetImageFromJSON load bytes and//  return a ImagesResponse
+// func GetImageFromJSON(b []byte) (*ImageResponse, error) {
+// 	var response ImageResponse
+// 	err := json.Unmarshal(b, &response)
+// 	if err != nil {
+// 		return nil, err
+// 	}
+// 	return &response, nil
+// }
 
-// GetImagesFromJSON load bytes and return a ImagesResponse
-func GetImagesFromJSON(b []byte) (*ImagesResponse, error) {
-	var response ImagesResponse
-	err := json.Unmarshal(b, &response)
-	if err != nil {
-		return nil, err
-	}
-	return &response, nil
-}
+// // GetImagesFromJSON load bytes and return a ImagesResponse
+// func GetImagesFromJSON(b []byte) (*ImagesResponse, error) {
+// 	var response ImagesResponse
+// 	err := json.Unmarshal(b, &response)
+// 	if err != nil {
+// 		return nil, err
+// 	}
+// 	return &response, nil
+// }
 
 func (i Image) Display() {
 	log.Infof("Id            : %s", i.ID)

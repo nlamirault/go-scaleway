@@ -56,55 +56,47 @@ func NewClient(userid string, token string, organization string) *OnlineLabsClie
 }
 
 // GetUserInformations list informations about your user account
-func (c OnlineLabsClient) GetUserInformations(userID string) ([]byte, error) {
-	body, err := getAPIResource(
+func (c OnlineLabsClient) GetUserInformations(userID string) (UserResponse, error) {
+	var data UserResponse
+	err := getAPIResource(
 		c.Client,
 		c.Token,
-		fmt.Sprintf("%s/users/%s", c.AccountURL, userID))
-	if err != nil {
-		return nil, err
-	}
-	log.Debugf("Get user response: %s", string(body))
-	return body, nil
+		fmt.Sprintf("%s/users/%s", c.AccountURL, userID),
+		&data)
+	return data, err
 }
 
 // GetUserOrganizations list all organizations associate with your account
-func (c OnlineLabsClient) GetUserOrganizations() ([]byte, error) {
-	body, err := getAPIResource(
+func (c OnlineLabsClient) GetUserOrganizations() (OrganizationsResponse, error) {
+	var data OrganizationsResponse
+	err := getAPIResource(
 		c.Client,
 		c.Token,
-		fmt.Sprintf("%s/organizations", c.AccountURL))
-	if err != nil {
-		return nil, err
-	}
-	log.Debugf("Get user organizations response: %s", string(body))
-	return body, nil
+		fmt.Sprintf("%s/organizations", c.AccountURL),
+		&data)
+	return data, err
 }
 
 // GetUserTokens list all tokens associate with your account
-func (c OnlineLabsClient) GetUserTokens() ([]byte, error) {
-	body, err := getAPIResource(
+func (c OnlineLabsClient) GetUserTokens() (TokensResponse, error) {
+	var data TokensResponse
+	err := getAPIResource(
 		c.Client,
 		c.Token,
-		fmt.Sprintf("%s/tokens", c.AccountURL))
-	if err != nil {
-		return nil, err
-	}
-	log.Debugf("Get tokens response: %s", string(body))
-	return body, nil
+		fmt.Sprintf("%s/tokens", c.AccountURL),
+		&data)
+	return data, err
 }
 
 //GetUserToken lList an individual Token
-func (c OnlineLabsClient) GetUserToken(tokenID string) ([]byte, error) {
-	body, err := getAPIResource(
+func (c OnlineLabsClient) GetUserToken(tokenID string) (TokenResponse, error) {
+	var data TokenResponse
+	err := getAPIResource(
 		c.Client,
 		c.Token,
-		fmt.Sprintf("%s/tokens/%s", c.AccountURL, tokenID))
-	if err != nil {
-		return nil, err
-	}
-	log.Debugf("Get token response: %s", string(body))
-	return body, nil
+		fmt.Sprintf("%s/tokens/%s", c.AccountURL, tokenID),
+		&data)
+	return data, err
 }
 
 // CreateToken authenticates a user against their email, password,
@@ -112,161 +104,128 @@ func (c OnlineLabsClient) GetUserToken(tokenID string) ([]byte, error) {
 // email is the user email
 // password is the user password
 // expires is if you want a token wich expires or not
-func (c OnlineLabsClient) CreateToken(email string, password string,
-	expires bool) ([]byte, error) {
+func (c OnlineLabsClient) CreateToken(email string, password string, expires bool) (TokenResponse, error) {
+	var data TokenResponse
 	json := fmt.Sprintf(`{"email": "%s", "password": "%s", "expires": %t}`,
 		email, password, expires)
-	body, err := postAPIResource(
+	err := postAPIResource(
 		c.Client,
 		c.Token,
 		fmt.Sprintf("%s/tokens", c.AccountURL),
-		[]byte(json))
-	if err != nil {
-		return nil, err
-	}
-	log.Debugf("Create token response: %s",
-		string(body))
-	return body, nil
+		[]byte(json),
+		&data)
+	return data, err
 }
 
 // DeleteToken delete a specific token
 // tokenID ith the token unique identifier
-func (c OnlineLabsClient) DeleteToken(tokenID string) ([]byte, error) {
-	body, err := deleteAPIResource(
+func (c OnlineLabsClient) DeleteToken(tokenID string) error {
+	return deleteAPIResource(
 		c.Client,
 		c.Token,
-		fmt.Sprintf("%s/tokens/%s", c.AccountURL, tokenID))
-	if err != nil {
-		return nil, err
-	}
-	log.Debugf("Delete token response: %s", string(body))
-	return body, nil
+		fmt.Sprintf("%s/tokens/%s", c.AccountURL, tokenID),
+		nil)
 }
 
 // UpdateToken increase Token expiration time of 30 minutes
 // tokenID ith the token unique identifier
-func (c OnlineLabsClient) UpdateToken(tokenID string) ([]byte, error) {
+func (c OnlineLabsClient) UpdateToken(tokenID string) (TokenResponse, error) {
+	var data TokenResponse
 	json := `{"expires": true}`
-	body, err := patchAPIResource(
+	err := patchAPIResource(
 		c.Client,
 		c.Token,
 		fmt.Sprintf("%s/tokens/%s", c.AccountURL, tokenID),
-		[]byte(json))
-	if err != nil {
-		return nil, err
-	}
-	log.Debugf("Update token response: %s", string(body))
-	return body, nil
+		[]byte(json),
+		&data)
+	return data, err
 }
 
 // CreateServer creates a new server
 // name is the server name
 // organization is the organization unique identifier
 // image is the image unique identifier
-func (c OnlineLabsClient) CreateServer(name string, organization string,
-	image string) ([]byte, error) {
+func (c OnlineLabsClient) CreateServer(name string, organization string, image string) (ServerResponse, error) {
+	var data ServerResponse
 	json := fmt.Sprintf(`{"name": "%s", "organization": "%s", "image": "%s", "tags": ["docker-machine"]}`,
 		name, organization, image)
-	body, err := postAPIResource(
+	err := postAPIResource(
 		c.Client,
 		c.Token,
 		fmt.Sprintf("%s/servers", c.ComputeURL),
-		[]byte(json))
-	if err != nil {
-		return nil, err
-	}
-	log.Debugf("Create server response: %s",
-		string(body))
-	return body, nil
+		[]byte(json),
+		&data)
+	return data, err
 }
 
 // DeleteServer delete a specific server
 // serverID ith the server unique identifier
-func (c OnlineLabsClient) DeleteServer(serverID string) ([]byte, error) {
-	body, err := deleteAPIResource(
+func (c OnlineLabsClient) DeleteServer(serverID string) error {
+	return deleteAPIResource(
 		c.Client,
 		c.Token,
-		fmt.Sprintf("%s/servers/%s", c.ComputeURL, serverID))
-	if err != nil {
-		return nil, err
-	}
-	log.Debugf("Delete server response: %s",
-		string(body))
-	return body, nil
+		fmt.Sprintf("%s/servers/%s", c.ComputeURL, serverID),
+		nil)
 }
 
 // GetServer list an individual server
 // serverID ith the server unique identifier
-func (c OnlineLabsClient) GetServer(serverID string) ([]byte, error) {
-	body, err := getAPIResource(
+func (c OnlineLabsClient) GetServer(serverID string) (ServerResponse, error) {
+	var data ServerResponse
+	err := getAPIResource(
 		c.Client,
 		c.Token,
-		fmt.Sprintf("%s/servers/%s", c.ComputeURL, serverID))
-	if err != nil {
-		return nil, err
-	}
-	log.Debugf("Get server response: %s", string(body))
-	return body, nil
+		fmt.Sprintf("%s/servers/%s", c.ComputeURL, serverID),
+		&data)
+	return data, err
 }
 
 // GetServers list all servers associate with your account
-func (c OnlineLabsClient) GetServers() ([]byte, error) {
-	body, err := getAPIResource(
+func (c OnlineLabsClient) GetServers() (ServersResponse, error) {
+	var data ServersResponse
+	err := getAPIResource(
 		c.Client,
 		c.Token,
-		fmt.Sprintf("%s/servers", c.ComputeURL))
-	if err != nil {
-		return nil, err
-	}
-	log.Debugf("Retrieve servers response: %s",
-		string(body))
-	return body, nil
+		fmt.Sprintf("%s/servers", c.ComputeURL),
+		&data)
+	return data, err
 }
 
 // PerformServerAction execute an action on a server
 // serverID ith the server unique identifier
 // action is the action to execute
-func (c OnlineLabsClient) PerformServerAction(serverID string, action string) ([]byte, error) {
+func (c OnlineLabsClient) PerformServerAction(serverID string, action string) (TaskResponse, error) {
+	var data TaskResponse
 	json := fmt.Sprintf(`{"action": "%s"}`, action)
-	body, err := postAPIResource(
+	err := postAPIResource(
 		c.Client,
 		c.Token,
 		fmt.Sprintf("%s/servers/%s/action", c.ComputeURL, serverID),
-		[]byte(json))
-	if err != nil {
-		return nil, err
-	}
-	log.Debugf("[OnlineAPI] Server action response: %s",
-		string(body))
-	return body, nil
+		[]byte(json),
+		&data)
+	return data, err
 }
 
 // GetVolume list an individual volume
 // volumeID ith the volume unique identifier
-func (c OnlineLabsClient) GetVolume(volumeID string) ([]byte, error) {
-	body, err := getAPIResource(
+func (c OnlineLabsClient) GetVolume(volumeID string) (VolumeResponse, error) {
+	var data VolumeResponse
+	err := getAPIResource(
 		c.Client,
 		c.Token,
-		fmt.Sprintf("%s/volumes/%s", c.ComputeURL, volumeID))
-	if err != nil {
-		return nil, err
-	}
-	log.Debugf("Get volume response: %s", string(body))
-	return body, nil
+		fmt.Sprintf("%s/volumes/%s", c.ComputeURL, volumeID),
+		&data)
+	return data, err
 }
 
 // DeleteVolume delete a specific volume
 // volumeID ith the volume unique identifier
-func (c OnlineLabsClient) DeleteVolume(volumeID string) ([]byte, error) {
-	body, err := deleteAPIResource(
+func (c OnlineLabsClient) DeleteVolume(volumeID string) error {
+	return deleteAPIResource(
 		c.Client,
 		c.Token,
-		fmt.Sprintf("%s/volumes/%s", c.ComputeURL, volumeID))
-	if err != nil {
-		return nil, err
-	}
-	log.Debugf("Delete volume response: %s", string(body))
-	return body, nil
+		fmt.Sprintf("%s/volumes/%s", c.ComputeURL, volumeID),
+		nil)
 }
 
 // CreateVolume creates a new volume
@@ -274,95 +233,79 @@ func (c OnlineLabsClient) DeleteVolume(volumeID string) ([]byte, error) {
 // organization is the organization unique identifier
 // volume_type is the volume type
 // size is the volume size
-func (c OnlineLabsClient) CreateVolume(name string, organization string, volume_type string, size int) ([]byte, error) {
+func (c OnlineLabsClient) CreateVolume(name string, organization string, volume_type string, size int) (VolumeResponse, error) {
+	var data VolumeResponse
 	json := fmt.Sprintf(`{"name": "%s", "organization": "%s", "volume_type": "%s", "size": %d}`,
 		name, organization, volume_type, size)
-	body, err := postAPIResource(
+	err := postAPIResource(
 		c.Client,
 		c.Token,
 		fmt.Sprintf("%s/volumes", c.ComputeURL),
-		[]byte(json))
-	if err != nil {
-		return nil, err
-	}
-	log.Debugf("Create volume response: %s", string(body))
-	return body, nil
+		[]byte(json),
+		&data)
+	return data, err
 }
 
 // GetVolumes list all volumes associate with your account
-func (c OnlineLabsClient) GetVolumes() ([]byte, error) {
-	body, err := getAPIResource(
+func (c OnlineLabsClient) GetVolumes() (VolumesResponse, error) {
+	var data VolumesResponse
+	err := getAPIResource(
 		c.Client,
 		c.Token,
-		fmt.Sprintf("%s/volumes", c.ComputeURL))
-	if err != nil {
-		return nil, err
-	}
-	log.Debugf("Retrieve volumes response: %s",
-		string(body))
-	return body, nil
+		fmt.Sprintf("%s/volumes", c.ComputeURL),
+		&data)
+	return data, err
 }
 
 // GetImages list all images associate with your account
-func (c OnlineLabsClient) GetImages() ([]byte, error) {
-	body, err := getAPIResource(
+func (c OnlineLabsClient) GetImages() (ImagesResponse, error) {
+	var data ImagesResponse
+	err := getAPIResource(
 		c.Client,
 		c.Token,
-		fmt.Sprintf("%s/images", c.ComputeURL))
-	if err != nil {
-		return nil, err
-	}
-	log.Debugf("Retrieve images response: %s", string(body))
-	return body, nil
+		fmt.Sprintf("%s/images", c.ComputeURL),
+		&data)
+	return data, err
 }
 
 // GetImage list an individual image
 // volumeID ith the image unique identifier
-func (c OnlineLabsClient) GetImage(volumeID string) ([]byte, error) {
-	body, err := getAPIResource(
+func (c OnlineLabsClient) GetImage(volumeID string) (ImageResponse, error) {
+	var data ImageResponse
+	err := getAPIResource(
 		c.Client,
 		c.Token,
-		fmt.Sprintf("%s/images/%s", c.ComputeURL, volumeID))
-	if err != nil {
-		return nil, err
-	}
-	log.Debugf("Get image response: %s", string(body))
-	return body, nil
+		fmt.Sprintf("%s/images/%s", c.ComputeURL, volumeID),
+		&data)
+	return data, err
 }
 
 // DeleteImage delete a specific volume
 // volumeID ith the volume unique identifier
-func (c OnlineLabsClient) DeleteImage(imageID string) ([]byte, error) {
-	body, err := deleteAPIResource(
+func (c OnlineLabsClient) DeleteImage(imageID string) error {
+	return deleteAPIResource(
 		c.Client,
 		c.Token,
-		fmt.Sprintf("%s/images/%s", c.ComputeURL, imageID))
-	if err != nil {
-		return nil, err
-	}
-	log.Debugf("Delete image response: %s", string(body))
-	return body, nil
+		fmt.Sprintf("%s/images/%s", c.ComputeURL, imageID),
+		nil)
 }
 
 // UploadPublicKey update user SSH keys
 // userId is the user unique identifier
 // keyPath is the complete path of the SSH key
-func (c OnlineLabsClient) UploadPublicKey(userid string, keyPath string) ([]byte, error) {
+func (c OnlineLabsClient) UploadPublicKey(userid string, keyPath string) (UserResponse, error) {
+	var data UserResponse
 	publicKey, err := ioutil.ReadFile(keyPath)
 	if err != nil {
-		return nil, err
+		return data, err
 	}
 	json := fmt.Sprintf(`{"ssh_public_keys": [{"key": "%s"}]}`,
 		strings.TrimSpace(string(publicKey)))
-	body, err := patchAPIResource(
+	err = patchAPIResource(
 		c.Client,
 		c.Token,
 		fmt.Sprintf("%s/users/%s", c.AccountURL, userid),
-		[]byte(json))
-	if err != nil {
-		return nil, err
-	}
-	log.Debugf("[OnlineAPI] Server action response: %s",
-		string(body))
-	return body, nil
+		[]byte(json),
+		&data)
+	return data, err
 }

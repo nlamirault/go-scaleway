@@ -23,7 +23,7 @@ import (
 	log "github.com/Sirupsen/logrus"
 	"github.com/codegangsta/cli"
 
-	"github.com/nlamirault/go-onlinelabs/api"
+	// "github.com/nlamirault/go-onlinelabs/api"
 	// "github.com/nlamirault/go-onlinelabs/logging"
 )
 
@@ -70,15 +70,16 @@ var commandDeleteImage = cli.Command{
 func doGetImage(c *cli.Context) {
 	log.Infof("Getting image %s", c.String("imageid"))
 	client := getClient(c)
-	b, err := client.GetImage(c.String("imageid"))
+	response, err := client.GetImage(c.String("imageid"))
+	// b, err := client.GetImage(c.String("imageid"))
 	if err != nil {
 		log.Errorf("Retrieving image: %v", err)
 	}
-	response, err := api.GetImageFromJSON(b)
-	if err != nil {
-		log.Errorf("Failed response %v", err)
-		return
-	}
+	// response, err := api.GetImageFromJSON(b)
+	// if err != nil {
+	// 	log.Errorf("Failed response %v", err)
+	// 	return
+	// }
 	log.Infof("Image: ")
 	response.Image.Display()
 }
@@ -86,26 +87,28 @@ func doGetImage(c *cli.Context) {
 func doDeleteImage(c *cli.Context) {
 	log.Infof("Remove image %s", c.String("imageid"))
 	client := getClient(c)
-	b, err := client.DeleteImage(c.String("imageid"))
+	err := client.DeleteImage(c.String("imageid"))
+	// b, err := client.DeleteImage(c.String("imageid"))
 	if err != nil {
 		log.Errorf("Retrieving image: %v", err)
 	}
-	log.Infof("Image deleted: %s", string(b))
+	log.Infof("Image deleted")
 }
 
 func doListImages(c *cli.Context) {
 	log.Infof("List images")
 	client := getClient(c)
-	b, err := client.GetImages()
+	response, err := client.GetImages()
+	// b, err := client.GetImages()
 	if err != nil {
-		log.Errorf("Retrieving imagess %v", err)
+		log.Errorf("Retrieving images %v", err)
 		return
 	}
-	response, err := api.GetImagesFromJSON(b)
-	if err != nil {
-		log.Errorf("Reading images %v", err)
-		return
-	}
+	// response, err := api.GetImagesFromJSON(b)
+	// if err != nil {
+	// 	log.Errorf("Reading images %v", err)
+	// 	return
+	// }
 	log.Infof("Images: ")
 	for _, image := range response.Images {
 		log.Infof("----------------------------------------------")

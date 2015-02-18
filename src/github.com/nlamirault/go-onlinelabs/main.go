@@ -13,6 +13,10 @@
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
+// Package go-onlinelabs provides a CLI for the OnlineLabs cloud.
+
+// For a full guide visit http://github.com/nlamirault/go-onlinelabs
+
 package main
 
 import (

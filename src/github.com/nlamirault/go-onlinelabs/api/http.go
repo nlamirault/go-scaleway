@@ -16,63 +16,75 @@ package api
 
 import (
 	"bytes"
-	"fmt"
+	"encoding/json"
+	// "fmt"
 	"io/ioutil"
 	"net/http"
 
 	log "github.com/Sirupsen/logrus"
 )
 
-func performAPIRequest(client *http.Client, req *http.Request, token string) ([]byte, error) {
+func performAPIRequest(client *http.Client, req *http.Request, token string, data interface{}) error {
 	req.Header.Set("X-Auth-Token", token)
 	req.Header.Set("Content-Type", "application/json")
 	resp, err := client.Do(req)
 	if err != nil {
-		return nil, err
+		return err
 	}
 	defer resp.Body.Close()
 	b, err := ioutil.ReadAll(resp.Body)
 	msg := string(b)
 	log.Debugf("HTTP Response: [%d] %s", resp.StatusCode, msg)
 	if resp.StatusCode > 299 {
-		return nil, fmt.Errorf("[%d] %s",
-			resp.StatusCode, msg)
+		return newApiError(resp)
 	}
-	return b, nil
+	if resp.StatusCode != 204 {
+		err = json.Unmarshal(b, data)
+		if err != nil {
+			return err
+		}
+	}
+	return nil
+	// if resp.StatusCode > 299 {
+	// 	return nil, fmt.Errorf("[%d] %s",
+	// 		resp.StatusCode, msg)
+	// }
+	// return b, nil
+	//return decodeResponse(resp, data)
 }
 
-func getAPIResource(client *http.Client, token string, url string) ([]byte, error) {
+func getAPIResource(client *http.Client, token string, url string, data interface{}) error {
 	log.Debugf("GET: %q", url)
 	req, err := http.NewRequest("GET", url, nil)
 	if err != nil {
-		return nil, err
+		return err
 	}
-	return performAPIRequest(client, req, token)
+	return performAPIRequest(client, req, token, data)
 }
 
-func postAPIResource(client *http.Client, token string, url string, json []byte) ([]byte, error) {
+func postAPIResource(client *http.Client, token string, url string, json []byte, data interface{}) error {
 	log.Debugf("POST: %q %s", url, string(json))
 	req, err := http.NewRequest("POST", url, bytes.NewBuffer(json))
 	if err != nil {
-		return nil, err
+		return err
 	}
-	return performAPIRequest(client, req, token)
+	return performAPIRequest(client, req, token, data)
 }
 
-func deleteAPIResource(client *http.Client, token string, url string) ([]byte, error) {
+func deleteAPIResource(client *http.Client, token string, url string, data interface{}) error {
 	log.Debugf("DELETE: %q", url)
 	req, err := http.NewRequest("DELETE", url, nil)
 	if err != nil {
-		return nil, err
+		return err
 	}
-	return performAPIRequest(client, req, token)
+	return performAPIRequest(client, req, token, data)
 }
 
-func patchAPIResource(client *http.Client, token string, url string, json []byte) ([]byte, error) {
+func patchAPIResource(client *http.Client, token string, url string, json []byte, data interface{}) error {
 	log.Debugf("PATCH: %q %s", url, string(json))
 	req, err := http.NewRequest("PATCH", url, bytes.NewBuffer(json))
 	if err != nil {
-		return nil, err
+		return err
 	}
-	return performAPIRequest(client, req, token)
+	return performAPIRequest(client, req, token, data)
 }

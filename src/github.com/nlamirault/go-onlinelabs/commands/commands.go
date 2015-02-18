@@ -27,7 +27,7 @@ import (
 // Commands is the CLI commands
 var Commands = []cli.Command{
 	{
-		Name: "server",
+		Name: "servers",
 		Subcommands: []cli.Command{
 			commandListServers,
 			commandGetServer,
@@ -36,7 +36,7 @@ var Commands = []cli.Command{
 		},
 	},
 	{
-		Name: "user",
+		Name: "users",
 		Subcommands: []cli.Command{
 			commandGetUser,
 		},
@@ -48,7 +48,7 @@ var Commands = []cli.Command{
 		},
 	},
 	{
-		Name: "token",
+		Name: "tokens",
 		Subcommands: []cli.Command{
 			commandListTokens,
 			commandGetToken,
@@ -58,7 +58,7 @@ var Commands = []cli.Command{
 		},
 	},
 	{
-		Name: "volume",
+		Name: "volumes",
 		Subcommands: []cli.Command{
 			commandListVolumes,
 			commandGetVolume,
@@ -67,7 +67,7 @@ var Commands = []cli.Command{
 		},
 	},
 	{
-		Name: "image",
+		Name: "images",
 		Subcommands: []cli.Command{
 			commandListImages,
 			commandGetImage,

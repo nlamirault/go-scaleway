@@ -66,7 +66,7 @@ build:
 	@GOPATH=$(GO_PATH) go build -o $(EXE) github.com/nlamirault/$(APP)
 
 doc:
-	@godoc -http=:6060 -index
+	@GOPATH=$(GO_PATH) godoc -http=:6060 -index
 
 fmt:
 	@echo -e "$(OK_COLOR)[$(APP)] Launch fmt $(NO_COLOR)"

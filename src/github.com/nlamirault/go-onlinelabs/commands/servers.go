@@ -21,7 +21,7 @@ import (
 	log "github.com/Sirupsen/logrus"
 	"github.com/codegangsta/cli"
 
-	"github.com/nlamirault/go-onlinelabs/api"
+	//"github.com/nlamirault/go-onlinelabs/api"
 )
 
 var commandListServers = cli.Command{
@@ -87,16 +87,17 @@ var commandActionServer = cli.Command{
 func doListServers(c *cli.Context) {
 	log.Infof("List servers")
 	client := getClient(c)
-	b, err := client.GetServers()
+	// b, err := client.GetServers()
+	response, err := client.GetServers()
 	if err != nil {
 		log.Errorf("Retrieving servers %v", err)
 		return
 	}
-	response, err := api.GetServersFromJSON(b)
-	if err != nil {
-		log.Errorf("Reading servers %v", err)
-		return
-	}
+	// response, err := api.GetServersFromJSON(b)
+	// if err != nil {
+	// 	log.Errorf("Reading servers %v", err)
+	// 	return
+	// }
 	log.Infof("Servers: ")
 	for _, server := range response.Servers {
 		log.Infof("----------------------------------------------")
@@ -107,15 +108,16 @@ func doListServers(c *cli.Context) {
 func doGetServer(c *cli.Context) {
 	log.Infof("Getting server %s", c.String("serverid"))
 	client := getClient(c)
-	b, err := client.GetServer(c.String("serverid"))
+	// b, err := client.GetServer(c.String("serverid"))
+	response, err := client.GetServer(c.String("serverid"))
 	if err != nil {
 		log.Errorf("Retrieving server: %v", err)
 	}
-	response, err := api.GetServerFromJSON(b)
-	if err != nil {
-		log.Errorf("Failed response %v", err)
-		return
-	}
+	// response, err := api.GetServerFromJSON(b)
+	// if err != nil {
+	// 	log.Errorf("Failed response %v", err)
+	// 	return
+	// }
 	log.Infof("Server: ")
 	response.Server.Display()
 }
@@ -123,27 +125,31 @@ func doGetServer(c *cli.Context) {
 func doDeleteServer(c *cli.Context) {
 	log.Infof("Remove server %s", c.String("serverid"))
 	client := getClient(c)
-	b, err := client.DeleteServer(c.String("serverid"))
+	// b, err := client.DeleteServer(c.String("serverid"))
+	err := client.DeleteServer(c.String("serverid"))
 	if err != nil {
 		log.Errorf("Retrieving server: %v", err)
 	}
-	log.Infof("Server deleted: %s", string(b))
+	log.Infof("Server deleted")
 }
 
 func doActionServer(c *cli.Context) {
-	log.Infof("Perform action %s on server %s", c.String("action"), c.String("serverid"))
+	log.Infof("Perform action %s on server %s",
+		c.String("action"), c.String("serverid"))
 	client := getClient(c)
-	b, err := client.PerformServerAction(
+	// b, err := client.PerformServerAction(
+	// 	c.String("serverid"), c.String("action"))
+	response, err := client.PerformServerAction(
 		c.String("serverid"), c.String("action"))
 	if err != nil {
 		log.Errorf("Failed: %v", err)
 		return
 	}
-	response, err := api.GetTaskFromJSON(b)
-	if err != nil {
-		log.Errorf("Failed response %v", err)
-		return
-	}
+	// response, err := api.GetTaskFromJSON(b)
+	// if err != nil {
+	// 	log.Errorf("Failed response %v", err)
+	// 	return
+	// }
 	log.Infof("Task: ")
 	log.Infof("Id          : %s", response.Task.ID)
 	log.Infof("Status      : %s", response.Task.Status)

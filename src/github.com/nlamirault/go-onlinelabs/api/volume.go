@@ -15,7 +15,7 @@
 package api
 
 import (
-	"encoding/json"
+	// "encoding/json"
 
 	log "github.com/Sirupsen/logrus"
 )
@@ -40,25 +40,25 @@ type VolumesResponse struct {
 	Volumes []Volume
 }
 
-// GetVolumeFromJSON load bytes and return a VolumesResponse
-func GetVolumeFromJSON(b []byte) (*VolumeResponse, error) {
-	var response VolumeResponse
-	err := json.Unmarshal(b, &response)
-	if err != nil {
-		return nil, err
-	}
-	return &response, nil
-}
+// GetVolumeFromJSON load bytes//  and return a VolumesResponse
+// func GetVolumeFromJSON(b []byte) (*VolumeResponse, error) {
+// 	var response VolumeResponse
+// 	err := json.Unmarshal(b, &response)
+// 	if err != nil {
+// 		return nil, err
+// 	}
+// 	return &response, nil
+// }
 
-// GetVolumesFromJSON load bytes and return a VolumesResponse
-func GetVolumesFromJSON(b []byte) (*VolumesResponse, error) {
-	var response VolumesResponse
-	err := json.Unmarshal(b, &response)
-	if err != nil {
-		return nil, err
-	}
-	return &response, nil
-}
+// // GetVolumesFromJSON load bytes and return a VolumesResponse
+// func GetVolumesFromJSON(b []byte) (*VolumesResponse, error) {
+// 	var response VolumesResponse
+// 	err := json.Unmarshal(b, &response)
+// 	if err != nil {
+// 		return nil, err
+// 	}
+// 	return &response, nil
+// }<
 
 func (v Volume) Display() {
 	log.Infof("Id     : %s", v.ID)

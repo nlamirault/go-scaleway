@@ -15,7 +15,7 @@
 package api
 
 import (
-	"encoding/json"
+	// "encoding/json"
 	//"fmt"
 
 	log "github.com/Sirupsen/logrus"
@@ -77,49 +77,49 @@ type TokensResponse struct {
 	Tokens []Token
 }
 
-// GetUserFromJSON load bytes and return a UserResponse
-func GetUserFromJSON(b []byte) (*UserResponse, error) {
-	var response UserResponse
-	// fmt.Printf("Response JSON: %s\n", (string(b)))
-	err := json.Unmarshal(b, &response)
-	if err != nil {
-		return nil, err
-	}
-	return &response, nil
-}
+// GetUserFromJSON l// oad bytes and return a UserResponse
+// func GetUserFromJSON(b []byte) (*UserResponse, error) {
+// 	var response UserResponse
+// 	// fmt.Printf("Response JSON: %s\n", (string(b)))
+// 	err := json.Unmarshal(b, &response)
+// 	if err != nil {
+// 		return nil, err
+// 	}
+// 	return &response, nil
+// }
 
-// GetOrganizationsFromJSON load bytes and return a OrganizationsResponse
-func GetOrganizationsFromJSON(b []byte) (*OrganizationsResponse, error) {
-	var response OrganizationsResponse
-	// fmt.Printf("Response JSON: %s\n", (string(b)))
-	err := json.Unmarshal(b, &response)
-	if err != nil {
-		return nil, err
-	}
-	return &response, nil
-}
+// // GetOrganizationsFromJSON load bytes and return a OrganizationsResponse
+// func GetOrganizationsFromJSON(b []byte) (*OrganizationsResponse, error) {
+// 	var response OrganizationsResponse
+// 	// fmt.Printf("Response JSON: %s\n", (string(b)))
+// 	err := json.Unmarshal(b, &response)
+// 	if err != nil {
+// 		return nil, err
+// 	}
+// 	return &response, nil
+// }
 
-// GetTokenFromJSON load bytes and return a TokenResponse
-func GetTokenFromJSON(b []byte) (*TokenResponse, error) {
-	var response TokenResponse
-	// fmt.Printf("Response JSON: %s\n", (string(b)))
-	err := json.Unmarshal(b, &response)
-	if err != nil {
-		return nil, err
-	}
-	return &response, nil
-}
+// // GetTokenFromJSON load bytes and return a TokenResponse
+// func GetTokenFromJSON(b []byte) (*TokenResponse, error) {
+// 	var response TokenResponse
+// 	// fmt.Printf("Response JSON: %s\n", (string(b)))
+// 	err := json.Unmarshal(b, &response)
+// 	if err != nil {
+// 		return nil, err
+// 	}
+// 	return &response, nil
+// }
 
-// GetTokensFromJSON load bytes and return a TokensResponse
-func GetTokensFromJSON(b []byte) (*TokensResponse, error) {
-	var response TokensResponse
-	// fmt.Printf("Response JSON: %s\n", (string(b)))
-	err := json.Unmarshal(b, &response)
-	if err != nil {
-		return nil, err
-	}
-	return &response, nil
-}
+// // GetTokensFromJSON load bytes and return a TokensResponse
+// func GetTokensFromJSON(b []byte) (*TokensResponse, error) {
+// 	var response TokensResponse
+// 	// fmt.Printf("Response JSON: %s\n", (string(b)))
+// 	err := json.Unmarshal(b, &response)
+// 	if err != nil {
+// 		return nil, err
+// 	}
+// 	return &response, nil
+// }
 
 func (u User) Display() {
 	log.Infof("Id            : %s", u.ID)

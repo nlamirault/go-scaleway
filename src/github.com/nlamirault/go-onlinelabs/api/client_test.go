@@ -49,6 +49,10 @@ func getClient() *OnlineLabsClient {
 func newServer(content string) *httptest.Server {
 	return httptest.NewServer(
 		http.HandlerFunc(func(res http.ResponseWriter, req *http.Request) {
+			fmt.Printf("Req: %s", req.Method)
+			if "DELETE" == req.Method {
+				res.WriteHeader(http.StatusNoContent)
+			}
 			res.Header().Set(
 				"Content-Type",
 				"application/json; charset=utf-8")
@@ -65,8 +69,8 @@ func TestGettingUser(t *testing.T) {
 	defer ts.Close()
 	c := getClient()
 	c.AccountURL = ts.URL
-	b, err := c.GetUserInformations("12345678-520a-4ab7-9707-8bc1819a9e19")
-	response, err := GetUserFromJSON(b)
+	response, err := c.GetUserInformations("12345678-520a-4ab7-9707-8bc1819a9e19")
+	// response, err := GetUserFromJSON(b)
 	if err != nil {
 		t.Fatalf("Can't decode json: %v", err)
 	}
@@ -90,8 +94,8 @@ func TestListUserOrganizations(t *testing.T) {
 	defer ts.Close()
 	c := getClient()
 	c.AccountURL = ts.URL
-	b, err := c.GetUserOrganizations()
-	response, err := GetOrganizationsFromJSON(b)
+	response, err := c.GetUserOrganizations()
+	// response, err := GetOrganizationsFromJSON(b)
 	if err != nil {
 		t.Fatalf("Can't decode json: %v", err)
 	}
@@ -118,8 +122,8 @@ func TestListUserTokens(t *testing.T) {
 	defer ts.Close()
 	c := getClient()
 	c.AccountURL = ts.URL
-	b, err := c.GetUserTokens()
-	response, err := GetTokensFromJSON(b)
+	response, err := c.GetUserTokens()
+	// response, err := GetTokensFromJSON(b)
 	if err != nil {
 		t.Fatalf("Can't decode json: %v", err)
 	}
@@ -143,8 +147,8 @@ func TestGettingServer(t *testing.T) {
 	defer ts.Close()
 	c := getClient()
 	c.ComputeURL = ts.URL
-	b, err := c.GetServer("56e98092-6e05-4c89-9e76-b3610d38478c")
-	response, err := GetServerFromJSON(b)
+	response, err := c.GetServer("56e98092-6e05-4c89-9e76-b3610d38478c")
+	//response, err := GetServerFromJSON(b)
 	//fmt.Printf("Response: %v %v\n", response, err)
 	if err != nil {
 		t.Fatalf("Can't decode json: %v", err)
@@ -172,8 +176,8 @@ func TestGettingServers(t *testing.T) {
 	defer ts.Close()
 	c := getClient()
 	c.ComputeURL = ts.URL
-	b, err := c.GetServers()
-	response, err := GetServersFromJSON(b)
+	response, err := c.GetServers()
+	// response, err := GetServersFromJSON(b)
 	//fmt.Printf("Response: %v %v\n", response, err)
 	if err != nil {
 		t.Fatalf("Can't decode json: %v", err)
@@ -198,9 +202,9 @@ func TestDeleteServer(t *testing.T) {
 	defer ts.Close()
 	c := getClient()
 	c.ComputeURL = ts.URL
-	b, _ := c.GetServer("56e98092-6e05-4c89-9e76-b3610d38478c")
-	if len(string(b)) > 0 {
-		t.Fatalf("Invalid delete server response: %s", string(b))
+	err = c.DeleteServer("56e98092-6e05-4c89-9e76-b3610d38478c")
+	if err != nil {
+		t.Fatalf("Invalid delete server response %v", err)
 	}
 }
 
@@ -213,10 +217,10 @@ func TestPoweroffServer(t *testing.T) {
 	defer ts.Close()
 	c := getClient()
 	c.ComputeURL = ts.URL
-	b, err := c.PerformServerAction(
+	response, err := c.PerformServerAction(
 		"f5c94e15-1c11-4eab-a7a6-73db916b37c2",
 		"poweroff")
-	response, _ := GetTaskFromJSON(b)
+	// response, _ := GetTaskFromJSON(b)
 	if response.Task.Status != "pending" {
 		t.Fatalf("Invalid task status")
 	}

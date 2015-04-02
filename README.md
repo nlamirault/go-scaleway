@@ -4,8 +4,8 @@
 [![travis][badge-travis]][travis]
 [![drone][badge-drone]][drone]
 
-A CLI for the [Scaleway][https://www.scaleway.com] cloud.
-See [https://developer.scaleway.com/] for documentation.
+A CLI for the [Scaleway][] cloud.
+See https://developer.scaleway.com for documentation.
 
 ## Installation
 
@@ -206,3 +206,5 @@ Nicolas Lamirault <nicolas.lamirault@gmail.com>
 [drone]: https://drone.io/github.com/nlamirault/go-scaleway/latest
 
 [releases]: https://github.com/nlamirault/go-scaleway/releases
+
+[Scaleway]: https://www.scaleway.com

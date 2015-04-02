@@ -1,5 +1,5 @@
 {
-    "ImportPath": "github.com/nlamirault/go-onlinelabs",
+    "ImportPath": "github.com/nlamirault/go-scaleway",
     "GoVersion": "go1.3",
     "Deps": [
         {

@@ -1,11 +1,11 @@
-# go-onlinelabs
+# go-scaleway
 
 [![License GPL 3][badge-license]][LICENSE]
 [![travis][badge-travis]][travis]
 [![drone][badge-drone]][drone]
 
-A CLI for the Online labs cloud. See [https://doc.cloud.online.net/api]
-for documentation.
+A CLI for the [Scaleway][https://www.scaleway.com] cloud.
+See [https://developer.scaleway.com/] for documentation.
 
 ## Installation
 
@@ -14,33 +14,32 @@ Download binary from [releases][] for your platform.
 ## Usage
 
 ```bash
-$ ./onlinelabs -h
 NAME:
-   onlinelabs - A CLI for Online Labs
+   scaleway - A CLI for Scaleway
 
 USAGE:
-   onlinelabs [global options] command [command options] [arguments...]
+   scaleway [global options] command [command options] [arguments...]
 
 VERSION:
-   0.4.0
+   0.6.0
 
 AUTHOR:
   Nicolas Lamirault - <nicolas.lamirault@gmail.com>
 
 COMMANDS:
-   server
-   user
+   servers
+   users
    organizations
-   token
-   volume
-   image
+   tokens
+   volumes
+   images
    help, h		Shows a list of commands or help for one command
 
 GLOBAL OPTIONS:
    --log-level, -l 'info'	Log level (options: debug, info, warn, error, fatal, panic)
-   --onlinelabs-userid 		Onlinelabs UserID [$ONLINELABS_USERID]
-   --onlinelabs-token 		Onlinelabs Token [$ONLINELABS_TOKEN]
-   --onlinelabs-organization 	Organization identifier [$ONLINELABS_ORGANIZATION]
+   --scaleway-userid 		Scaleway UserID [$SCALEWAY_USERID]
+   --scaleway-token 		Scaleway Token [$SCALEWAY_TOKEN]
+   --scaleway-organization 	Organization identifier [$SCALEWAY_ORGANIZATION]
    --help, -h			show help
    --version, -v		print the version
 
@@ -50,15 +49,15 @@ You must have a **userid**, **tokenid** and **organizationid** to
 use the CLI. You could use command line arguments (in global option), or
 environments variables.
 
-For earch commands, subcommands are availables :
+For each command, subcommands are availables :
 
 ```bash
-$ ./onlinelabs server
+$ ./scaleway servers
 NAME:
-   onlinelabs server -
+   scaleway servers -
 
 USAGE:
-   onlinelabs server command [command options] [arguments...]
+   scaleway servers command [command options] [arguments...]
 
 COMMANDS:
    list		List all servers associate with your account
@@ -176,7 +175,7 @@ Pimouss metadata               | [ ]
 * Check code coverage for project or specific package :
 
         $ make coverage
-        $ make covoutput pkg=github.com/nlamirault/go-onlinelabs/commands
+        $ make covoutput pkg=github.com/nlamirault/go-scaleway/commands
 
 * For a new release, it will run a build which cross-compiles binaries for
   a variety of architectures and operating systems:
@@ -200,10 +199,10 @@ Nicolas Lamirault <nicolas.lamirault@gmail.com>
 
 
 [badge-license]: https://img.shields.io/badge/license-GPL_3-green.svg?style=flat
-[LICENSE]: https://github.com/nlamirault/go-onlinelabs/blob/master/LICENSE
-[travis]: https://travis-ci.org/nlamirault/go-onlinelabs
-[badge-travis]: http://img.shields.io/travis/nlamirault/go-onlinelabs.svg?style=flat
-[badge-drone]: https://drone.io/github.com/nlamirault/go-onlinelabs/status.png
-[drone]: https://drone.io/github.com/nlamirault/go-onlinelabs/latest
+[LICENSE]: https://github.com/nlamirault/go-scaleway/blob/master/LICENSE
+[travis]: https://travis-ci.org/nlamirault/go-scaleway
+[badge-travis]: http://img.shields.io/travis/nlamirault/go-scaleway.svg?style=flat
+[badge-drone]: https://drone.io/github.com/nlamirault/go-scaleway/status.png
+[drone]: https://drone.io/github.com/nlamirault/go-scaleway/latest
 
-[releases]: https://github.com/nlamirault/go-onlinelabs/releases
+[releases]: https://github.com/nlamirault/go-scaleway/releases

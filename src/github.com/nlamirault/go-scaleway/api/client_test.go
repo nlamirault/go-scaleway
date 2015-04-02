@@ -26,9 +26,9 @@ import (
 )
 
 const (
-	OnlineLabsUserID       = "12345678-520a-4ab7-9707-8bc1819a9e19"
-	OnlineLabsToken        = "02468"
-	OnlineLabsOrganization = "13579"
+	ScalewayUserID       = "12345678-520a-4ab7-9707-8bc1819a9e19"
+	ScalewayToken        = "02468"
+	ScalewayOrganization = "13579"
 )
 
 func loadJSON(path string) (string, error) {
@@ -39,11 +39,11 @@ func loadJSON(path string) (string, error) {
 	return string(content), nil
 }
 
-func getClient() *OnlineLabsClient {
+func getClient() *ScalewayClient {
 	return NewClient(
-		OnlineLabsUserID,
-		OnlineLabsToken,
-		OnlineLabsOrganization)
+		ScalewayUserID,
+		ScalewayToken,
+		ScalewayOrganization)
 }
 
 func newServer(content string) *httptest.Server {

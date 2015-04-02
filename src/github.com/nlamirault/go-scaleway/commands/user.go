@@ -20,8 +20,6 @@ import (
 
 	log "github.com/Sirupsen/logrus"
 	"github.com/codegangsta/cli"
-
-	// "github.com/nlamirault/go-onlinelabs/api"
 )
 
 var commandGetUser = cli.Command{
@@ -31,11 +29,11 @@ var commandGetUser = cli.Command{
 	Action:      doListUserInformations,
 	Flags: []cli.Flag{
 		verboseFlag,
-		cli.StringFlag{
-			Name:  "userid",
-			Usage: "User unique identifier",
-			Value: "",
-		},
+		// cli.StringFlag{
+		// 	Name:  "userid",
+		// 	Usage: "User unique identifier",
+		// 	Value: "",
+		// },
 	},
 }
 
@@ -52,8 +50,7 @@ var commandListOrganizations = cli.Command{
 func doListUserInformations(c *cli.Context) {
 	log.Debugf("List user informations")
 	client := getClient(c)
-	// b, err := client.GetUserInformations(c.String("userid"))
-	response, err := client.GetUserInformations(c.String("userid"))
+	response, err := client.GetUserInformations() //c.String("userid"))
 	if err != nil {
 		log.Errorf("Failed user response %v", err)
 		return

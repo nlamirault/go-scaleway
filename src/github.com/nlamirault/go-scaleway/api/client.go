@@ -24,15 +24,15 @@ import (
 )
 
 const (
-	computeURL = "https://api.cloud.online.net"
-	accountURL = "https://account.cloud.online.net"
+	computeURL = "https://api.scaleway.com"
+	accountURL = "https://account.scaleway.com"
 )
 
-// OnlineLabsClient is a client for the Online Labs Cloud API.
+// ScalewayClient is a client for the Scaleway API.
 // UserID represents your user identifiant
 // Token is to authenticate to the API
 // Organization is the ID of the user's organization
-type OnlineLabsClient struct {
+type ScalewayClient struct {
 	UserID       string
 	Token        string
 	Organization string
@@ -41,10 +41,10 @@ type OnlineLabsClient struct {
 	AccountURL   string
 }
 
-// NewClient creates a new OnlineLabs API client using userId, API token and organization
-func NewClient(userid string, token string, organization string) *OnlineLabsClient {
-	log.Debugf("Creating client using %s %s %s", userid, token, organization)
-	client := &OnlineLabsClient{
+// NewClient creates a new Scaleway API client using userId, API token and organization
+func NewClient(userid string, token string, organization string) *ScalewayClient {
+	log.Debugf("Creating client using userID=%s token=%s org=%s", userid, token, organization)
+	client := &ScalewayClient{
 		UserID:       userid,
 		Token:        token,
 		Organization: organization,
@@ -56,18 +56,18 @@ func NewClient(userid string, token string, organization string) *OnlineLabsClie
 }
 
 // GetUserInformations list informations about your user account
-func (c OnlineLabsClient) GetUserInformations(userID string) (UserResponse, error) {
+func (c ScalewayClient) GetUserInformations() (UserResponse, error) {
 	var data UserResponse
 	err := getAPIResource(
 		c.Client,
 		c.Token,
-		fmt.Sprintf("%s/users/%s", c.AccountURL, userID),
+		fmt.Sprintf("%s/users/%s", c.AccountURL, c.UserID),
 		&data)
 	return data, err
 }
 
 // GetUserOrganizations list all organizations associate with your account
-func (c OnlineLabsClient) GetUserOrganizations() (OrganizationsResponse, error) {
+func (c ScalewayClient) GetUserOrganizations() (OrganizationsResponse, error) {
 	var data OrganizationsResponse
 	err := getAPIResource(
 		c.Client,
@@ -78,7 +78,7 @@ func (c OnlineLabsClient) GetUserOrganizations() (OrganizationsResponse, error) 
 }
 
 // GetUserTokens list all tokens associate with your account
-func (c OnlineLabsClient) GetUserTokens() (TokensResponse, error) {
+func (c ScalewayClient) GetUserTokens() (TokensResponse, error) {
 	var data TokensResponse
 	err := getAPIResource(
 		c.Client,
@@ -89,7 +89,7 @@ func (c OnlineLabsClient) GetUserTokens() (TokensResponse, error) {
 }
 
 //GetUserToken lList an individual Token
-func (c OnlineLabsClient) GetUserToken(tokenID string) (TokenResponse, error) {
+func (c ScalewayClient) GetUserToken(tokenID string) (TokenResponse, error) {
 	var data TokenResponse
 	err := getAPIResource(
 		c.Client,
@@ -104,7 +104,7 @@ func (c OnlineLabsClient) GetUserToken(tokenID string) (TokenResponse, error) {
 // email is the user email
 // password is the user password
 // expires is if you want a token wich expires or not
-func (c OnlineLabsClient) CreateToken(email string, password string, expires bool) (TokenResponse, error) {
+func (c ScalewayClient) CreateToken(email string, password string, expires bool) (TokenResponse, error) {
 	var data TokenResponse
 	json := fmt.Sprintf(`{"email": "%s", "password": "%s", "expires": %t}`,
 		email, password, expires)
@@ -119,7 +119,7 @@ func (c OnlineLabsClient) CreateToken(email string, password string, expires boo
 
 // DeleteToken delete a specific token
 // tokenID ith the token unique identifier
-func (c OnlineLabsClient) DeleteToken(tokenID string) error {
+func (c ScalewayClient) DeleteToken(tokenID string) error {
 	return deleteAPIResource(
 		c.Client,
 		c.Token,
@@ -129,7 +129,7 @@ func (c OnlineLabsClient) DeleteToken(tokenID string) error {
 
 // UpdateToken increase Token expiration time of 30 minutes
 // tokenID ith the token unique identifier
-func (c OnlineLabsClient) UpdateToken(tokenID string) (TokenResponse, error) {
+func (c ScalewayClient) UpdateToken(tokenID string) (TokenResponse, error) {
 	var data TokenResponse
 	json := `{"expires": true}`
 	err := patchAPIResource(
@@ -145,7 +145,7 @@ func (c OnlineLabsClient) UpdateToken(tokenID string) (TokenResponse, error) {
 // name is the server name
 // organization is the organization unique identifier
 // image is the image unique identifier
-func (c OnlineLabsClient) CreateServer(name string, organization string, image string) (ServerResponse, error) {
+func (c ScalewayClient) CreateServer(name string, organization string, image string) (ServerResponse, error) {
 	var data ServerResponse
 	json := fmt.Sprintf(`{"name": "%s", "organization": "%s", "image": "%s", "tags": ["docker-machine"]}`,
 		name, organization, image)
@@ -160,7 +160,7 @@ func (c OnlineLabsClient) CreateServer(name string, organization string, image s
 
 // DeleteServer delete a specific server
 // serverID ith the server unique identifier
-func (c OnlineLabsClient) DeleteServer(serverID string) error {
+func (c ScalewayClient) DeleteServer(serverID string) error {
 	return deleteAPIResource(
 		c.Client,
 		c.Token,
@@ -170,7 +170,7 @@ func (c OnlineLabsClient) DeleteServer(serverID string) error {
 
 // GetServer list an individual server
 // serverID ith the server unique identifier
-func (c OnlineLabsClient) GetServer(serverID string) (ServerResponse, error) {
+func (c ScalewayClient) GetServer(serverID string) (ServerResponse, error) {
 	var data ServerResponse
 	err := getAPIResource(
 		c.Client,
@@ -181,7 +181,7 @@ func (c OnlineLabsClient) GetServer(serverID string) (ServerResponse, error) {
 }
 
 // GetServers list all servers associate with your account
-func (c OnlineLabsClient) GetServers() (ServersResponse, error) {
+func (c ScalewayClient) GetServers() (ServersResponse, error) {
 	var data ServersResponse
 	err := getAPIResource(
 		c.Client,
@@ -194,7 +194,7 @@ func (c OnlineLabsClient) GetServers() (ServersResponse, error) {
 // PerformServerAction execute an action on a server
 // serverID ith the server unique identifier
 // action is the action to execute
-func (c OnlineLabsClient) PerformServerAction(serverID string, action string) (TaskResponse, error) {
+func (c ScalewayClient) PerformServerAction(serverID string, action string) (TaskResponse, error) {
 	var data TaskResponse
 	json := fmt.Sprintf(`{"action": "%s"}`, action)
 	err := postAPIResource(
@@ -208,7 +208,7 @@ func (c OnlineLabsClient) PerformServerAction(serverID string, action string) (T
 
 // GetVolume list an individual volume
 // volumeID ith the volume unique identifier
-func (c OnlineLabsClient) GetVolume(volumeID string) (VolumeResponse, error) {
+func (c ScalewayClient) GetVolume(volumeID string) (VolumeResponse, error) {
 	var data VolumeResponse
 	err := getAPIResource(
 		c.Client,
@@ -220,7 +220,7 @@ func (c OnlineLabsClient) GetVolume(volumeID string) (VolumeResponse, error) {
 
 // DeleteVolume delete a specific volume
 // volumeID ith the volume unique identifier
-func (c OnlineLabsClient) DeleteVolume(volumeID string) error {
+func (c ScalewayClient) DeleteVolume(volumeID string) error {
 	return deleteAPIResource(
 		c.Client,
 		c.Token,
@@ -233,7 +233,7 @@ func (c OnlineLabsClient) DeleteVolume(volumeID string) error {
 // organization is the organization unique identifier
 // volume_type is the volume type
 // size is the volume size
-func (c OnlineLabsClient) CreateVolume(name string, organization string, volume_type string, size int) (VolumeResponse, error) {
+func (c ScalewayClient) CreateVolume(name string, organization string, volume_type string, size int) (VolumeResponse, error) {
 	var data VolumeResponse
 	json := fmt.Sprintf(`{"name": "%s", "organization": "%s", "volume_type": "%s", "size": %d}`,
 		name, organization, volume_type, size)
@@ -247,7 +247,7 @@ func (c OnlineLabsClient) CreateVolume(name string, organization string, volume_
 }
 
 // GetVolumes list all volumes associate with your account
-func (c OnlineLabsClient) GetVolumes() (VolumesResponse, error) {
+func (c ScalewayClient) GetVolumes() (VolumesResponse, error) {
 	var data VolumesResponse
 	err := getAPIResource(
 		c.Client,
@@ -258,7 +258,7 @@ func (c OnlineLabsClient) GetVolumes() (VolumesResponse, error) {
 }
 
 // GetImages list all images associate with your account
-func (c OnlineLabsClient) GetImages() (ImagesResponse, error) {
+func (c ScalewayClient) GetImages() (ImagesResponse, error) {
 	var data ImagesResponse
 	err := getAPIResource(
 		c.Client,
@@ -270,7 +270,7 @@ func (c OnlineLabsClient) GetImages() (ImagesResponse, error) {
 
 // GetImage list an individual image
 // volumeID ith the image unique identifier
-func (c OnlineLabsClient) GetImage(volumeID string) (ImageResponse, error) {
+func (c ScalewayClient) GetImage(volumeID string) (ImageResponse, error) {
 	var data ImageResponse
 	err := getAPIResource(
 		c.Client,
@@ -282,7 +282,7 @@ func (c OnlineLabsClient) GetImage(volumeID string) (ImageResponse, error) {
 
 // DeleteImage delete a specific volume
 // volumeID ith the volume unique identifier
-func (c OnlineLabsClient) DeleteImage(imageID string) error {
+func (c ScalewayClient) DeleteImage(imageID string) error {
 	return deleteAPIResource(
 		c.Client,
 		c.Token,
@@ -293,7 +293,7 @@ func (c OnlineLabsClient) DeleteImage(imageID string) error {
 // UploadPublicKey update user SSH keys
 // userId is the user unique identifier
 // keyPath is the complete path of the SSH key
-func (c OnlineLabsClient) UploadPublicKey(userid string, keyPath string) (UserResponse, error) {
+func (c ScalewayClient) UploadPublicKey(userid string, keyPath string) (UserResponse, error) {
 	var data UserResponse
 	publicKey, err := ioutil.ReadFile(keyPath)
 	if err != nil {

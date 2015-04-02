@@ -67,23 +67,23 @@ func checkGlobalArgument(flags []cli.Flag, name string) int {
 	return -1
 }
 
-func TestOnlinelabsUserIDArgument(t *testing.T) {
+func TestScalewayUserIDArgument(t *testing.T) {
 	app := makeApp()
-	if checkGlobalArgument(app.Flags, "--onlinelabs-userid") == -1 {
+	if checkGlobalArgument(app.Flags, "--scaleway-userid") == -1 {
 		t.Errorf("no userid flag")
 	}
 }
 
-func TestOnlinelabsTokenArgument(t *testing.T) {
+func TestScalewayTokenArgument(t *testing.T) {
 	app := makeApp()
-	if checkGlobalArgument(app.Flags, "--onlinelabs-token") == -1 {
+	if checkGlobalArgument(app.Flags, "--scaleway-token") == -1 {
 		t.Errorf("No token flag")
 	}
 }
 
-func TestOnlinelabsOrganizationArgument(t *testing.T) {
+func TestScalewayOrganizationArgument(t *testing.T) {
 	app := makeApp()
-	if checkGlobalArgument(app.Flags, "--onlinelabs-organization") == -1 {
+	if checkGlobalArgument(app.Flags, "--scaleway-organization") == -1 {
 		t.Errorf("No organization flag")
 	}
 }

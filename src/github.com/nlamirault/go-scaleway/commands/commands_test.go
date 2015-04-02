@@ -30,17 +30,6 @@ func checkCommand(t *testing.T, name string, command cli.Command) {
 	}
 }
 
-// func TestGettingClientWithEnvironment(t *testing.T) {
-// 	os.Setenv("ONLINELABS_USERID", "0246813579")
-// 	os.Setenv("ONLINELABS_TOKEN", "0202020202")
-// 	os.Setenv("ONLINELABS_ORGANIZATION", "0101010101")
-// 	globalSet := flag.NewFlagSet("onlinelabs-userid", "0246813579")
-// 	c := getClient(cli.NewContext(nil, nil, globalFlags))
-// 	if c.UserID != os.Getenv("ONLINELABS_USERID") {
-// 		t.Errorf("Invalid userid: %s", c.Userid)
-// 	}
-// }
-
 func TestServerSubcommands(t *testing.T) {
 	commands := Commands[0].Subcommands
 	if len(commands) != 4 {

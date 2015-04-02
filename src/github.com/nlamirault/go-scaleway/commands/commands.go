@@ -21,7 +21,7 @@ import (
 
 	"github.com/codegangsta/cli"
 
-	"github.com/nlamirault/go-onlinelabs/api"
+	"github.com/nlamirault/go-scaleway/api"
 )
 
 // Commands is the CLI commands
@@ -82,9 +82,9 @@ var verboseFlag = cli.BoolFlag{
 	Usage: "Show more output",
 }
 
-func getClient(c *cli.Context) *api.OnlineLabsClient {
+func getClient(c *cli.Context) *api.ScalewayClient {
 	return api.NewClient(
-		c.GlobalString("onlinelabs-userid"),
-		c.GlobalString("onlinelabs-token"),
-		c.GlobalString("onlinelabs-organization"))
+		c.GlobalString("scaleway-userid"),
+		c.GlobalString("scaleway-token"),
+		c.GlobalString("scaleway-organization"))
 }

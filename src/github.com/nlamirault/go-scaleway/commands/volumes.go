@@ -22,9 +22,6 @@ import (
 
 	log "github.com/Sirupsen/logrus"
 	"github.com/codegangsta/cli"
-
-	// "github.com/nlamirault/go-onlinelabs/api"
-	//"github.com/nlamirault/go-onlinelabs/logging"
 )
 
 var commandListVolumes = cli.Command{

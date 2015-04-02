@@ -13,9 +13,9 @@
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-// Package go-onlinelabs provides a CLI for the OnlineLabs cloud.
+// Package go-scaleway provides a CLI for the Scaleway cloud.
 
-// For a full guide visit http://github.com/nlamirault/go-onlinelabs
+// For a full guide visit http://github.com/nlamirault/go-scaleway
 
 package main
 
@@ -26,16 +26,15 @@ import (
 	log "github.com/Sirupsen/logrus"
 	"github.com/codegangsta/cli"
 
-	"github.com/nlamirault/go-onlinelabs/commands"
-	//"github.com/nlamirault/go-onlinelabs/logging"
-	"github.com/nlamirault/go-onlinelabs/version"
+	"github.com/nlamirault/go-scaleway/commands"
+	"github.com/nlamirault/go-scaleway/version"
 )
 
 func makeApp() *cli.App {
 	app := cli.NewApp()
-	app.Name = "onlinelabs"
+	app.Name = "scaleway"
 	app.Version = version.Version
-	app.Usage = "A CLI for Online Labs"
+	app.Usage = "A CLI for Scaleway"
 	app.Author = "Nicolas Lamirault"
 	app.Email = "nicolas.lamirault@gmail.com"
 	app.Flags = []cli.Flag{
@@ -45,22 +44,22 @@ func makeApp() *cli.App {
 			Usage: fmt.Sprintf("Log level (options: debug, info, warn, error, fatal, panic)"),
 		},
 		cli.StringFlag{
-			Name:   "onlinelabs-userid",
-			Usage:  "Onlinelabs UserID",
+			Name:   "scaleway-userid",
+			Usage:  "Scaleway UserID",
 			Value:  "",
-			EnvVar: "ONLINELABS_USERID",
+			EnvVar: "SCALEWAY_USERID",
 		},
 		cli.StringFlag{
-			Name:   "onlinelabs-token",
-			Usage:  "Onlinelabs Token",
+			Name:   "scaleway-token",
+			Usage:  "Scaleway Token",
 			Value:  "",
-			EnvVar: "ONLINELABS_TOKEN",
+			EnvVar: "SCALEWAY_TOKEN",
 		},
 		cli.StringFlag{
-			Name:   "onlinelabs-organization",
+			Name:   "scaleway-organization",
 			Usage:  "Organization identifier",
 			Value:  "",
-			EnvVar: "ONLINELABS_ORGANIZATION",
+			EnvVar: "SCALEWAY_ORGANIZATION",
 		},
 	}
 	app.Before = func(c *cli.Context) error {

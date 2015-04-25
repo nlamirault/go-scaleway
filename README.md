@@ -37,17 +37,19 @@ COMMANDS:
 
 GLOBAL OPTIONS:
    --log-level, -l 'info'	Log level (options: debug, info, warn, error, fatal, panic)
+   --scaleway-token     Scaleway Token [$SCALEWAY_TOKEN] (required)
    --scaleway-userid 		Scaleway UserID [$SCALEWAY_USERID]
-   --scaleway-token 		Scaleway Token [$SCALEWAY_TOKEN]
    --scaleway-organization 	Organization identifier [$SCALEWAY_ORGANIZATION]
    --help, -h			show help
    --version, -v		print the version
 
 ```
 
-You must have a **userid**, **tokenid** and **organizationid** to
-use the CLI. You could use command line arguments (in global option), or
-environments variables.
+You must have a **tokenid** to use the CLI.
+By default, commands requiring a **userid** and/or **organizationid** will use the
+user id and primary organization id associated with the token.
+You may specify different id's by setting the corresponding command line arguments
+or environment variables (see GLOBAL OPTIONS).
 
 For each command, subcommands are availables :
 

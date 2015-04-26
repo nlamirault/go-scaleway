@@ -41,8 +41,8 @@ func loadJSON(path string) (string, error) {
 
 func getClient() *ScalewayClient {
 	return NewClient(
-		ScalewayUserID,
 		ScalewayToken,
+		ScalewayUserID,
 		ScalewayOrganization)
 }
 

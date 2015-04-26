@@ -1,6 +1,11 @@
 Changelog
 ===========
 
+Version 0.7.0 (04/26/2015)
+-------------------------------
+
+- Refactoring: only tokenID is needed for commands ([#P8][])
+
 Version 0.6.0 (04/02/2015)
 --------------------------------
 
@@ -41,3 +46,7 @@ Version 0.1.0 (02/06/2015)
 - Setup CLI using command line arguments or environment variable
   for authentication
 - Init HTTP client (GET/POST/DELETE/PATCH)
+
+
+
+[P8]: https://github.com/nlamirault/go-scaleway/pull/8

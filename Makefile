@@ -46,11 +46,12 @@ all: help
 
 help:
 	@echo -e "$(OK_COLOR)==== $(APP) [$(VERSION)] ====$(NO_COLOR)"
-	@echo -e "$(WARN_COLOR)init$(NO_COLOR)   :  Install requirements"
-	@echo -e "$(WARN_COLOR)deps$(NO_COLOR)   :  Install dependencies"
-	@echo -e "$(WARN_COLOR)build$(NO_COLOR)  :  Make all binaries"
-	@echo -e "$(WARN_COLOR)clean$(NO_COLOR)  :  Cleanup"
-	@echo -e "$(WARN_COLOR)reset$(NO_COLOR)  :  Remove all dependencies"
+	@echo -e "$(WARN_COLOR)init$(NO_COLOR)    :  Install requirements"
+	@echo -e "$(WARN_COLOR)deps$(NO_COLOR)    :  Install dependencies"
+	@echo -e "$(WARN_COLOR)build$(NO_COLOR)   :  Make all binaries"
+	@echo -e "$(WARN_COLOR)clean$(NO_COLOR)   :  Cleanup"
+	@echo -e "$(WARN_COLOR)reset$(NO_COLOR)   :  Remove all dependencies"
+	@echo -e "$(WARN_COLOR)release$(NO_COLOR) :  Make a new release"
 
 clean:
 	@echo -e "$(OK_COLOR)[$(APP)] Cleanup$(NO_COLOR)"

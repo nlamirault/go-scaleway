@@ -185,6 +185,11 @@ Pimouss metadata               | [ ]
         $ make release
 
 
+## Contributing
+
+See [CONTRIBUTING][].
+
+
 ## License
 
 See [LICENSE][] for the complete license.

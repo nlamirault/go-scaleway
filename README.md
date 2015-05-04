@@ -187,7 +187,7 @@ Pimouss metadata               | [ ]
 
 ## Contributing
 
-See [CONTRIBUTING][CONTRIBUTING.md].
+See [CONTRIBUTING](CONTRIBUTING.md).
 
 
 ## License
@@ -197,7 +197,7 @@ See [LICENSE][] for the complete license.
 
 ## Changelog
 
-A changelog is available [here](ChangeLog.md).
+A [changelog](ChangeLog.md) is available
 
 
 ## Contact

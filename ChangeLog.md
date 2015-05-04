@@ -4,7 +4,7 @@ Changelog
 Version 0.7.0 (04/26/2015)
 -------------------------------
 
-- Refactoring: only tokenID is needed for commands ([#P8][])
+- Refactoring: only tokenID is needed for commands ([P8][])
 
 Version 0.6.0 (04/02/2015)
 --------------------------------

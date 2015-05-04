@@ -187,7 +187,7 @@ Pimouss metadata               | [ ]
 
 ## Contributing
 
-See [CONTRIBUTING][].
+See [CONTRIBUTING][CONTRIBUTING.md].
 
 
 ## License

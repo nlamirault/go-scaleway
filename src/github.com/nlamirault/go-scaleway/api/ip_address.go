@@ -41,7 +41,6 @@ type IPAddressesResponse struct {
 // GetIPAddressFromJSON load bytes and return a IPAddressResponse
 func GetIPAddressFromJSON(b []byte) (*IPAddressResponse, error) {
 	var response IPAddressResponse
-	//fmt.Printf("Response JSON: %s\n", (string(b)))
 	err := json.Unmarshal(b, &response)
 	if err != nil {
 		return nil, err

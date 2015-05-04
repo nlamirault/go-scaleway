@@ -58,69 +58,6 @@ type UserResponse struct {
 	User User `json:"user,omitempty"`
 }
 
-// Token represents an identifier associated with your account.
-// It is used to authenticate commands in the APIs
-type Token struct {
-	ID       string `json:"id,omitempty"`
-	UserID   string `json:"user_id,omitempty"`
-	Creation string `json:"creation_date,omitempty"`
-	Expires  string `json:"expires,omitempty"`
-}
-
-// TokenResponse represents JSON response of server for a token
-type TokenResponse struct {
-	Token Token `json:"token,omitempty"`
-}
-
-// TokensResponse represents JSON response of server for tokens
-type TokensResponse struct {
-	Tokens []Token
-}
-
-// GetUserFromJSON l// oad bytes and return a UserResponse
-// func GetUserFromJSON(b []byte) (*UserResponse, error) {
-// 	var response UserResponse
-// 	// fmt.Printf("Response JSON: %s\n", (string(b)))
-// 	err := json.Unmarshal(b, &response)
-// 	if err != nil {
-// 		return nil, err
-// 	}
-// 	return &response, nil
-// }
-
-// // GetOrganizationsFromJSON load bytes and return a OrganizationsResponse
-// func GetOrganizationsFromJSON(b []byte) (*OrganizationsResponse, error) {
-// 	var response OrganizationsResponse
-// 	// fmt.Printf("Response JSON: %s\n", (string(b)))
-// 	err := json.Unmarshal(b, &response)
-// 	if err != nil {
-// 		return nil, err
-// 	}
-// 	return &response, nil
-// }
-
-// // GetTokenFromJSON load bytes and return a TokenResponse
-// func GetTokenFromJSON(b []byte) (*TokenResponse, error) {
-// 	var response TokenResponse
-// 	// fmt.Printf("Response JSON: %s\n", (string(b)))
-// 	err := json.Unmarshal(b, &response)
-// 	if err != nil {
-// 		return nil, err
-// 	}
-// 	return &response, nil
-// }
-
-// // GetTokensFromJSON load bytes and return a TokensResponse
-// func GetTokensFromJSON(b []byte) (*TokensResponse, error) {
-// 	var response TokensResponse
-// 	// fmt.Printf("Response JSON: %s\n", (string(b)))
-// 	err := json.Unmarshal(b, &response)
-// 	if err != nil {
-// 		return nil, err
-// 	}
-// 	return &response, nil
-// }
-
 func (u User) Display() {
 	log.Infof("Id            : %s", u.ID)
 	log.Infof("Fullname      : %s", u.Fullname)
@@ -138,11 +75,4 @@ func (o Organization) Display() {
 	log.Infof("Currency        : %s", o.Currency)
 	log.Infof("Locale          : %s", o.Locale)
 	log.Infof("Customer class  : %s", o.CustomerClass)
-}
-
-func (t Token) Display() {
-	log.Infof("Id        : %s", t.ID)
-	log.Infof("UserId    : %s", t.UserID)
-	log.Infof("Creation  : %s", t.Creation)
-	log.Infof("Expires   : %s", t.Expires)
 }

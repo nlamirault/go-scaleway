@@ -51,26 +51,9 @@ type ServersResponse struct {
 	Servers []Server
 }
 
-// GetServerFromJSON load bytes and return a ServerResponse
-// func GetServerFromJSON(b []byte) (*ServerResponse, error) {
-// 	var response ServerResponse
-// 	//fmt.Printf("Response JSON: %s\n", (string(b)))
-// 	err := json.Unmarshal(b, &response)
-// 	if err != nil {
-// 		return nil, err
-// 	}
-// 	return &response, nil
-// }
-
-// // GetServersFromJSON load bytes and return a ServersResponse
-// func GetServersFromJSON(b []byte) (*ServersResponse, error) {
-// 	var response ServersResponse
-// 	err := json.Unmarshal(b, &response)
-// 	if err != nil {
-// 		return nil, err
-// 	}
-// 	return &response, nil
-// }
+type ServerActionsResponse struct {
+	Actions []string
+}
 
 func (s Server) Display() {
 	log.Infof("Id    : %s", s.ID)

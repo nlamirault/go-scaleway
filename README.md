@@ -1,6 +1,6 @@
 # go-scaleway
 
-[![License GPL 3][badge-license]][LICENSE]
+[![License Apache 2][badge-license]][LICENSE]
 [![travis][badge-travis]][travis]
 [![drone][badge-drone]][drone]
 
@@ -21,7 +21,7 @@ USAGE:
    scaleway [global options] command [command options] [arguments...]
 
 VERSION:
-   0.6.0
+   0.8.0
 
 AUTHOR:
   Nicolas Lamirault - <nicolas.lamirault@gmail.com>
@@ -102,11 +102,11 @@ List informations    | [x]
 Action               | Implementation
 ---------------------|------------------------------
 List servers         | [x]
-Create a server      | [x]
 Retrieve a server    | [x]
+List all actions     | [x]
+Create a server      | [x]
 Update a server      | [ ]
 Remove a server      | [x]
-List all actions     | [ ]
 Execute an action    | [x]
 
 ### Volumes
@@ -122,8 +122,8 @@ Delete a volume            | [x]
 
 Action                    | Implementation
 --------------------------|------------------------------
-Create a snapshot         | [ ]
 List all snapshots        | [ ]
+Create a snapshot         | [ ]
 Retrieve a snapshot       | [ ]
 Update a snapshot         | [ ]
 Remove a snapshot         | [ ]
@@ -132,8 +132,8 @@ Remove a snapshot         | [ ]
 
 Action                         | Implementation
 -------------------------------|------------------------------
-Create a new image             | [ ]
 List all images                | [x]
+Create a new image             | [ ]
 Operation on a single image    | [ ]
 Retrieves an image             | [x]
 Update an image                | [ ]
@@ -143,11 +143,11 @@ Delete an image                | [ ]
 
 Action                         | Implementation
 -------------------------------|------------------------------
-Create a new IP                | [ ]
-Retrieves all IPs addresses    | [ ]
-Retrieve an IP address         | [ ]
+Create a new IP                | [x]
+Retrieves all IPs addresses    | [x]
+Retrieve an IP address         | [x]
 Attach an IP address           | [ ]
-Remove an IP address           | [ ]
+Remove an IP address           | [x]
 
 ### Metadata
 
@@ -205,7 +205,7 @@ A [changelog](ChangeLog.md) is available
 Nicolas Lamirault <nicolas.lamirault@gmail.com>
 
 
-[badge-license]: https://img.shields.io/badge/license-GPL_3-green.svg?style=flat
+[badge-license]: https://img.shields.io/badge/license-Apache_2-green.svg?style=flat
 [LICENSE]: https://github.com/nlamirault/go-scaleway/blob/master/LICENSE
 [travis]: https://travis-ci.org/nlamirault/go-scaleway
 [badge-travis]: http://img.shields.io/travis/nlamirault/go-scaleway.svg?style=flat

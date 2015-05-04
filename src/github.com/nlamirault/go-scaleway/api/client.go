@@ -72,7 +72,7 @@ func (c ScalewayClient) GetUserInformations() (UserResponse, error) {
 }
 
 // Set UserID from Token if left empty
-func (c ScalewayClient) SetUserFromToken() (error) {
+func (c ScalewayClient) SetUserFromToken() error {
 	if c.UserID != "" {
 		return nil
 	}
@@ -85,7 +85,7 @@ func (c ScalewayClient) SetUserFromToken() (error) {
 }
 
 // Set Organization from Token if left empty
-func (c ScalewayClient) SetOrganizationFromToken() (error) {
+func (c ScalewayClient) SetOrganizationFromToken() error {
 	if c.Organization != "" {
 		return nil
 	}
@@ -151,7 +151,7 @@ func (c ScalewayClient) CreateToken(email string, password string, expires bool)
 }
 
 // DeleteToken delete a specific token
-// tokenID ith the token unique identifier
+// tokenID is the token unique identifier
 func (c ScalewayClient) DeleteToken(tokenID string) error {
 	return deleteAPIResource(
 		c.Client,
@@ -161,7 +161,7 @@ func (c ScalewayClient) DeleteToken(tokenID string) error {
 }
 
 // UpdateToken increase Token expiration time of 30 minutes
-// tokenID ith the token unique identifier
+// tokenID is the token unique identifier
 func (c ScalewayClient) UpdateToken(tokenID string) (TokenResponse, error) {
 	var data TokenResponse
 	json := `{"expires": true}`
@@ -193,8 +193,20 @@ func (c ScalewayClient) CreateServer(name string, image string) (ServerResponse,
 	return data, err
 }
 
+// ListServerActions list actions to be applied on a server
+// serverID is the server unique identifier
+func (c ScalewayClient) ListServerActions(serverID string) (ServerActionsResponse, error) {
+	var data ServerActionsResponse
+	err := getAPIResource(
+		c.Client,
+		c.Token,
+		fmt.Sprintf("%s/servers/%s/action", c.ComputeURL, serverID),
+		&data)
+	return data, err
+}
+
 // DeleteServer delete a specific server
-// serverID ith the server unique identifier
+// serverID is the server unique identifier
 func (c ScalewayClient) DeleteServer(serverID string) error {
 	return deleteAPIResource(
 		c.Client,
@@ -204,7 +216,7 @@ func (c ScalewayClient) DeleteServer(serverID string) error {
 }
 
 // GetServer list an individual server
-// serverID ith the server unique identifier
+// serverID is the server unique identifier
 func (c ScalewayClient) GetServer(serverID string) (ServerResponse, error) {
 	var data ServerResponse
 	err := getAPIResource(
@@ -227,7 +239,7 @@ func (c ScalewayClient) GetServers() (ServersResponse, error) {
 }
 
 // PerformServerAction execute an action on a server
-// serverID ith the server unique identifier
+// serverID is the server unique identifier
 // action is the action to execute
 func (c ScalewayClient) PerformServerAction(serverID string, action string) (TaskResponse, error) {
 	var data TaskResponse
@@ -242,7 +254,7 @@ func (c ScalewayClient) PerformServerAction(serverID string, action string) (Tas
 }
 
 // GetVolume list an individual volume
-// volumeID ith the volume unique identifier
+// volumeID is the volume unique identifier
 func (c ScalewayClient) GetVolume(volumeID string) (VolumeResponse, error) {
 	var data VolumeResponse
 	err := getAPIResource(
@@ -254,7 +266,7 @@ func (c ScalewayClient) GetVolume(volumeID string) (VolumeResponse, error) {
 }
 
 // DeleteVolume delete a specific volume
-// volumeID ith the volume unique identifier
+// volumeID is the volume unique identifier
 func (c ScalewayClient) DeleteVolume(volumeID string) error {
 	return deleteAPIResource(
 		c.Client,
@@ -306,7 +318,7 @@ func (c ScalewayClient) GetImages() (ImagesResponse, error) {
 }
 
 // GetImage list an individual image
-// volumeID ith the image unique identifier
+// volumeID is the image unique identifier
 func (c ScalewayClient) GetImage(volumeID string) (ImageResponse, error) {
 	var data ImageResponse
 	err := getAPIResource(
@@ -318,7 +330,7 @@ func (c ScalewayClient) GetImage(volumeID string) (ImageResponse, error) {
 }
 
 // DeleteImage delete a specific volume
-// volumeID ith the volume unique identifier
+// volumeID is the volume unique identifier
 func (c ScalewayClient) DeleteImage(imageID string) error {
 	return deleteAPIResource(
 		c.Client,
@@ -347,4 +359,53 @@ func (c ScalewayClient) UploadPublicKey(keyPath string) (UserResponse, error) {
 		[]byte(json),
 		&data)
 	return data, err
+}
+
+// CreateIP creates a new reserved IP address
+func (c ScalewayClient) CreateIP() (IPAddressResponse, error) {
+	var data IPAddressResponse
+	if err := c.SetOrganizationFromToken(); err != nil {
+		return data, err
+	}
+	json := fmt.Sprintf(`{"organization": "%s"}`, c.Organization)
+	err := postAPIResource(
+		c.Client,
+		c.Token,
+		fmt.Sprintf("%s/ips", c.ComputeURL),
+		[]byte(json),
+		&data)
+	return data, err
+}
+
+// GetIPs list all IPs associate with your account
+func (c ScalewayClient) GetIPs() (IPAddressesResponse, error) {
+	var data IPAddressesResponse
+	err := getAPIResource(
+		c.Client,
+		c.Token,
+		fmt.Sprintf("%s/ips", c.ComputeURL),
+		&data)
+	return data, err
+}
+
+// GetIP list an individual IP address
+// ipID is the IP unique identifier
+func (c ScalewayClient) GetIP(ipID string) (IPAddressResponse, error) {
+	var data IPAddressResponse
+	err := getAPIResource(
+		c.Client,
+		c.Token,
+		fmt.Sprintf("%s/ips/%s", c.ComputeURL, ipID),
+		&data)
+	return data, err
+}
+
+// DeleteIP delete a specific IP address
+// ipID is the IP unique identifier
+func (c ScalewayClient) DeleteIP(ipID string) error {
+	return deleteAPIResource(
+		c.Client,
+		c.Token,
+		fmt.Sprintf("%s/ips/%s", c.ComputeURL, ipID),
+		nil)
 }

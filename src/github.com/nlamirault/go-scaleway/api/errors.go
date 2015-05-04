@@ -16,7 +16,6 @@ package api
 
 import (
 	"fmt"
-	"io/ioutil"
 	"net/http"
 	"net/url"
 )
@@ -24,22 +23,20 @@ import (
 type ApiError struct {
 	StatusCode int
 	Header     http.Header
-	Body       string
+	Message    string
 	URL        *url.URL
 }
 
-func newApiError(resp *http.Response) *ApiError {
-	p, _ := ioutil.ReadAll(resp.Body)
+func newApiError(resp *http.Response, body string) *ApiError {
 	return &ApiError{
 		StatusCode: resp.StatusCode,
 		Header:     resp.Header,
-		Body:       string(p),
+		Message:    body,
 		URL:        resp.Request.URL,
 	}
 }
 
 // ApiError supports the error interface
 func (e ApiError) Error() string {
-	return fmt.Sprintf("Get %s returned status %d, %s",
-		e.URL, e.StatusCode, e.Body)
+	return fmt.Sprintf("[%d] %s", e.StatusCode, e.Message)
 }

@@ -36,7 +36,7 @@ func performAPIRequest(client *http.Client, req *http.Request, token string, dat
 	msg := string(b)
 	log.Debugf("HTTP Response: [%d] %s", resp.StatusCode, msg)
 	if resp.StatusCode > 299 {
-		return newApiError(resp)
+		return newApiError(resp, msg)
 	}
 	if resp.StatusCode != 204 {
 		err = json.Unmarshal(b, data)
@@ -45,12 +45,6 @@ func performAPIRequest(client *http.Client, req *http.Request, token string, dat
 		}
 	}
 	return nil
-	// if resp.StatusCode > 299 {
-	// 	return nil, fmt.Errorf("[%d] %s",
-	// 		resp.StatusCode, msg)
-	// }
-	// return b, nil
-	//return decodeResponse(resp, data)
 }
 
 func getAPIResource(client *http.Client, token string, url string, data interface{}) error {

@@ -21,7 +21,7 @@ import (
 	log "github.com/Sirupsen/logrus"
 )
 
-// Organization represents an Online Labs entity
+// Organization represents a Scaleway entity
 type Organization struct {
 	ID            string `json:"id,omitempty"`
 	Name          string `json:"name,omitempty"`
@@ -41,7 +41,7 @@ type Role struct {
 	Role         string `json:"role,omitempty"`
 }
 
-// User represents a user account of the Online Labs cloud
+// User represents a user account of the Scaleway cloud
 type User struct {
 	ID            string         `json:"id,omitempty"`
 	Fullname      string         `json:"fullname,omitempty"`

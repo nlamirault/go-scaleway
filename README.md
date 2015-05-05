@@ -5,8 +5,6 @@
 [![drone][badge-drone]][drone]
 [![coveralls][badge-coveralls][coveralls]
 
-https://coveralls.io/repos/nlamirault/go-scaleway/badge.svg)]
-
 A CLI for the [Scaleway][] cloud.
 See https://developer.scaleway.com for documentation.
 

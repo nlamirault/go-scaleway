@@ -3,6 +3,9 @@
 [![License Apache 2][badge-license]][LICENSE]
 [![travis][badge-travis]][travis]
 [![drone][badge-drone]][drone]
+[![coveralls][badge-coveralls][coveralls]
+
+https://coveralls.io/repos/nlamirault/go-scaleway/badge.svg)]
 
 A CLI for the [Scaleway][] cloud.
 See https://developer.scaleway.com for documentation.
@@ -211,6 +214,8 @@ Nicolas Lamirault <nicolas.lamirault@gmail.com>
 [badge-travis]: http://img.shields.io/travis/nlamirault/go-scaleway.svg?style=flat
 [badge-drone]: https://drone.io/github.com/nlamirault/go-scaleway/status.png
 [drone]: https://drone.io/github.com/nlamirault/go-scaleway/latest
+[badge-coveralls]: https://coveralls.io/repos/nlamirault/go-scaleway/badge.svg
+[coveralls]: https://coveralls.io/r/nlamirault/go-scaleway
 
 [releases]: https://github.com/nlamirault/go-scaleway/releases
 

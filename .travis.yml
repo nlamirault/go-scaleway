@@ -8,5 +8,4 @@ before_install:
 script:
   - make init
   - make deps
-  - make test
   - $HOME/gopath/bin/goveralls -service=travis-ci

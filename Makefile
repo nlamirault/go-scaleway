@@ -32,8 +32,10 @@ OK_COLOR=\033[32;01m
 ERROR_COLOR=\033[31;01m
 WARN_COLOR=\033[33;01m
 
+SRC=src/github.com/nlamirault/go-scaleway
+
 VERSION=$(shell \
-        grep "const Version" src/github.com/nlamirault/go-scaleway/version/version.go \
+        grep "const Version" $(SRC)/version/version.go \
         |awk -F'=' '{print $$2}' \
         |sed -e "s/[^0-9.]//g" \
 	|sed -e "s/ //g")
@@ -105,16 +107,9 @@ coverage:
 	@echo -e "$(OK_COLOR)[$(APP)] Launch code coverage $(NO_COLOR)"
 	@GOPATH=$(GO_PATH) go test github.com/nlamirault/$(APP)/... -cover
 
-covoutput:
-	@echo -e "$(OK_COLOR)[$(APP)] Launch code coverage $(NO_COLOR)"
-	@GOPATH=$(GO_PATH) go test ${pkg} -covermode=count -coverprofile=coverage.out
-#	@GOPATH=$(GO_PATH) go tool cover -html=coverage.out
-	@GOPATH=$(GO_PATH) go tool cover -func=coverage.out
-
 coveralls:
-	@GOPATH=$(GO_PATH) go get github.com/axw/gocov/gocov
 	@GOPATH=$(GO_PATH) go get github.com/mattn/goveralls
-	@GOPATH=$(GO_PATH) $(DIR)/Godeps/_workspace/bin/goveralls -service=travis-ci
+	@GOPATH=$(GO_PATH) $(DIR)/addons/coverage --coveralls
 
 release: clean build
 	@echo -e "$(OK_COLOR)[$(APP)] Make archive $(VERSION) $(NO_COLOR)"

@@ -3,7 +3,7 @@
 [![License Apache 2][badge-license]][LICENSE]
 [![travis][badge-travis]][travis]
 [![drone][badge-drone]][drone]
-[![coveralls][badge-coveralls][coveralls]
+[![coveralls][badge-coveralls]][coveralls]
 
 A CLI for the [Scaleway][] cloud.
 See https://developer.scaleway.com for documentation.

@@ -114,7 +114,7 @@ covoutput:
 coveralls:
 	@GOPATH=$(GO_PATH) go get github.com/axw/gocov/gocov
 	@GOPATH=$(GO_PATH) go get github.com/mattn/goveralls
-	$(DIR)/Godeps/_workspace/bin/goveralls -service=travis-ci
+	@GOPATH=$(GO_PATH) $(DIR)/Godeps/_workspace/bin/goveralls -service=travis-ci
 
 release: clean build
 	@echo -e "$(OK_COLOR)[$(APP)] Make archive $(VERSION) $(NO_COLOR)"

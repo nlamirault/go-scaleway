@@ -159,6 +159,12 @@ Pimouss metadata               | [ ]
 
 ## Development
 
+* Checkout the projet and install it into $GOPATH :
+
+        $ mkdir -p $GOPATH/src/github.com/nlamirault
+        $ git clone https://github.com/nlamirault/go-scaleway.git $GOPATH/src/github.com/nlamirault/go-scaleway
+        $ cd $GOPATH/src/github.com/nlamirault/go-scaleway
+
 * Install requirements :
 
         $ make init

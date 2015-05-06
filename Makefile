@@ -18,7 +18,7 @@ EXE="scaleway"
 SHELL = /bin/bash
 
 DIR = $(shell pwd)
-GO_PATH = $(DIR)/Godeps/_workspace:$(DIR)
+GO_PATH = $(DIR)/Godeps/_workspace:$(GOPATH)
 
 DOCKER = docker
 GODEP= $(DIR)/Godeps/_workspace/bin/godep
@@ -32,7 +32,8 @@ OK_COLOR=\033[32;01m
 ERROR_COLOR=\033[31;01m
 WARN_COLOR=\033[33;01m
 
-SRC=src/github.com/nlamirault/go-scaleway
+# SRC=src/github.com/nlamirault/go-scaleway
+SRC=.
 
 VERSION=$(shell \
         grep "const Version" $(SRC)/version/version.go \
@@ -72,14 +73,14 @@ deps:
 
 build:
 	@echo -e "$(OK_COLOR)[$(APP)] Build $(NO_COLOR)"
-	@GOPATH=$(GO_PATH) go build -o $(EXE) github.com/nlamirault/$(APP)
+	@GOPATH=$(GO_PATH) go build -o $(EXE)
 
 doc:
 	@GOPATH=$(GO_PATH) godoc -http=:6060 -index
 
 fmt:
 	@echo -e "$(OK_COLOR)[$(APP)] Launch fmt $(NO_COLOR)"
-	@GOPATH=$(GO_PATH) go fmt github.com/nlamirault/$(APP)/...
+	@GOPATH=$(GO_PATH) go fmt
 
 errcheck:
 	@echo -e "$(OK_COLOR)[$(APP)] Launch errcheck $(NO_COLOR)"
@@ -97,15 +98,15 @@ style: fmt vet lint
 
 test:
 	@echo -e "$(OK_COLOR)[$(APP)] Launch unit tests $(NO_COLOR)"
-	@GOPATH=$(GO_PATH) go test -v github.com/nlamirault/$(APP)/...
+	@GOPATH=$(GO_PATH) go test -v ./...
 
 race:
 	@echo -e "$(OK_COLOR)[$(APP)] Launch unit tests race $(NO_COLOR)"
-	@GOPATH=$(GO_PATH) go test -race github.com/nlamirault/$(APP)/...
+	@GOPATH=$(GO_PATH) go test -race ./...
 
 coverage:
 	@echo -e "$(OK_COLOR)[$(APP)] Launch code coverage $(NO_COLOR)"
-	@GOPATH=$(GO_PATH) go test github.com/nlamirault/$(APP)/... -cover
+	@GOPATH=$(GO_PATH) go test ./... -cover
 
 coveralls:
 	@GOPATH=$(GO_PATH) go get github.com/mattn/goveralls

@@ -59,7 +59,7 @@ help:
 
 clean:
 	@echo -e "$(OK_COLOR)[$(APP)] Cleanup$(NO_COLOR)"
-	@rm -f $(EXE) $(APP)-*.tar.gz coverage.out gover.coverprofile go-scaleway.test
+	@rm -f $(EXE) $(APP)-*.tar.gz coverage.out go-scaleway.test gover.coverprofile
 
 .PHONY: init
 init:
@@ -78,7 +78,7 @@ build:
 	@GOPATH=$(GO_PATH) go build -o $(EXE)
 
 doc:
-	@GOPATH=$(GO_PATH) godoc -http=:6060 -index
+	@GOPATH=$(GO_PATH) godoc -v -http=:6060
 
 fmt:
 	@echo -e "$(OK_COLOR)[$(APP)] Launch fmt $(NO_COLOR)"

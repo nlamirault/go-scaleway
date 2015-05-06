@@ -8,6 +8,8 @@
 A CLI for the [Scaleway][] cloud.
 See https://developer.scaleway.com for documentation.
 
+[Click To View Documentation](http://godoc.org/github.com/nlamirault/go-scaleway)
+
 ## Installation
 
 Download binary from [releases][] for your platform.

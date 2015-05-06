@@ -36,7 +36,7 @@ func performAPIRequest(client *http.Client, req *http.Request, token string, dat
 	msg := string(b)
 	log.Debugf("HTTP Response: [%d] %s", resp.StatusCode, msg)
 	if resp.StatusCode > 299 {
-		return newApiError(resp, msg)
+		return newAPIError(resp, msg)
 	}
 	if resp.StatusCode != 204 {
 		err = json.Unmarshal(b, data)

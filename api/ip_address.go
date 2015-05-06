@@ -21,6 +21,7 @@ import (
 	log "github.com/Sirupsen/logrus"
 )
 
+// IPAddress represents an IP entity
 type IPAddress struct {
 	ID           string `json:"id,omitempty"`
 	Address      string `json:"address,omitempty"`
@@ -58,6 +59,7 @@ func GetIPAddressesFromJSON(b []byte) (*IPAddressesResponse, error) {
 	return &response, nil
 }
 
+// Display log the IPAddress caracteristics
 func (ip IPAddress) Display() {
 	log.Infof("Id           : %s", ip.ID)
 	log.Infof("Address      : %s", ip.Address)

@@ -40,6 +40,7 @@ type TokensResponse struct {
 	Tokens []Token
 }
 
+// Display log the Token caracteristics
 func (t Token) Display() {
 	log.Infof("Id        : %s", t.ID)
 	log.Infof("UserId    : %s", t.UserID)

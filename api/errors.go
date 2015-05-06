@@ -20,15 +20,16 @@ import (
 	"net/url"
 )
 
-type ApiError struct {
+// Error represents an HTTP error
+type Error struct {
 	StatusCode int
 	Header     http.Header
 	Message    string
 	URL        *url.URL
 }
 
-func newApiError(resp *http.Response, body string) *ApiError {
-	return &ApiError{
+func newAPIError(resp *http.Response, body string) *Error {
+	return &Error{
 		StatusCode: resp.StatusCode,
 		Header:     resp.Header,
 		Message:    body,
@@ -36,7 +37,7 @@ func newApiError(resp *http.Response, body string) *ApiError {
 	}
 }
 
-// ApiError supports the error interface
-func (e ApiError) Error() string {
+// Error supports the error interface
+func (e Error) Error() string {
 	return fmt.Sprintf("[%d] %s", e.StatusCode, e.Message)
 }

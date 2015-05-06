@@ -71,7 +71,7 @@ func (c ScalewayClient) GetUserInformations() (UserResponse, error) {
 	return data, err
 }
 
-// Set UserID from Token if left empty
+// SetUserFromToken set UserID from Token if left empty
 func (c ScalewayClient) SetUserFromToken() error {
 	if c.UserID != "" {
 		return nil
@@ -84,7 +84,7 @@ func (c ScalewayClient) SetUserFromToken() error {
 	return nil
 }
 
-// Set Organization from Token if left empty
+// SetOrganizationFromToken set Organization from Token if left empty
 func (c ScalewayClient) SetOrganizationFromToken() error {
 	if c.Organization != "" {
 		return nil
@@ -277,15 +277,15 @@ func (c ScalewayClient) DeleteVolume(volumeID string) error {
 
 // CreateVolume creates a new volume
 // name is the volume name
-// volume_type is the volume type
+// volumeType is the volume type
 // size is the volume size
-func (c ScalewayClient) CreateVolume(name string, volume_type string, size int) (VolumeResponse, error) {
+func (c ScalewayClient) CreateVolume(name string, volumeType string, size int) (VolumeResponse, error) {
 	var data VolumeResponse
 	if err := c.SetOrganizationFromToken(); err != nil {
 		return data, err
 	}
 	json := fmt.Sprintf(`{"name": "%s", "organization": "%s", "volume_type": "%s", "size": %d}`,
-		name, c.Organization, volume_type, size)
+		name, c.Organization, volumeType, size)
 	err := postAPIResource(
 		c.Client,
 		c.Token,

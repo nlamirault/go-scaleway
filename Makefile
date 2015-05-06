@@ -51,13 +51,15 @@ help:
 	@echo -e "$(WARN_COLOR)init$(NO_COLOR)    :  Install requirements"
 	@echo -e "$(WARN_COLOR)deps$(NO_COLOR)    :  Install dependencies"
 	@echo -e "$(WARN_COLOR)build$(NO_COLOR)   :  Make all binaries"
+	@echo -e "$(WARN_COLOR)test$(NO_COLOR)    :  Launch unit tests"
+	@echo -e "$(WARN_COLOR)style$(NO_COLOR)   :  Check golang style"
 	@echo -e "$(WARN_COLOR)clean$(NO_COLOR)   :  Cleanup"
 	@echo -e "$(WARN_COLOR)reset$(NO_COLOR)   :  Remove all dependencies"
 	@echo -e "$(WARN_COLOR)release$(NO_COLOR) :  Make a new release"
 
 clean:
 	@echo -e "$(OK_COLOR)[$(APP)] Cleanup$(NO_COLOR)"
-	@rm -f $(EXE) $(EXE)_* $(APP)-*.tar.gz coverage.out gover.coverprofile
+	@rm -f $(EXE) $(APP)-*.tar.gz coverage.out gover.coverprofile go-scaleway.test
 
 .PHONY: init
 init:
@@ -84,15 +86,15 @@ fmt:
 
 errcheck:
 	@echo -e "$(OK_COLOR)[$(APP)] Launch errcheck $(NO_COLOR)"
-	@GOPATH=$(GO_PATH) $(ERRCHECK) github.com/nlamirault/$(APP)/...
+	@GOPATH=$(GO_PATH) $(ERRCHECK) ./...
 
 vet:
 	@echo -e "$(OK_COLOR)[$(APP)] Launch vet $(NO_COLOR)"
-	@GOPATH=$(GO_PATH) go vet github.com/nlamirault/$(APP)/...
+	@GOPATH=$(GO_PATH) go vet ./...
 
 lint:
 	@echo -e "$(OK_COLOR)[$(APP)] Launch golint $(NO_COLOR)"
-	@GOPATH=$(GO_PATH) $(GOLINT) github.com/nlamirault/$(APP)/...
+	@GOPATH=$(GO_PATH) $(GOLINT) ./...
 
 style: fmt vet lint
 

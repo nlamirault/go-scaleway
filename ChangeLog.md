@@ -1,6 +1,13 @@
 Changelog
 ===========
 
+Version 0.8.0 (05/xx/2015)
+-----------------------------
+
+- [API] Initialize IP
+- Update check for golang style
+- Refactoring code organization and build
+
 Version 0.7.0 (04/26/2015)
 -------------------------------
 

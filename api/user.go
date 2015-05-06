@@ -58,6 +58,7 @@ type UserResponse struct {
 	User User `json:"user,omitempty"`
 }
 
+// Display log the User caracteristics
 func (u User) Display() {
 	log.Infof("Id            : %s", u.ID)
 	log.Infof("Fullname      : %s", u.Fullname)
@@ -69,6 +70,7 @@ func (u User) Display() {
 	log.Infof("Organizations : %s", u.Organizations)
 }
 
+// Display log the Organization caracteristics
 func (o Organization) Display() {
 	log.Infof("Id              : %s", o.ID)
 	log.Infof("Name            : %s", o.Name)

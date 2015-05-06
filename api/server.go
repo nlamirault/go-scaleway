@@ -51,10 +51,13 @@ type ServersResponse struct {
 	Servers []Server
 }
 
+// ServerActionsResponse represents JSON response of available actions
+// for a server
 type ServerActionsResponse struct {
 	Actions []string
 }
 
+// Display log the server caracteristics
 func (s Server) Display() {
 	log.Infof("Id    : %s", s.ID)
 	log.Infof("Name  : %s", s.Name)

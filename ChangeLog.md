@@ -1,9 +1,10 @@
 Changelog
 ===========
 
-Version 0.8.0 (05/xx/2015)
+Version 0.8.0 (05/26/2015)
 -----------------------------
 
+- Refactoring log
 - [API] Initialize IP
 - Update check for golang style
 - Refactoring code organization and build

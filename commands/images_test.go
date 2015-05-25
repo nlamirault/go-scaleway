@@ -12,4 +12,22 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-package logging
+package commands
+
+import (
+	"flag"
+	"fmt"
+	"testing"
+
+	"github.com/codegangsta/cli"
+)
+
+func TestCommandListImages(t *testing.T) {
+	app := cli.NewApp()
+	set := flag.NewFlagSet("test", 0)
+	test := []string{"blah", "blah", "-verbose"}
+	set.Parse(test)
+	c := cli.NewContext(app, set, set)
+	err := commandListImages.Run(c)
+	fmt.Printf("List Image: %v", err.Error())
+}

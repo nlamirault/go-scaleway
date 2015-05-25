@@ -22,10 +22,11 @@ import (
 	"fmt"
 	"os"
 
-	log "github.com/Sirupsen/logrus"
+	// log "github.com/Sirupsen/logrus"
 	"github.com/codegangsta/cli"
 
 	"github.com/nlamirault/go-scaleway/commands"
+	"github.com/nlamirault/go-scaleway/log"
 	"github.com/nlamirault/go-scaleway/version"
 )
 
@@ -36,6 +37,7 @@ func makeApp() *cli.App {
 	app.Usage = "A CLI for Scaleway"
 	app.Author = "Nicolas Lamirault"
 	app.Email = "nicolas.lamirault@gmail.com"
+	app.CommandNotFound = cmdNotFound
 	app.Flags = []cli.Flag{
 		cli.StringFlag{
 			Name:  "log-level, l",
@@ -61,20 +63,30 @@ func makeApp() *cli.App {
 			EnvVar: "SCALEWAY_ORGANIZATION",
 		},
 	}
-	app.Before = func(c *cli.Context) error {
-		//log.SetFormatter(&logging.CustomFormatter{})
-		log.SetOutput(os.Stderr)
-		level, err := log.ParseLevel(c.String("log-level"))
-		if err != nil {
-			log.Fatalf(err.Error())
-		}
-		log.SetLevel(level)
-		return nil
-	}
+	// app.Before = func(c *cli.Context) error {
+	// 	//log.SetFormatter(&logging.CustomFormatter{})
+	// 	// log.SetOutput(os.Stderr)
+	// 	level, err := log.ParseLevel(c.String("log-level"))
+	// 	if err != nil {
+	// 		log.Fatalf(err.Error())
+	// 	}
+	// 	log.SetLevel(level)
+	// 	return nil
+	// }
 
 	app.Commands = commands.Commands
 	//app.Flags = commands.Flags
 	return app
+}
+
+func cmdNotFound(c *cli.Context, command string) {
+	log.Fatalf(
+		"%s: '%s' is not a %s command. See '%s --help'.",
+		c.App.Name,
+		command,
+		c.App.Name,
+		c.App.Name,
+	)
 }
 
 func main() {

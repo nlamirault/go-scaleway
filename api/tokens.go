@@ -18,7 +18,8 @@ import (
 	// "encoding/json"
 	//"fmt"
 
-	log "github.com/Sirupsen/logrus"
+	//log "github.com/Sirupsen/logrus"
+	"github.com/nlamirault/go-scaleway/log"
 )
 
 // Token represents an identifier associated with your account.

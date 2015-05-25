@@ -17,8 +17,9 @@ package commands
 import (
 	//"fmt"
 
-	log "github.com/Sirupsen/logrus"
+	//log "github.com/Sirupsen/logrus"
 	"github.com/codegangsta/cli"
+	"github.com/nlamirault/go-scaleway/log"
 )
 
 var commandListServers = cli.Command{

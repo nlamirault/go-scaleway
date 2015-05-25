@@ -21,7 +21,8 @@ import (
 	"io/ioutil"
 	"net/http"
 
-	log "github.com/Sirupsen/logrus"
+	//log "github.com/Sirupsen/logrus"
+	"github.com/nlamirault/go-scaleway/log"
 )
 
 func performAPIRequest(client *http.Client, req *http.Request, token string, data interface{}) error {

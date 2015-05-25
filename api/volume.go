@@ -17,7 +17,8 @@ package api
 import (
 	// "encoding/json"
 
-	log "github.com/Sirupsen/logrus"
+	//log "github.com/Sirupsen/logrus"
+	"github.com/nlamirault/go-scaleway/log"
 )
 
 // Volume represents a disk

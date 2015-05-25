@@ -19,8 +19,9 @@ import (
 	//"log"
 	//"os"
 
-	log "github.com/Sirupsen/logrus"
+	//log "github.com/Sirupsen/logrus"
 	"github.com/codegangsta/cli"
+	"github.com/nlamirault/go-scaleway/log"
 )
 
 var commandListVolumes = cli.Command{

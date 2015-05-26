@@ -8,5 +8,5 @@ RUN go get github.com/tools/godep
 ENV GOPATH /go/
 WORKDIR /go/src/github.com/nlamirault/go-scaleway
 
-ADD src/github.com/nlamirault/go-scaleway /go/src/github.com/nlamirault/go-scaleway
+ADD . /go/src/github.com/nlamirault/go-scaleway
 ADD Godeps/_workspace/ /go/

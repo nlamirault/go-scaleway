@@ -1,11 +1,14 @@
 # go-scaleway
 
-[![License GPL 3][badge-license]][LICENSE]
+[![License Apache 2][badge-license]][LICENSE]
 [![travis][badge-travis]][travis]
 [![drone][badge-drone]][drone]
+[![coveralls][badge-coveralls]][coveralls]
 
 A CLI for the [Scaleway][] cloud.
 See https://developer.scaleway.com for documentation.
+
+[Click To View Documentation](http://godoc.org/github.com/nlamirault/go-scaleway)
 
 ## Installation
 
@@ -21,7 +24,7 @@ USAGE:
    scaleway [global options] command [command options] [arguments...]
 
 VERSION:
-   0.6.0
+   0.8.0
 
 AUTHOR:
   Nicolas Lamirault - <nicolas.lamirault@gmail.com>
@@ -102,11 +105,11 @@ List informations    | [x]
 Action               | Implementation
 ---------------------|------------------------------
 List servers         | [x]
-Create a server      | [x]
 Retrieve a server    | [x]
+List all actions     | [x]
+Create a server      | [x]
 Update a server      | [ ]
 Remove a server      | [x]
-List all actions     | [ ]
 Execute an action    | [x]
 
 ### Volumes
@@ -122,8 +125,8 @@ Delete a volume            | [x]
 
 Action                    | Implementation
 --------------------------|------------------------------
-Create a snapshot         | [ ]
 List all snapshots        | [ ]
+Create a snapshot         | [ ]
 Retrieve a snapshot       | [ ]
 Update a snapshot         | [ ]
 Remove a snapshot         | [ ]
@@ -132,8 +135,8 @@ Remove a snapshot         | [ ]
 
 Action                         | Implementation
 -------------------------------|------------------------------
-Create a new image             | [ ]
 List all images                | [x]
+Create a new image             | [ ]
 Operation on a single image    | [ ]
 Retrieves an image             | [x]
 Update an image                | [ ]
@@ -143,11 +146,11 @@ Delete an image                | [ ]
 
 Action                         | Implementation
 -------------------------------|------------------------------
-Create a new IP                | [ ]
-Retrieves all IPs addresses    | [ ]
-Retrieve an IP address         | [ ]
+Create a new IP                | [x]
+Retrieves all IPs addresses    | [x]
+Retrieve an IP address         | [x]
 Attach an IP address           | [ ]
-Remove an IP address           | [ ]
+Remove an IP address           | [x]
 
 ### Metadata
 
@@ -157,6 +160,12 @@ Pimouss metadata               | [ ]
 
 
 ## Development
+
+* Checkout the projet and install it into $GOPATH :
+
+        $ mkdir -p $GOPATH/src/github.com/nlamirault
+        $ git clone https://github.com/nlamirault/go-scaleway.git $GOPATH/src/github.com/nlamirault/go-scaleway
+        $ cd $GOPATH/src/github.com/nlamirault/go-scaleway
 
 * Install requirements :
 
@@ -187,7 +196,7 @@ Pimouss metadata               | [ ]
 
 ## Contributing
 
-See [CONTRIBUTING][].
+See [CONTRIBUTING](CONTRIBUTING.md).
 
 
 ## License
@@ -197,7 +206,7 @@ See [LICENSE][] for the complete license.
 
 ## Changelog
 
-A changelog is available [here](ChangeLog.md).
+A [changelog](ChangeLog.md) is available
 
 
 ## Contact
@@ -205,12 +214,14 @@ A changelog is available [here](ChangeLog.md).
 Nicolas Lamirault <nicolas.lamirault@gmail.com>
 
 
-[badge-license]: https://img.shields.io/badge/license-GPL_3-green.svg?style=flat
+[badge-license]: https://img.shields.io/badge/license-Apache_2-green.svg?style=flat
 [LICENSE]: https://github.com/nlamirault/go-scaleway/blob/master/LICENSE
 [travis]: https://travis-ci.org/nlamirault/go-scaleway
 [badge-travis]: http://img.shields.io/travis/nlamirault/go-scaleway.svg?style=flat
 [badge-drone]: https://drone.io/github.com/nlamirault/go-scaleway/status.png
 [drone]: https://drone.io/github.com/nlamirault/go-scaleway/latest
+[badge-coveralls]: https://coveralls.io/repos/nlamirault/go-scaleway/badge.svg
+[coveralls]: https://coveralls.io/r/nlamirault/go-scaleway
 
 [releases]: https://github.com/nlamirault/go-scaleway/releases
 

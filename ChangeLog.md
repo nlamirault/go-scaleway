@@ -1,10 +1,18 @@
 Changelog
 ===========
 
+Version 0.8.0 (05/26/2015)
+-----------------------------
+
+- Refactoring log
+- [API] Initialize IP
+- Update check for golang style
+- Refactoring code organization and build
+
 Version 0.7.0 (04/26/2015)
 -------------------------------
 
-- Refactoring: only tokenID is needed for commands ([#P8][])
+- Refactoring: only tokenID is needed for commands ([P8][])
 
 Version 0.6.0 (04/02/2015)
 --------------------------------

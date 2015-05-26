@@ -1,17 +1,16 @@
 # Copyright (C) 2015 Nicolas Lamirault <nicolas.lamirault@gmail.com>
 
-# This program is free software: you can redistribute it and/or modify
-# it under the terms of the GNU General Public License as published by
-# the Free Software Foundation, either version 3 of the License, or
-# (at your option) any later version.
-
-# This program is distributed in the hope that it will be useful,
-# but WITHOUT ANY WARRANTY; without even the implied warranty of
-# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-# GNU General Public License for more details.
-
-# You should have received a copy of the GNU General Public License
-# along with this program.  If not, see <http://www.gnu.org/licenses/>.
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#     http:#www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
 
 APP="go-scaleway"
 EXE="scaleway"
@@ -19,7 +18,7 @@ EXE="scaleway"
 SHELL = /bin/bash
 
 DIR = $(shell pwd)
-GO_PATH = $(DIR)/Godeps/_workspace:$(DIR)
+GO_PATH = $(DIR)/Godeps/_workspace:$(GOPATH)
 
 DOCKER = docker
 GODEP= $(DIR)/Godeps/_workspace/bin/godep
@@ -33,8 +32,11 @@ OK_COLOR=\033[32;01m
 ERROR_COLOR=\033[31;01m
 WARN_COLOR=\033[33;01m
 
+# SRC=src/github.com/nlamirault/go-scaleway
+SRC=.
+
 VERSION=$(shell \
-        grep "const Version" src/github.com/nlamirault/go-scaleway/version/version.go \
+        grep "const Version" $(SRC)/version/version.go \
         |awk -F'=' '{print $$2}' \
         |sed -e "s/[^0-9.]//g" \
 	|sed -e "s/ //g")
@@ -49,13 +51,15 @@ help:
 	@echo -e "$(WARN_COLOR)init$(NO_COLOR)    :  Install requirements"
 	@echo -e "$(WARN_COLOR)deps$(NO_COLOR)    :  Install dependencies"
 	@echo -e "$(WARN_COLOR)build$(NO_COLOR)   :  Make all binaries"
+	@echo -e "$(WARN_COLOR)test$(NO_COLOR)    :  Launch unit tests"
+	@echo -e "$(WARN_COLOR)style$(NO_COLOR)   :  Check golang style"
 	@echo -e "$(WARN_COLOR)clean$(NO_COLOR)   :  Cleanup"
 	@echo -e "$(WARN_COLOR)reset$(NO_COLOR)   :  Remove all dependencies"
 	@echo -e "$(WARN_COLOR)release$(NO_COLOR) :  Make a new release"
 
 clean:
 	@echo -e "$(OK_COLOR)[$(APP)] Cleanup$(NO_COLOR)"
-	@rm -f $(EXE) $(EXE)_* $(APP)-*.tar.gz coverage.out gover.coverprofile
+	@rm -f $(EXE) $(APP)-*.tar.gz coverage.out go-scaleway.test gover.coverprofile
 
 .PHONY: init
 init:
@@ -71,46 +75,44 @@ deps:
 
 build:
 	@echo -e "$(OK_COLOR)[$(APP)] Build $(NO_COLOR)"
-	@GOPATH=$(GO_PATH) go build -o $(EXE) github.com/nlamirault/$(APP)
+	@GOPATH=$(GO_PATH) go build -o $(EXE)
 
 doc:
-	@GOPATH=$(GO_PATH) godoc -http=:6060 -index
+	@GOPATH=$(GO_PATH) godoc -v -http=:6060
 
 fmt:
 	@echo -e "$(OK_COLOR)[$(APP)] Launch fmt $(NO_COLOR)"
-	@GOPATH=$(GO_PATH) go fmt github.com/nlamirault/$(APP)/...
+	@GOPATH=$(GO_PATH) go fmt
 
 errcheck:
 	@echo -e "$(OK_COLOR)[$(APP)] Launch errcheck $(NO_COLOR)"
-	@GOPATH=$(GO_PATH) $(ERRCHECK) github.com/nlamirault/$(APP)/...
+	@GOPATH=$(GO_PATH) $(ERRCHECK) ./...
 
 vet:
 	@echo -e "$(OK_COLOR)[$(APP)] Launch vet $(NO_COLOR)"
-	@GOPATH=$(GO_PATH) go vet github.com/nlamirault/$(APP)/...
+	@GOPATH=$(GO_PATH) go vet ./...
 
 lint:
 	@echo -e "$(OK_COLOR)[$(APP)] Launch golint $(NO_COLOR)"
-	@GOPATH=$(GO_PATH) $(GOLINT) github.com/nlamirault/$(APP)/...
+	@GOPATH=$(GO_PATH) $(GOLINT) ./...
 
 style: fmt vet lint
 
 test:
 	@echo -e "$(OK_COLOR)[$(APP)] Launch unit tests $(NO_COLOR)"
-	@GOPATH=$(GO_PATH) go test -v github.com/nlamirault/$(APP)/...
+	@GOPATH=$(GO_PATH) go test -v ./...
 
 race:
 	@echo -e "$(OK_COLOR)[$(APP)] Launch unit tests race $(NO_COLOR)"
-	@GOPATH=$(GO_PATH) go test -race github.com/nlamirault/$(APP)/...
+	@GOPATH=$(GO_PATH) go test -race ./...
 
 coverage:
 	@echo -e "$(OK_COLOR)[$(APP)] Launch code coverage $(NO_COLOR)"
-	@GOPATH=$(GO_PATH) go test github.com/nlamirault/$(APP)/... -cover
+	@GOPATH=$(GO_PATH) go test ./... -cover
 
-covoutput:
-	@echo -e "$(OK_COLOR)[$(APP)] Launch code coverage $(NO_COLOR)"
-	@GOPATH=$(GO_PATH) go test ${pkg} -covermode=count -coverprofile=coverage.out
-#	@GOPATH=$(GO_PATH) go tool cover -html=coverage.out
-	@GOPATH=$(GO_PATH) go tool cover -func=coverage.out
+coveralls:
+	@GOPATH=$(GO_PATH) go get github.com/mattn/goveralls
+	@GOPATH=$(GO_PATH) $(DIR)/addons/coverage --coveralls
 
 release: clean build
 	@echo -e "$(OK_COLOR)[$(APP)] Make archive $(VERSION) $(NO_COLOR)"

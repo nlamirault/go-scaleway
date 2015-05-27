@@ -21,6 +21,7 @@ import (
 	"github.com/codegangsta/cli"
 
 	"github.com/nlamirault/go-scaleway/api"
+	"github.com/nlamirault/go-scaleway/log"
 )
 
 // Commands is the CLI commands
@@ -90,8 +91,10 @@ var verboseFlag = cli.BoolFlag{
 }
 
 func getClient(c *cli.Context) *api.ScalewayClient {
-	return api.NewClient(
+	client := api.NewClient(
 		c.GlobalString("scaleway-token"),
 		c.GlobalString("scaleway-userid"),
 		c.GlobalString("scaleway-organization"))
+	log.Debugf("Client Scaleway: %v", client.String())
+	return client
 }

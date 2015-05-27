@@ -1,4 +1,4 @@
-// Copyright (C) 2015  Nicolas Lamirault <nicolas.lamirault@gmail.com>
+// Copyright (C) 2015 Nicolas Lamirault <nicolas.lamirault@gmail.com>
 
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -12,22 +12,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-package commands
+package version
 
-import (
-	"flag"
-	"fmt"
-	"testing"
-
-	"github.com/codegangsta/cli"
-)
-
-func TestCommandListImages(t *testing.T) {
-	app := cli.NewApp()
-	set := flag.NewFlagSet("test", 0)
-	test := []string{"blah", "blah", "-verbose"}
-	set.Parse(test)
-	c := cli.NewContext(app, set, set)
-	err := commandListImages.Run(c)
-	fmt.Printf("List Image: %v", err.Error())
-}
+// Version represents the application version using SemVer
+const Version string = "0.9.0"

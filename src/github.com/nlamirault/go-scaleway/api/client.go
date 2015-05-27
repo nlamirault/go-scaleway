@@ -58,6 +58,15 @@ func NewClient(token string, userid string, organization string) *ScalewayClient
 	return client
 }
 
+func (c ScalewayClient) String() string {
+	return fmt.Sprintf(
+		"userID: %s, Organization: %s, Compute: %s, Account: %s",
+		c.UserID,
+		c.Organization,
+		c.ComputeURL,
+		c.AccountURL)
+}
+
 // GetUserInformations list informations about your user account
 func (c ScalewayClient) GetUserInformations() (UserResponse, error) {
 	var data UserResponse

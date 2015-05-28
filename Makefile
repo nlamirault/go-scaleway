@@ -91,11 +91,11 @@ errcheck:
 
 vet:
 	@echo -e "$(OK_COLOR)[$(APP)] Launch vet $(NO_COLOR)"
-	@go vet ./...
+	@go vet github.com/nlamirault/go-scaleway
 
 lint:
 	@echo -e "$(OK_COLOR)[$(APP)] Launch golint $(NO_COLOR)"
-	@$(GOLINT) ./...
+	@$(GOLINT) src/github.com/nlamirault/go-scaleway/...
 
 style: fmt vet lint
 

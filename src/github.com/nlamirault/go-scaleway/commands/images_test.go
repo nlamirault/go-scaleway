@@ -14,31 +14,31 @@
 
 package commands
 
-import (
-	"flag"
-	"fmt"
-	"os"
-	"testing"
+// import (
+// 	"flag"
+// 	"fmt"
+// 	"os"
+// 	"testing"
 
-	"github.com/codegangsta/cli"
-)
+// 	"github.com/codegangsta/cli"
+// )
 
-func getTestContext() *cli.Context {
-	app := cli.NewApp()
-	set := flag.NewFlagSet("images", 0)
-	set.String("scaleway-userid", os.Getenv("SCALEWAY_USERID"), "")
-	set.String("scaleway-organization", os.Getenv("SCALEWAY_ORGANIZATION"), "")
-	c := cli.NewContext(app, set, set)
-	// fmt.Printf("Args: %v -- %s-- \n",
-	// 	c.Args(), c.GlobalString("scaleway-userid"))
-	return c
-}
+// func getTestContext() *cli.Context {
+// 	app := cli.NewApp()
+// 	set := flag.NewFlagSet("images", 0)
+// 	set.String("scaleway-userid", os.Getenv("SCALEWAY_USERID"), "")
+// 	set.String("scaleway-organization", os.Getenv("SCALEWAY_ORGANIZATION"), "")
+// 	c := cli.NewContext(app, set, set)
+// 	// fmt.Printf("Args: %v -- %s-- \n",
+// 	// 	c.Args(), c.GlobalString("scaleway-userid"))
+// 	return c
+// }
 
-func TestCommandListImages(t *testing.T) {
-	c := getTestContext()
+// func TestCommandListImages(t *testing.T) {
+// 	c := getTestContext()
 
-	err := commandListImages.Run(c)
-	if err != nil {
-		fmt.Printf("List Image: %v", err.Error())
-	}
-}
+// 	err := commandListImages.Run(c)
+// 	if err != nil {
+// 		fmt.Printf("List Image: %v", err.Error())
+// 	}
+// }

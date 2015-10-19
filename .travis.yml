@@ -4,5 +4,4 @@ go:
 script:
   - make init
   - make deps
-  - make style
-  - make coveralls
+  - make test

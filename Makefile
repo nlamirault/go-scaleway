@@ -18,22 +18,23 @@ EXE="scaleway"
 SHELL = /bin/bash
 
 DIR = $(shell pwd)
-GO_PATH = $(DIR)/Godeps/_workspace:$(GOPATH)
+GO_PATH = $(DIR)
 
 DOCKER = docker
-GODEP= $(DIR)/Godeps/_workspace/bin/godep
-GOLINT= $(DIR)/Godeps/_workspace/bin/golint
-ERRCHECK= $(DIR)/Godeps/_workspace/bin/errcheck
-GOVER= $(DIR)/Godeps/_workspace/bin/gover
-GOVERALLS= $(DIR)/Godeps/_workspace/bin/goveralls
+
+GB=$(GOPATH)/bin/gb
+GODEP= $(GOPATH)/bin/godep
+GOLINT= $(GOPATH)/bin/golint
+ERRCHECK= $(GOPATH)/bin/errcheck
+GOVER= $(GOPATH)/bin/gover
+GOVERALLS= $(GOPATH)/bin/goveralls
 
 NO_COLOR=\033[0m
 OK_COLOR=\033[32;01m
 ERROR_COLOR=\033[31;01m
 WARN_COLOR=\033[33;01m
 
-# SRC=src/github.com/nlamirault/go-scaleway
-SRC=.
+SRC=src/github.com/nlamirault/go-scaleway
 
 VERSION=$(shell \
         grep "const Version" $(SRC)/version/version.go \
@@ -64,10 +65,10 @@ clean:
 .PHONY: init
 init:
 	@echo -e "$(OK_COLOR)[$(APP)] Install requirements$(NO_COLOR)"
-	@GOPATH=$(GO_PATH) go get github.com/golang/glog
-	@GOPATH=$(GO_PATH) go get github.com/tools/godep
-	@GOPATH=$(GO_PATH) go get -u github.com/golang/lint/golint
-	@GOPATH=$(GO_PATH) go get -u github.com/kisielk/errcheck
+	@go get -u github.com/golang/glog
+	@go get -u github.com/constabulary/gb/...
+	@go get -u github.com/golang/lint/golint
+	@go get -u github.com/kisielk/errcheck
 
 deps:
 	@echo -e "$(OK_COLOR)[$(APP)] Install dependancies$(NO_COLOR)"
@@ -75,40 +76,36 @@ deps:
 
 build:
 	@echo -e "$(OK_COLOR)[$(APP)] Build $(NO_COLOR)"
-	@GOPATH=$(GO_PATH) go build -o $(EXE)
+	$(GB) build all
 
 doc:
 	@GOPATH=$(GO_PATH) godoc -v -http=:6060
 
 fmt:
 	@echo -e "$(OK_COLOR)[$(APP)] Launch fmt $(NO_COLOR)"
-	@GOPATH=$(GO_PATH) go fmt
+	@go fmt ./...
 
 errcheck:
 	@echo -e "$(OK_COLOR)[$(APP)] Launch errcheck $(NO_COLOR)"
-	@GOPATH=$(GO_PATH) $(ERRCHECK) ./...
+	@$(ERRCHECK) ./...
 
 vet:
 	@echo -e "$(OK_COLOR)[$(APP)] Launch vet $(NO_COLOR)"
-	@GOPATH=$(GO_PATH) go vet ./...
+	@go vet github.com/nlamirault/go-scaleway
 
 lint:
 	@echo -e "$(OK_COLOR)[$(APP)] Launch golint $(NO_COLOR)"
-	@GOPATH=$(GO_PATH) $(GOLINT) ./...
+	@$(GOLINT) src/github.com/nlamirault/go-scaleway/...
 
 style: fmt vet lint
 
 test:
 	@echo -e "$(OK_COLOR)[$(APP)] Launch unit tests $(NO_COLOR)"
-	@GOPATH=$(GO_PATH) go test -v ./...
-
-race:
-	@echo -e "$(OK_COLOR)[$(APP)] Launch unit tests race $(NO_COLOR)"
-	@GOPATH=$(GO_PATH) go test -race ./...
+	@$(GB) test all
 
 coverage:
 	@echo -e "$(OK_COLOR)[$(APP)] Launch code coverage $(NO_COLOR)"
-	@GOPATH=$(GO_PATH) go test ./... -cover
+	@go test ./... -cover
 
 coveralls:
 	@GOPATH=$(GO_PATH) go get github.com/mattn/goveralls

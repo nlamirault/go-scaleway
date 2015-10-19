@@ -1,5 +1,9 @@
-Godeps/_workspace
 onlinelabs
 coverage.out
 gover.coverprofile
 .cover/
+
+
+# gb specific folders
+bin
+pkg

@@ -1,0 +1,12 @@
+{
+	"version": 0,
+	"dependencies": [
+		{
+			"importpath": "github.com/codegangsta/cli",
+			"repository": "https://github.com/codegangsta/cli",
+			"revision": "55b8924c2b7c0bbaa1e6518b9d1b3f5c971482a7",
+			"branch": "master",
+			"path": ""
+		}
+	]
+}

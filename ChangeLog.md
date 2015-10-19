@@ -1,6 +1,11 @@
 Changelog
 ===========
 
+Version 0.9.0 (10/19/2015)
+----------------------------
+
+- Migrating to the [gb][] tool.
+
 Version 0.8.0 (05/26/2015)
 -----------------------------
 
@@ -56,5 +61,6 @@ Version 0.1.0 (02/06/2015)
 - Init HTTP client (GET/POST/DELETE/PATCH)
 
 
-
 [P8]: https://github.com/nlamirault/go-scaleway/pull/8
+
+[gb]: http://getgb.io/

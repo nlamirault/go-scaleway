@@ -5,6 +5,12 @@
 [![drone][badge-drone]][drone]
 [![coveralls][badge-coveralls]][coveralls]
 
+**DEPRECATED**:
+This package is deprecated, Scaleway provides a golang package for the API: 
+
+ https://github.com/scaleway/scaleway-cli/tree/master/pkg/api
+
+
 A CLI for the [Scaleway][] cloud.
 See https://developer.scaleway.com for documentation.
 

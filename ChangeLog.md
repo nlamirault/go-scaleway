@@ -1,7 +1,7 @@
 Changelog
 ===========
 
-Version 0.9.0 (IN PROGRESS)
+Version 0.9.0 (10/19/2015)
 ----------------------------
 
 - Migrating to the [gb][] tool.

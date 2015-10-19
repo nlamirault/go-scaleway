@@ -13,7 +13,7 @@
 # limitations under the License.
 
 APP="go-scaleway"
-EXE="bin/scaleway"
+EXE="bin/go-scaleway"
 
 SHELL = /bin/bash
 
